@@ -698,24 +698,7 @@ export const useThemeImages = () => {
       icon_dia5: getThemeImage('Dia5.png','bettingCheckIn'),
       icon_dia6: getThemeImage('Dia6.png','bettingCheckIn'),
     },
-    // 月投注活动
-    monthlybetting:{
-      img_bg: getThemeImage('bg.png','monthlybetting'),
-      btn1: getThemeImage('btn_green1.png','monthlybetting'),
-      btn2: getThemeImage('btn_green2.png','monthlybetting'),
-      btn3: getThemeImage('btn_pink.png','monthlybetting'),
-      btn4: getThemeImage('btn_pink2.png','monthlybetting'),
-      img_down: getThemeImage('img_down.png','monthlybetting'),
-      img_game: getThemeImage('img_game.png','monthlybetting'),
-      img_slots: getThemeImage('img_slots.png','monthlybetting'),
-      img_time: getThemeImage('img_time.png','monthlybetting'),
-      phb_1: getThemeImage('phb_01.png','monthlybetting'),
-      phb_2: getThemeImage('phb_02.png','monthlybetting'),
-      phb_3: getThemeImage('phb_03.png','monthlybetting'),
-      img_tcbg: getThemeImage('tc_lie.png','monthlybetting'),
-      img_topbg: getThemeImage('top_lie.png','monthlybetting'),
-      img_item_bg: getThemeImage('img_slots1.png','monthlybetting'),
-    },
+
     // 会员答谢日
     monthlybetting:{
       img_bg: getThemeImage('bg.png','monthlybetting'),
