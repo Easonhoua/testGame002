@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>产品icon/Product_Colour/0079_Youtube_cai</title>
+    <g id="产品icon/Product_Colour/0079_Youtube_cai" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Youtube" transform="translate(64, 64)" fill-rule="nonzero">
+            <path d="M448,896 C200.5696,896 0,695.4304 0,448 C0,200.5696 200.5696,0 448,0 C695.4304,0 896,200.5696 896,448 C896,695.4304 695.4304,896 448,896 Z" id="路径" fill="#FF0200"></path>
+            <path d="M265.24,234.851676 C351.616,228.928203 544.264,228.904025 630.76,234.851676 C724.384,241.307053 735.304,298.462525 736,448 C735.304,597.803428 724.288,654.717125 630.76,661.148324 C544.264,667.095975 351.64,667.071797 265.24,661.148324 C171.616,654.692947 160.696,597.537475 160,448 C160.696,298.196572 171.712,241.282875 265.24,234.851676 Z M376,351.290234 L376,544.709766 L568,447.830758 L376,351.290234 Z" id="形状结合" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>

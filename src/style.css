@@ -1,0 +1,363 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+    font-family: Merriweather-Black;
+    font-style: normal;
+    /* font-weight: 200 700; */
+    font-display: swap;
+    src: url("/fonts/Merriweather/Merriweather-Black.ttf") format("truetype");
+}
+/* @theme {
+    --font-weather-black: Merriweather-Black;
+} */
+
+@layer components {
+    .ctx-theme {
+        @apply bg-theme text-theme-text
+    }
+    
+    .ctx-theme__linear {
+        background-image: linear-gradient(290deg, var(--color-gold-100) 0%, var(--color-gold-500) 100%);
+        color: white;
+    }
+
+    /* 两个背景 四个按钮样式 */
+    .m3-theme-bg1 {
+        background: linear-gradient(135deg, var(--color-card1) 0%, var(--color-card2) 100%);
+    }
+    .m3-theme-bg2 {
+        background-image: linear-gradient(120deg, #ecd3ae, #d1a277);
+        border-radius: 1rem;
+    }
+
+    .m3-theme-btn1 {
+        background: linear-gradient(135deg, var(--color-btnlinar3) 0%, var(--color-btnlinar4) 50%,var(--color-btnlinar3) 100%);
+        color: black;
+    }
+    .m3-theme-btn2 {
+        background-color: var(--color-default-bg);
+        border:1px solid  var(--color-defaultborder);
+        color: var(--color-themetext2);
+    }
+    .m3-theme-btn3 {
+        background: linear-gradient(to bottom, var(--color-loginlinear-4) 0%, var(--color-loginlinear-3) 100%);
+        border:1px solid  var(--color-border1);
+        color: var(--color-rgbawhite80);
+    }
+    .m3-theme-btn4 {
+        background: var(--color-richlinar1);
+        color: var(--color-themetext4);
+    }
+
+    .m3-progresbar{
+        background: linear-gradient(135deg, var(--color-btnlinar3) 0%, var(--color-btnlinar4) 50%,var(--color-btnlinar3) 100%);
+    }
+
+    .m2-btn-nine {
+        background-image: linear-gradient(to right, var(--color-downloadlinear1) 0%, var(--color-downloadlinear2) 100%);
+        color: white;
+    }
+    .m2-btn-ten {
+        background-image: linear-gradient(to right, var(--color-downloadlinear3) 0%, var(--color-downloadlinear4) 100%);
+        color: white;
+    }
+    .m2-btn-nine-false{
+        background: var(--color-allbtn);
+        border:1px solid  var(--color-border1);
+    }
+    .m2-progresbar{
+        background: linear-gradient(to right,#4cd117 0%, #eeff54 20%, #ffbf37 40%, #ff6665 60%);
+    }
+    
+    /* .btn-theme__linear {
+        @apply h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center;
+        background-image: linear-gradient(to bottom, var(--color-downloadlinear1) 0%, var(--color-downloadlinear2) 100%);
+        color: white;
+    } */
+    /* m4样式 */
+    .m4-text {
+        background: linear-gradient(to right, var(--color-themetext1), var(--color-themetext2));
+        -webkit-background-clip: text;
+        color: transparent; /* 确保文字颜色为透明 */
+    } 
+    .m4-nine-btn{
+        background: linear-gradient(to right, var(--color-btnlinar3), var(--color-btnlinar4));
+        color: var(--color-m4ninetext) !important;
+    }
+    .m4-ten-btn{
+        background: linear-gradient(-37deg, var(--color-downloadlinear3), var(--color-downloadlinear4));
+        color: var(--color-m4tentext) !important;
+        
+    }
+    .m4-btn-false{
+        background:  var(--color-tablebg);
+        color: var(--color-themewhite);
+    }
+    .m4-default-box{
+        background: linear-gradient(to right, var(--color-btnlinar1), var(--color-btnlinar2));
+        border: 1px solid var(--color-defaultborder);
+    }
+    .m4-boxitem{
+        background: linear-gradient(-37deg, var(--color-activitybox2), var(--color-activitybox1));
+    }
+    .m4-popcard-3{
+        background: linear-gradient(to bottom, var(--color-card1), var(--color-card2));
+        color: var(--color-themewhite);
+    }
+    
+    .m5-theme-btn1 {
+        background: linear-gradient(to left, var(--color-gold-100), var(--color-gold-500));
+    }
+    .m5-theme-btn2 {
+        background: linear-gradient(-37deg, var(--color-themecardlinear1), var(--color-themecardlinear2));
+    }
+
+    .m5-theme-model1 {
+        background: linear-gradient(to right, var(--color-btnlinar3), var(--color-btnlinar4));
+    }
+
+    .m5-theme-model2 {
+        background: linear-gradient(to right, var(--color-themecardlinear1), var(--color-themecardlinear2));
+    }
+
+    .m5-theme-model3 {
+        background: linear-gradient(to right, var(--color-thirsmodel1), var(--color-thirsmodel2));
+    }
+
+
+    .m5-theme-input {
+        background: linear-gradient(to right, var(--color-inputcolor1), var(--color-inputcolor2));
+        border: 1px solid var(--color-inputborder);
+    }
+    .m5-theme-inputwithoutborder {
+        background: linear-gradient(to right, var(--color-inputcolor1), var(--color-inputcolor2));
+        border: none;
+    }
+    
+
+    .allbtn {
+        background: linear-gradient(to right,var(--color-themetext1), var(--color-themetext2));
+        color: #181818;
+    }
+    
+    body {
+        @apply w-wrap max-w-full !ml-auto !mr-auto h-screen bg-body-bg text-themewhite relative overflow-hidden;
+        min-height: calc(100vh - var(--vh-offset, 0px));
+    }
+    #app {
+        @apply w-full h-full
+    }
+    /* #main::after {
+        width: var(--width-wrap);
+        max-width: 100%;
+        height: 100%;
+        content: "";
+        display: block;
+        background-color: var(--color-body-bg);
+        position: fixed;
+        left: 50%;
+        top: 0;
+        z-index: -1;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        background-size: 100% 100% ;
+        background-repeat: no-repeat;
+    } */
+    /* #main.bg_1::after {
+        @apply bg-cover bg-center;
+        background-image: url('/imgs/bg-body-1.png') !important;
+    }
+    #main.bg_2::after {
+        @apply bg-cover bg-center;
+        background-image: url('/imgs/bg-body-2.png') !important;
+    }
+    #main.bg_3::after {
+        background-image: url('/imgs/draw-bg.png') !important;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    } */
+    #main.bg_super::after {
+        background-image: url('/imgs/super-bg.png') !important;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+    }
+    #main.bg_white {
+        background-color: white !important;
+        color: black !important;
+    }
+    #main.bg_white::after {
+        background-color: transparent !important;
+    }
+    .bg-header {
+        @apply bg-header-bg
+    }
+    .bg-header {
+        @apply text-themewhite
+    }
+    .bg-header {
+        @apply bg-header-bg
+    }
+    .bg-header {
+        @apply text-themewhite
+    }
+    .bg-default {
+        @apply bg-default-bg
+    }
+    .bg-default {
+        @apply text-rgbawhite80
+    }
+    .popup-overlay, .popup-container {
+        @apply !w-wrap !max-w-full;
+        left: calc(50% - 11.71875rem) !important;
+    }
+    :deep(.van-overlay){
+        z-index: 1 !important;
+        background: none !important;
+    }
+}
+:root {
+    /* 主题颜色变量 - 默认值（红色主题），会根据域名动态修改 */
+    --color-theme: #cb0a5b;
+    --color-theme-text: #ffffff;
+    --color-theme-light: #DED2FF;
+    --color-one: #cf7454;
+    --color-two: #FF0000;
+    --color-three: #FFAF00;
+    --color-four: #FFEE00;
+    --color-five: #FFEE00;
+    --color-six: #FFFF00;
+    --color-gold-100: #7041F3;          /* 渐变按钮色1 */
+    --color-gold-500: #FFAF00;          /* 渐变按钮色2 */
+    --color-six: #ffffff;
+    --color-header-bg: #272447;
+    --color-aside-bg: #272447;
+    --color-body-text: #ffffff;
+    --color-body-bg: #570000;
+    --color-rgbawhite50: #969799;
+    --color-rgbawhite80: #ffffff;
+    --color-default-bg: #651111;
+    --color-drawer-text: #ffffff;
+    --color-drawer-bg: #0D0E25;
+    --color-linear-1: #ff934c;
+    --color-linear-2: #fc686f;
+    --color-linear-3: #f86f64;
+    --color-linear-4: #fd5392;
+    --color-themecardlinear1: #6E5FA2;
+    --color-themecardlinear2: #4F369D;
+    --color-border-1: #8e2424;         /* 边框 */
+    --color-text-1: #671a1a;
+    --color-pwa: #01875f;
+    
+    --width-wrap: theme(width.wrap);
+
+    /* Vant UI 组件颜色变量 */
+    --van-primary-color: var(--color-theme);
+    --van-image-placeholder-background: rgba(255,255,255,0.15);
+    --van-image-loading-icon-color: rgba(255,255,255,0.25);
+    --van-image-error-icon-color: rgba(255,255,255,0.25);
+    --van-tab-font-size: inherit;
+    --van-tabs-nav-background: transparent;
+    --van-tab-text-color: inherit;
+    --van-tab-active-text-color: var(--color-theme);
+    --van-tabs-bottom-bar-color: var(--color-theme);
+}
+
+article.p-mb p {
+  margin-bottom: 12px;
+}
+article.ctx-article img {
+  max-width: 100% !important;
+}
+article.ctx-article * {
+  white-space: normal !important;
+  text-wrap: wrap !important;
+}
+
+
+.bg-blur {
+    backdrop-filter: blur(8px);
+}
+.bg-fill {
+    background-size: 100% 100%;
+}
+.van-calendar {
+    color: black;
+}
+.filter-gray {
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+body::-webkit-scrollbar, 
+.overflow-auto::-webkit-scrollbar, 
+.overflow-x-auto::-webkit-scrollbar, 
+.overflow-y-auto::-webkit-scrollbar{
+    width:1px;
+    height:1px;
+}
+body::-webkit-scrollbar-track, 
+.overflow-auto::-webkit-scrollbar-track, 
+.overflow-x-auto::-webkit-scrollbar-track, 
+.overflow-y-auto::-webkit-scrollbar-track{
+    background: transparent;
+    border-radius:2px;
+}
+body::-webkit-scrollbar-thumb, 
+.overflow-auto::-webkit-scrollbar-thumb, 
+.overflow-x-auto::-webkit-scrollbar-thumb, 
+.overflow-y-auto::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,0.3);
+    border-radius:1px;
+}
+body::-webkit-scrollbar-thumb:hover, 
+.overflow-auto::-webkit-scrollbar-thumb:hover, 
+.overflow-x-auto::-webkit-scrollbar-thumb:hover, 
+.overflow-y-auto::-webkit-scrollbar-thumb:hover{
+    background: #333;
+}
+body::-webkit-scrollbar-corner, 
+.overflow-auto::-webkit-scrollbar-corner, 
+.overflow-x-auto::-webkit-scrollbar-corner, 
+.overflow-y-auto::-webkit-scrollbar-corner{
+    background: #333;
+}
+
+/* 隐藏 Chrome, Safari, Edge 上的箭头 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* 隐藏 Firefox 上的箭头 */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-transition-delay:99999s;
+        -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+ }
+
+ .unified-button {
+    transition: all 0.15s ease;
+  }
+  
+  .unified-button:active {
+    transform: scale(0.8);
+    opacity: 0.7;
+    transition-duration: 0.1s;
+  }
+  
+  .unified-button:active:after {
+    transform: scale(1.1);
+    opacity: 1;
+    transition: all 0.2s ease 0.1s;
+  }

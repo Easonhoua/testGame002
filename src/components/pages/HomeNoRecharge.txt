@@ -1,0 +1,108 @@
+<script setup>
+import { ref, onMounted, onUnmounted } from "vue";
+import { noRechargeDataRef, noRechargeShowRef } from '@/model/user'
+
+let hours = ref(0);
+let minutes = ref(0);
+let seconds = ref(0);
+
+const updateCountdown = () => {
+    const now = new Date().getTime(); // 当前时间戳
+    const targetTime = noRechargeDataRef.value.time; // 目标时间戳
+
+    const diff = targetTime - now; // 计算时间差
+
+    if (diff > 0) {
+        hours.value = Math.floor(diff / (1000 * 60 * 60)) >= 10 ? Math.floor(diff / (1000 * 60 * 60)) : `0${Math.floor(diff / (1000 * 60 * 60))}`;
+        minutes.value = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)) >= 10 ? Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)) : `0${Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))}`;
+        seconds.value = Math.floor((diff % (1000 * 60)) / 1000) >= 10 ? Math.floor((diff % (1000 * 60)) / 1000) : `0${Math.floor((diff % (1000 * 60)) / 1000)}`;
+    } else {
+        hours.value = '00';
+        minutes.value = '00';
+        seconds.value = '00';
+    }
+};
+
+let intervalId;
+
+onMounted(() => {
+    updateCountdown();
+    intervalId = setInterval(updateCountdown, 1000);
+});
+
+onUnmounted(() => {
+    clearInterval(intervalId);
+});
+</script>
+
+<template>
+    <section class="w-wrap max-w-full h-full fixed left-1/2 top-0 z-[999] -translate-x-1/2 flex items-center justify-center">
+        <em class="w-full h-full bg-rgbablack50 bg-blur absolute left-0 top-0 flex">
+            <img src="/imgs/nor-bg.png" class="w-full h-full object-cover">
+        </em>
+        <div class="w-full h-full text-themewhite relative overflow-y-auto">
+            <em class="w-full h-20 block"></em>
+            <div class="w-full pt-20 relative">
+                <img src="/imgs/nor-title.png" class="w-full h-auto block absolute left-0 top-0">
+                <button @click="noRechargeShowRef=false" class="w-10 h-10 bg-rgbawhite30 rounded-full absolute right-4 top-0 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-themewhite" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 10.5858L9.17157 7.75736L7.75736 9.17157L10.5858 12L7.75736 14.8284L9.17157 16.2426L12 13.4142L14.8284 16.2426L16.2426 14.8284L13.4142 12L16.2426 9.17157L14.8284 7.75736L12 10.5858Z"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="text-base text-[#D0B777] text-center">
+                <span>Sua conta foi criadacom sucesso</span>
+            </p>
+            <dl class="w-full mt-12 relative flex items-center justify-center">
+                <dd>
+                    <div class="w-16 h-16 p-px rounded-xl bg-gradient-to-r from-gold-500 via-gold-100 to-gold-500 flex">
+                        <div class="w-full h-full text-themewhite bg-gradient-to-r from-themecardlinear1 to-themecardlinear2 rounded-xl flex items-center justify-center">
+                            <b class="text-3xl text-four">{{ hours }}</b>
+                        </div>
+                    </div>
+                    <p class="mt-1 text-sm text-center">HRS</p>
+                </dd>
+                <dd class="px-2.5 flex">
+                    <img src="/imgs/nor-dot.png" class="w-2 h-auto">
+                </dd>
+                <dd>
+                    <div class="w-16 h-16 p-px rounded-xl bg-gradient-to-r from-gold-500 via-gold-100 to-gold-500 flex">
+                        <div class="w-full h-full text-themewhite bg-gradient-to-r from-themecardlinear1 to-themecardlinear2 rounded-xl flex items-center justify-center">
+                            <b class="text-3xl text-four">{{ minutes }}</b>
+                        </div>
+                    </div>
+                    <p class="mt-1 text-sm text-center">MINS</p>
+                </dd>
+                <dd class="px-2.5 flex">
+                    <img src="/imgs/nor-dot.png" class="w-2 h-auto">
+                </dd>
+                <dd>
+                    <div class="w-16 h-16 p-px rounded-xl bg-gradient-to-r from-gold-500 via-gold-100 to-gold-500 flex">
+                        <div class="w-full h-full text-themewhite bg-gradient-to-r from-themecardlinear1 to-themecardlinear2 rounded-xl flex items-center justify-center">
+                            <b class="text-3xl text-four">{{ seconds }}</b>
+                        </div>
+                    </div>
+                    <p class="mt-1 text-sm text-center">SECS</p>
+                </dd>
+            </dl>
+            <section class="px-4 pt-5">
+                <div class="w-full h-[12.5rem] p-px rounded-xl bg-gradient-to-r from-gold-500 via-gold-100 to-gold-500 flex">
+                    <div class="w-full h-full p-4 text-themewhite bg-gradient-to-r from-themecardlinear1 to-themecardlinear2 rounded-xl overflow-y-auto">
+                        <article class="ctx-article text-xs leading-normal">
+                            <p>Deposite dentro de duas horas e receba 100% de bônus em dinheiro!</p>
+                            <p>Cada conta tem direito a participar da promoção de bônus de primeiro depósito apenas uma vez</p>
+                            <p>Ao gastar mais de R$50 por semana no jogo, você poderá receber até 60% do valor das suas perdas como cashback</p>
+                        </article>
+                    </div>
+                </div>
+                <div class="w-full mt-5 flex justify-center">
+                    <router-link to="/recharge" class="w-[16.25rem] h-14 p-px rounded-xl bg-theme flex" style="box-shadow: 0px 3px 0px 2px var(--color-theme);">
+                        <div class="w-full h-full text-xl rounded-xl bg-gradient-to-b from-linear-1 to-linear-2 flex items-center justify-center">
+                            <b>Depósito</b>
+                        </div>
+                    </router-link>
+                </div>
+            </section>
+        </div>
+    </section>
+</template>
