@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { t } from '@/i18n'
 import { noRechargeDataRef, noRechargeShowRef } from '@/model/user'
 import { useRouter } from 'vue-router'
 import { useThemeImages } from '@/utils/themeimg'
@@ -62,7 +63,7 @@ onUnmounted(() => {
                 </button>
             </div>
             <p class="text-base text-[#D0B777] text-center">
-                <span>Sua conta foi criadacom sucesso</span>
+                <span>{{ t('modelPage.createdsuccessful') }}</span>
             </p>
             <dl class="w-full mt-12 relative flex items-center justify-center">
                 <dd>
@@ -102,7 +103,7 @@ onUnmounted(() => {
                         <article class="ctx-article text-xs leading-normal">
                             <p>Deposite dentro de duas horas e receba 100% de bônus em dinheiro!</p>
                             <p>Cada conta tem direito a participar da promoção de bônus de primeiro depósito apenas uma vez</p>
-                            <p>Ao gastar mais de R$50 por semana no jogo, você poderá receber até 60% do valor das suas perdas como cashback</p>
+                            <p>Ao gastar mais de {{ currentUnit.value }}50 por semana no jogo, você poderá receber até 60% do valor das suas perdas como cashback</p>
                         </article>
                     </div>
                 </div>
@@ -113,7 +114,7 @@ onUnmounted(() => {
                         @click="handleRecharge"
                     >
                         <div class="w-full h-full text-xl rounded-xl bg-gradient-to-b from-gold-100 to-gold-500 flex items-center justify-center">
-                            <b>Depósito</b>
+                            <b>{{ t('deposit') }}</b>
                         </div>
                     </button>
                 </div>

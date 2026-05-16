@@ -115,6 +115,10 @@ module.exports = {
         'thirsmodelboder': 'var(--color-thirsmodelboder)',
         'activitymodel1': 'var(--color-activitymodel1)',
         'activitymodel2': 'var(--color-activitymodel2)',
+        'loginbg': 'var(--color-loginbg)',
+        'logininputcolor1': 'var(--color-logininputcolor1)',
+        'logininputborder': 'var(--color-logininputborder)',
+        'loginBtncolor': 'var(--color-loginBtncolor)',
       },
       width: {
         'wrap': '23.4375rem',

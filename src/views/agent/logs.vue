@@ -51,7 +51,7 @@ function onConfirm(value) {
                         <div
                             class="h-full px-1 py-2 text-themewhite rounded-xl bg-gradient-to-br from-themecardlinear1 to-themecardlinear2">
                             <h5 class="text-xl">
-                                <span class="text-sm opacity-60">R$&nbsp;</span>
+                                <span class="text-sm opacity-60">{{ currentUnit.value }}&nbsp;</span>
                                 <b>{{ logsDataRef.team_bet_amount }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] opacity-70">Diretamente responsável pela codificação global
@@ -70,7 +70,7 @@ function onConfirm(value) {
                     <dd class="w-1/3 px-1">
                         <div class="h-full px-1 py-2  rounded-xl ctx-theme__linear">
                             <h5 class="text-xl">
-                                <span class="text-sm text-four">R$&nbsp;</span>
+                                <span class="text-sm text-four">{{ currentUnit.value }}&nbsp;</span>
                                 <b>{{ logsDataRef.bonus }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] ">A comissão de hoje</p>
@@ -140,7 +140,7 @@ function onConfirm(value) {
                         <div
                             class="h-full px-1 py-2 text-themewhite rounded-xl bg-gradient-to-br from-themecardlinear1 to-themecardlinear2">
                             <h5 class="text-xl">
-                                <span class="text-sm opacity-60">R$&nbsp;</span>
+                                <span class="text-sm opacity-60">{{ currentUnit.value }}&nbsp;</span>
                                 <b>{{ logsDataRef.team_bet_amount }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] opacity-70">Diretamente responsável pela codificação global
@@ -159,7 +159,7 @@ function onConfirm(value) {
                     <dd class="w-1/3 px-1">
                         <div class="h-full px-1 py-2  rounded-xl bg-gradient-to-r from-richlinar1 to-richlinar2">
                             <h5 class="text-xl">
-                                <span class="text-sm ">R$&nbsp;</span>
+                                <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-four">{{ logsDataRef.bonus }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] ">A comissão de hoje</p>
@@ -229,7 +229,7 @@ function onConfirm(value) {
                         <div
                             class="h-full px-1 py-2 text-themewhite rounded-xl bg-gradient-to-br from-themecardlinear1 to-themecardlinear2">
                             <h5 class="text-xl">
-                                <span class="text-sm opacity-60 text-themetext1">R$&nbsp;</span>
+                                <span class="text-sm opacity-60 text-themetext1">{{ currentUnit.value }}&nbsp;</span>
                                 <b>{{ logsDataRef.team_bet_amount }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] opacity-70 text-themetext1">Diretamente responsável pela
@@ -249,7 +249,7 @@ function onConfirm(value) {
                     <dd class="w-1/3 px-1">
                         <div class="h-full px-1 py-2  rounded-xl m3-theme-btn1">
                             <h5 class="text-xl">
-                                <span class="text-sm ">R$&nbsp;</span>
+                                <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-four">{{ logsDataRef.bonus }}</b>
                             </h5>
                             <p class="mt-1 text-[0.625rem] ">A comissão de hoje</p>
@@ -311,7 +311,7 @@ function onConfirm(value) {
                         <p class="mt-1 text-[0.625rem] m4-text">Diretamente responsável pela codificação global
                         </p>
                         <h5 class="text-xl text-themetext0">
-                            <span class="text-sm ">R$&nbsp;</span>
+                            <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                             <b>{{ logsDataRef.team_bet_amount }}</b>
                         </h5>
 
@@ -330,7 +330,7 @@ function onConfirm(value) {
                     <div class="h-full px-1 py-2  flex items-center flex-col justify-between">
                         <p class="mt-1 text-[0.625rem] m4-text ">A comissão de hoje</p>
                         <h5 class="text-xl text-themetext0">
-                            <span class="text-sm ">R$&nbsp;</span>
+                            <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                             <b>{{ logsDataRef.bonus }}</b>
                         </h5>
 

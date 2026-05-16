@@ -16,11 +16,11 @@ onMounted(()=> {
 })
 
 const time_list = ref([
-    {label: '3 horas', value: 1},
-    {label: '12 horas', value: 2},
-    {label: '24 horas', value: 3},
-    {label: '48 horas', value: 4},
-    {label: '7 dias', value: 5},
+    {label: '3 '+t('account.hours'), value: 1},
+    {label: '12 '+t('account.hours'), value: 2},
+    {label: '24 '+t('account.hours'), value: 3},
+    {label: '48 '+t('account.hours'), value: 4},
+    {label: '7 '+t('account.days'), value: 5},
 ])
 // let time_index = ref(0)
 
@@ -35,7 +35,7 @@ function onClickGameRecord(item) {
 </script>
 
 <template>
-    <pu-page title="Registro do Jogo" class="z-[999]" hideService :style="currentTemplate.value!='template_four'?{background: `url(${CommonBgImg.bg_body_1}) center` }:{background: `var(--color-theme)`}" style="background-size: cover;">
+    <pu-page :title="t('pageTitle.GameRegistration')" class="z-[999]" hideService :style="currentTemplate.value!='template_four'?{background: `url(${CommonBgImg.bg_body_1}) center` }:{background: `var(--color-theme)`}" style="background-size: cover;">
         <pu-card theme="4" class="text-xs mt-4">
             <van-tabs v-model:active="logTypeRef" v-if="currentTemplate.value=='template_one'" @click-tab="gameLogsFunc(true)" shrink style="--van-tabs-line-height: 2rem;--van-tabs-bottom-bar-height: 0px;--van-tabs-bottom-bar-color: var(--color-three);--van-padding-xs: 0.25rem;">
                 <template v-for="item,index in time_list" :key="index">
@@ -98,14 +98,14 @@ function onClickGameRecord(item) {
         <pu-card theme="3" class="mt-4" v-if="currentTemplate.value=='template_one'||currentTemplate.value=='template_two'||currentTemplate.value=='template_three'">
             <section class="w-full px-4 py-3 text-xs !leading-normal text-rgbawhite50 border border-rgbawhite10 rounded-xl bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <p class='text-themetext2'>
-                    <span>Dados das últimas {{ time_list.find(item => item.value === logTypeRef)?.label || '3 horas' }}</span>
+                    <span>{{ t('activityCenter.Datalatest') }} {{ time_list.find(item => item.value === logTypeRef)?.label || '3 ' +t('account.hours') }}</span>
                 </p>
                 <p>
-                    <span class='text-themetext2'>Apostar {{ betAllRef}} vezes: </span>
+                    <span class='text-themetext2'>{{ t('Bet') }} {{ betAllRef}} {{ t('times') }}: </span>
                     <span class="text-themetext0">{{betTotalRef}}</span>
                 </p>
                 <p>
-                    <span class="text-themetext2">Ganhar ou perder: </span>
+                    <span class="text-themetext2">{{ t("activityCenter.Winorlose") }}: </span>
                     <span class="text-themetext0">{{fn(winTotalRef-betTotalRef)}}</span>
                 </p>
             </section>
@@ -153,7 +153,7 @@ function onClickGameRecord(item) {
                                 <div class="flex-1 overflow-hidden">
                                     <p class="ml-3 font-semibold text-sm opacity-45  mb-1">{{ item.title }}</p>
                                     <p class="ml-3 text-sm opacity-45">
-                                        <span>Faturamento: {{ fn(Math.abs(Number(item.bet_amount))) }}</span>
+                                        <span>{{ t('activityCenter.Invoicing') }}: {{ fn(Math.abs(Number(item.bet_amount))) }}</span>
                                     </p>
                                 </div>
                                 <div class="pl-3 shrink-0 flex items-center justify-between">
@@ -164,7 +164,7 @@ function onClickGameRecord(item) {
                                            
                                         </p>
                                         <p class="text-sm opacity-45">
-                                            <span>{{ item.times }} Vezes</span>
+                                            <span>{{ item.times }} {{ t('times') }}</span>
                                         </p>
                                     </div>    
                                 </div>
@@ -176,7 +176,7 @@ function onClickGameRecord(item) {
                     <!-- <pu-no-data></pu-no-data> -->
                     <img :src=CommonImg.img_nodata class="w-40 h-auto">
                     <div v-if="currentTemplate.value=='template_one'||currentTemplate.value=='template_two'||currentTemplate.value=='template_three'" class="w-56 mx-auto mt-5 text-xs  text-center" :class="currentTemplate.value=='template_one'?'text-rgbawhite50':'text-theme'">
-                        <p>Por favor, entre em contato com o agente para recarregar as moedas e começar o jogo</p>
+                        <p>{{ t('activityCenter.activityDetail14') }}</p>
                     </div>
                     <div class="w-56 mx-auto mt-5 text-xs  text-center text-themetext3" v-if="currentTemplate.value=='template_four'" >
                         <p>Por favor, entre em contato com o agente para recarregar as moedas e começar o jogo</p>

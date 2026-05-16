@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, onMounted, nextTick, watch } from 'vue'
+import { t } from '@/i18n'
 import { useScreenSafeArea, useElementSize } from '@vueuse/core'
 import { isAuthRef } from '@/model/user'
 import { useRoute, useRouter } from 'vue-router'
@@ -169,16 +170,16 @@ const {
                         <dd class="flex-1 overflow-hidden flex items-center">
                             <img :src=appIcon class="w-8 h-8 mr-2 rounded-md object-contain object-left shrink-0">
                             <span class="text-xs">
-                                Baixe Nosso APP. Ganhe
+                                {{ t('pageTitle.downLoad1') }}
                                 <br>
-                                Super Prêmios!
+                                {{ t('pageTitle.downLoad2') }}
                             </span>
                             <img :src=CommonImg.icon_gift class="w-8 h-8 ml-1" v-if="currentTemplate.value =='template_one'">
                         </dd>
                         <dd class="ml-1 flex shrink-0">
                            
                             <a @click="toDown()" href="javascript:;" class="h-[1.875rem] px-3 text-xs bg-rgbawhite80 text-themetext rounded-lg flex items-center" >
-                                <span>Instalar</span>
+                                <span>{{ t('install') }}</span>
                             </a>
                         </dd>
                         <dd class="w-[1.3rem] h-[1.3rem] p-1 ml-2 bg-rgbablack30 rounded-full flex shrink-0" >
@@ -197,9 +198,9 @@ const {
                         <dd class="flex-1 overflow-hidden flex items-center">
                             <img :src=appIcon class="w-8 h-8 mr-2 rounded-md object-contain object-left shrink-0">
                             <span class="text-xs text-themewhite">
-                                Baixe Nosso APP. Ganhe
+                                {{ t('pageTitle.downLoad1') }}
                                 <br>
-                                Super Prêmios!
+                               {{ t('pageTitle.downLoad2') }}
                             </span>
                         </dd>
                         <dd class="ml-1 flex shrink-0">   
@@ -207,7 +208,7 @@ const {
                             :style="{background: `url(${HomeImg.img_homeDown}) no-repeat`,backgroundSize: '100% 100%'}"
                             >
                                 <img :src="HomeImg.img_topDown" class="w-4 h-4 mr-2">
-                                <span>Instalar</span>
+                                <span>{{ t('install') }}</span>
                             </a>
                         </dd>
                         <img :src="HomeImg.img_topClose"  @click="closeDown()" class="w-[0.88rem] h-[0.88rem] ml-2"/>
@@ -266,9 +267,9 @@ const {
                         <dd class="flex-1 overflow-hidden flex items-center">
                             <img :src=appIcon class="w-8 h-8 mr-2 rounded-md object-contain object-left shrink-0">
                             <span class="text-xs text-themewhite">
-                                Baixe Nosso APP. 
+                                {{ t('pageTitle.downLoad1') }} 
                                 <br>
-                                Ganhe Super Prêmios!
+                                {{ t('pageTitle.downLoad2') }}
                             </span>
                         </dd>
                         <dd class="ml-1 flex shrink-0 w-[6rem]" >   
@@ -327,9 +328,9 @@ const {
                         <dd class="flex-1 overflow-hidden flex items-center">
                             <img :src=appIcon class="w-8 h-8 mr-2 rounded-md object-contain object-left shrink-0">
                             <span class="text-xs text-white">
-                                Baixe Nosso APP. Ganhe
+                                {{ t('pageTitle.downLoad1') }}
                                 <br>
-                                Super Prêmios!
+                                {{ t('pageTitle.downLoad2') }}
                             </span>
                             <!-- <img src="/imgs/down_gift.png" class="w-8 h-8 ml-1"> -->
                         </dd>
@@ -338,7 +339,7 @@ const {
                             :style="{background: `url(${HomeImg.img_homeDown}) no-repeat`,backgroundSize: '100% 100%'}"
                             >
                                 <img :src="HomeImg.img_topDown" class="w-4.5 h-4 mr-2">
-                                <span>Instalar</span>
+                                <span>{{ t('install') }}</span>
                             </a>
                         </dd>
                         <img :src="HomeImg.img_topClose"  @click="closeDown()" class="w-[0.88rem] h-[0.88rem] ml-2"/>

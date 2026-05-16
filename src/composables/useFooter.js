@@ -6,7 +6,7 @@ import { openLoginFunc } from '@/utils/config'
 import { isAuthRef } from '@/model/user'
 import { signInModel } from '@/model/other'
 import { footShowRef,isEverLoginFunc } from '@/utils/config'
-import { redPotCountRef} from '@/model/common'
+import { redPotCountRef,footerListRef} from '@/model/common'
 
 export function useFooter() {
     
@@ -48,5 +48,6 @@ export function useFooter() {
     redPotCountRef,
     current_path,
     onclickMenu,
+    footerListRef
   }
 }

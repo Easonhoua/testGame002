@@ -10,7 +10,7 @@ import router from './router'
 import { i18n } from './i18n'
 import { Locale } from 'vant'
 import { Lazyload } from 'vant';
-// import enUS from 'vant/es/locale/lang/en-US'
+import enUS from 'vant/es/locale/lang/en-US'
 import 'vant/lib/index.css'
 import { useTemplate } from '@/utils/template'
 
@@ -34,8 +34,7 @@ import UiFileImage from './components/ui/file-image'
 
 
 // 设置多语言
-// Locale.use('en-US', enUS)
-// console.log('当前语言',enUS)
+Locale.use('en-US', enUS)
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -65,6 +64,10 @@ app.mixin({
       currentTemplate() {
         const { currentTemplate: template } = useTemplate()
         return template
+      },
+      currentUnit(){
+        const { currentUnit: Unit } = useTemplate() || "R$"
+        return Unit
       }
     }
   })

@@ -1,17 +1,22 @@
 <script setup>
 import { ref } from 'vue'
 import { loginShowRef, loginIndexRef } from '@/utils/config'
+import { t } from '@/i18n'
 import FormLogin from './FormLogin.vue'
 import FormRegister from './FormRegister.vue'
 import {playBtnAudioFunc } from '@/utils/core'
 import { gameLogo} from '@/model/pwa'
-let tab_list = ref([ 'ENTRAR', 'REGISTRO' ])
+let tab_list = ref([ t('ENTRAR'), t('REGISTRATION') ])
 import { useThemeImages } from '@/utils/themeimg'
 const loginImg = useThemeImages().login 
 const CommonImg = useThemeImages().common 
 function changeTab(index) {
+    if(index) {
+        loginIndexRef.value = index
+    } else {
+        loginIndexRef.value = loginIndexRef.value === 0 ? 1 : 0 
+    }
     playBtnAudioFunc()
-    loginIndexRef.value = index
 }
 
 function closeLogin() {
@@ -182,35 +187,24 @@ function closeLogin() {
                 </section>
             </div>
             <div v-else-if="currentTemplate.value =='template_five'">
-                <section v-if="loginShowRef" class="w-full h-full absolute left-0 top-0 z-[2000] flex items-center justify-center flex-col" >
+                <section v-if="loginShowRef" class="w-full h-full absolute left-0 top-0 z-[2000] flex items-center justify-end flex-col" >
                     <em class="w-full h-full bg-black/25 bg-blur absolute left-0 top-0 block"></em>
                     
-                    <div class="max-w-full h-auto z-10 rounded-2xl overflow-hidden flex flex-col items-center">
-                        <a href="javascript:;" @click="closeLogin()" class="block absolute top-10 right-6  text-3xl text-thenmewhite z-100">
+                    <div class="w-full h-full z-10 rounded-2xl overflow-hidden flex flex-col items-center justify-end">
+                        <a href="javascript:;" @click="closeLogin()" class="block absolute top-10 right-6  text-3xl text-thenmewhite z-100 bg-rgbawhite30 rounded-full w-8 h-8 flex items-center justify-center">
                             ×
                         </a>
-                        <img :src=loginImg.img_bg class="w-full h-auto px-5">
-                        <div class="w-full  px-5  rounded-2xl relative -mt-14">
-                            <dl class="w-full font-[400] flex bg-btn1_bg text-thenmewhite rounded-t-2xl">
-                                <template v-for="item,index in tab_list" :key="index">
-                                    <dd @click="changeTab(index)" class="w-1/2 h-[2.5rem] cursor-pointer flex items-center justify-center" :class="index==loginIndexRef?'bg-btnlinar3 rounded-t-2xl':'bg-btn1_bg rounded-t-2xl'">
-                                        <span :class="index==loginIndexRef?'text-[1rem]':'text-base'" class=" transition-all duration-300">
-                                            {{ item }}
-                                        </span>
-                                    </dd>
-                                </template>
-                            </dl>
-                        </div>
-                        <div class="w-full px-5  flex items-center text-default-text">
-                            <div class="w-full h-[20rem] pt-8 px-4 pb-[1.5rem]  bg-gradient-to-b from-btnlinar3 to-btnlinar4  rounded-b-2xl">
+                        <div class="w-full h-5/6 flex flex-col items-center text-default-text border-t-2 border-inputborder rounded-2xl bg-loginbg">
+                            <div class="w-full  rounded-2xl relative pt-8 px-4">
+                                <p class="text-[1.5rem] font-[600]">{{  loginIndexRef==0 ? 'Faça login na sua conta' : 'Crie uma conta de jogo' }} </p>
+                                <p class="text-themetext3">{{  loginIndexRef==0 ? 'Não tem uma conta?' : 'já tem uma conta?' }} <a href="javascript:;" @click="changeTab()" class="text-themetext0 font-[600]">{{  loginIndexRef==0 ? 'Registro' : 'Entrar' }}</a></p>
+                            </div>
+                            <div class="w-full h-full pt-12 px-4 pb-[1.5rem]   rounded-b-2xl">
                                 <FormLogin v-if="loginIndexRef==0" />
                                 <FormRegister v-else />
                             </div>
                         </div>
                     </div>
-                    <!-- :class="isIphoneSE()?'bottom-[6%]':'bottom-[10%]'" -->
-                    <!-- absolute right-[50%] translate-x-[50%]  -->
-                    
                 </section>
             </div>
         </Transition>

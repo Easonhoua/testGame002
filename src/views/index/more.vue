@@ -14,12 +14,13 @@ import { playBtnAudioFunc} from '@/utils/core'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 import { navListRef, getCommonConfigFunc} from '@/model/common'
 import { useTemplate } from '@/utils/template'
-const { currentTemplate } = useTemplate()
+const { currentTemplate,currentUnit } = useTemplate()
 const route = useRoute()
 const router = useRouter()
 // const { navListRef, getHomeNavFunc } = configMOdel(false)
 const { signShowRef, signConfigRef, signConfigFunc } = signInModel()
 const { redPakageDataFunc, redPakageEndFunc } = redPakageModel()
+
 
 // 添加滚动容器引用
 const scrollContainer = ref(null)
@@ -103,7 +104,7 @@ onActivated(async () => {
 
 <template>
 
-    <pu-page title="Promoção" color="bg-body-bg">
+    <pu-page :title="t('pageTitle.Promotion')" color="bg-body-bg">
         <div ref="scrollContainer" class="h-full overflow-y-auto" v-if="currentTemplate=='template_one'||currentTemplate=='template_two'||currentTemplate=='template_three'">
             <pu-card theme="3" class="py-4">
                 <ul class="text-sm">
@@ -137,7 +138,7 @@ onActivated(async () => {
                                         'bg-gradient-to-b from-downloadlinear1 to-downloadlinear2 rounded-full text-themewhite': currentTemplate === 'template_two',
                                         'm3-theme-btn1 rounded-md': currentTemplate === 'template_three'
                                     }">
-                                    <span>Em andamento</span>
+                                    <span>{{  t('Inprogress')  }}</span>
                                 </a>
                             </div>
                         </li>
@@ -151,9 +152,9 @@ onActivated(async () => {
              <pu-card theme="2" class="py-4">
                 <ul class="text-sm">
                     <template v-for="item,index in navListRef" :key="index">
-                        <li @click="onclickNav(item.activity_type)" class="list-item relative w-full mb-3  text-rgbawhite80 rounded-lg overflow-hidden" :class="currentTemplate=='template_one'?'bg-default-bg':'bg-gradient-to-r from-morelinear1 to-morelinear2'" >
-                            <van-image :src="item.banner" lazy-load fit="contain" class="w-full h-[11rem]"/>
-                            <div class="w-full p-2 flex items-center absolute bottom-0 left-0 z-10 bg-rgbablack80 rounded-b-lg">
+                        <li @click="onclickNav(item.activity_type)" class="list-item relative w-full mb-3  text-rgbawhite80  overflow-hidden" :class="currentTemplate=='template_one'?'bg-default-bg':'bg-gradient-to-r from-morelinear1 to-morelinear2'" >
+                            <van-image :src="item.banner" lazy-load fit="cover" class="w-full h-[7rem]"/>
+                            <div class="w-full p-2 flex items-center  bg-rgbablack80 ">
                                 <div class="relative w-8 h-8 mr-1 shrink-0">
                                     <van-image :src="item.icon" fit="contain" class="w-8 h-8 block"></van-image>
                                     <div v-if="item.activity_type=='sign_in'&&signConfigRef.todayStatus" class="absolute -top-1 -right-1 w-3 h-3 text-[0.5625rem] !leading-none bg-two text-themewhite border-[0.5px] border-themewhite rounded-full flex items-center justify-center">
@@ -173,8 +174,8 @@ onActivated(async () => {
                                     </template>
                                     <b v-else>{{ item.title }}</b>
                                 </div>
-                                <a href="javascript:;" class="h-7 px-2 bg-gradient-to-r from-themecardlinear1 to-themecardlinear2 font-bold  text-xs cursor-pointer rounded-full flex items-center">
-                                    <span class="text-themewhite text-[0.625rem]">Em andamento</span>
+                                <a href="javascript:;" class="h-7 px-2 bg-thirsmodel1 font-bold  text-xs cursor-pointer rounded-lg flex items-center">
+                                    <span class="text-themetext2 text-[0.625rem]">Em andamento</span>
                                 </a>
                             </div>
                         </li>

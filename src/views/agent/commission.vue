@@ -29,7 +29,7 @@ onMounted(()=> {
                                     <p class="opacity-85">Comissão direta</p>
                                 </div>
                                 <p class="text-nowrap">
-                                    <span class="opacity-45">R$&nbsp;</span>
+                                    <span class="opacity-45">{{ currentUnit.value }}&nbsp;</span>
                                     <span>{{ fn(item.bonus) }}</span>
                                 </p>
                                 <button @click="bonusTaskFunc(item,index)" :class="item.status==0?'ctx-theme__linear':'bg-rgbawhite10 !text-rgbawhite50'" class="px-2 py-1 ml-2 rounded-lg">
@@ -59,7 +59,7 @@ onMounted(()=> {
                                     <p class="opacity-85">Comissão direta</p>
                                 </div>
                                 <p class="text-nowrap">
-                                    <span class="opacity-45">R$&nbsp;</span>
+                                    <span class="opacity-45">{{ currentUnit.value }}&nbsp;</span>
                                     <span>{{ fn(item.bonus) }}</span>
                                 </p>
                                 <button @click="bonusTaskFunc(item,index)" :class="item.status==0?'ctx-theme__linear':'bg-rgbawhite10 !text-rgbawhite50'" class="px-2 py-1 ml-2 rounded-lg">
@@ -86,14 +86,14 @@ onMounted(()=> {
                             </div>
                             <div class="px-2 py-3 flex items-center">
                                 <div class="px-2 flex-1 overflow-hidden">
-                                    <p class="opacity-85">Comissão direta</p>
+                                    <p class="opacity-85">{{ t("commCenter.DirectCommission") }}</p>
                                 </div>
                                 <p class="text-nowrap">
-                                    <span class="opacity-45">R$&nbsp;</span>
+                                    <span class="opacity-45">{{ currentUnit.value }}&nbsp;</span>
                                     <span>{{ fn(item.bonus) }}</span>
                                 </p>
                                 <button @click="bonusTaskFunc(item,index)" :class="item.status==0?'m3-theme-btn1':'bg-rgbawhite10 !text-rgbawhite50'" class="px-2 py-1 ml-2 rounded-lg">
-                                    <span class="text-xs">Reclamado</span>
+                                    <span class="text-xs">{{ t('Received') }}</span>
                                 </button>
                             </div>
                         </div>
@@ -119,7 +119,7 @@ onMounted(()=> {
                                     <p class="m4-text">Comissão direta</p>
                                 </div>
                                 <p class="text-themetext0">
-                                    <span >R$&nbsp;</span>
+                                    <span >{{ currentUnit.value }}&nbsp;</span>
                                     <span>{{ fn(item.bonus) }}</span>
                                 </p>
                                 <button @click="bonusTaskFunc(item,index)" :class="item.status==0?'m4-ten-btn text-theme':'!bg-white/20 !text-theme'" class="px-2 py-1 ml-2 rounded-full">

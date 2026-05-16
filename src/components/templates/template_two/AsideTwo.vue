@@ -8,7 +8,7 @@ import { useThemeImages } from '@/utils/themeimg'
 import { socialMenuListRef,leftproListRef} from '@/model/common'
 const CommonImg = useThemeImages().common
 const AsideImg = useThemeImages().aside
-
+import { useMine } from '@/composables/useMine'
 import { useAside } from '@/composables/useAside'
 
 const props = defineProps({
@@ -35,7 +35,9 @@ const {
     onToProfile,
     copyInviteCode
 } = useAside(close)
-
+const { 
+    toWithdrawal,
+} = useMine()
 </script>
 
 <template>
@@ -97,7 +99,7 @@ const {
                                 </ol>
                                 <div class="bg-default-bg rounded-lg text-center " style="max-width: 10rem; margin: 0 auto; margin-top: 0.25rem;">
                                     <span class="text-[1.48rem] text-[#ffef00] ">{{ fn(memberLocal.account&&memberLocal.account.user_money||0) }}</span>
-                                    <span class="text-xs text-[#ffef00]">&nbsp;R$</span>
+                                    <span class="text-xs text-[#ffef00]">&nbsp;{{ currentUnit.value }}</span>
                                 </div>
                                 <dl class="w-full h-8 text-xs flex mt-1 mb-1">
                                     <dd class="w-1/2 pr-1.5">
@@ -110,7 +112,7 @@ const {
                                         </router-link>
                                     </dd>
                                     <dd class="w-1/2 pl-1.5">
-                                        <router-link to="/withdrawal" @click="onclickNoNav()" 
+                                        <router-link to="/withdrawal" @click="toWithdrawal()" 
                                         :style="{ backgroundImage: `url(${AsideImg.bg_deposito2})`}"
                                         style="background-repeat: no-repeat; background-size: 100% 100%;"
                                         class="w-full h-full rounded-[1rem]  text-center  flex items-center justify-center">

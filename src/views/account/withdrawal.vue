@@ -3,7 +3,7 @@ import { computed, onMounted, ref,watch } from 'vue'
 import { t, fn } from '@/i18n'
 import { useRouter } from 'vue-router'
 import { userModel } from '@/model/user'
-import { withdrawalAmountRef, withdrawalChannelIndexRef, withdrawalModel } from '@/model/account'
+import { withdrawalAmountRef, withdrawalChannelIndexRef,withdrawalPhChannelRef, withdrawalModel } from '@/model/account'
 import { showToast } from 'vant'
 import { useThemeImages } from '@/utils/themeimg'
 import { openServiceFunc } from '@/utils/config'
@@ -15,6 +15,11 @@ const router = useRouter()
 const { configRef,amountRef } = rechargeModel(true)
 const { memberRef } = userModel()
 const { channelListRef } = withdrawalModel({ch: true})
+import { blogTagIdsRef } from '@/model/common'
+import { showBalance } from '@/composables/useMine'
+
+
+// const currentUnit = import.meta.env.VITE_UNIT || 'R$'
 
 const configPackages = [
     { amount :'10.00'},
@@ -49,16 +54,41 @@ let autoclick = computed(()=> {
 
 let checkMoney = computed(()=>{
     const user_money = memberRef.value?.account.user_money
-    return user_money >= withdrawalAmountRef.value
+    let res = Number(user_money)  >= Number(withdrawalAmountRef.value)
+    return res
 })
 
+const channelList = {
+    "id": "108",
+    "channel": [
+        {
+            "name": "GCash",
+            "code": "2090",
+            "min": "100",
+            "max": "50000"
+        },
+        {
+            "name": "Maya",
+            "code": "2090",
+            "min": "100",
+            "max": "50000"
+        }
+    ]
+}
 
+const currentChannel = computed(() => {
+    return channelList.channel[withdrawalPhChannelRef.value] || {}
+})
+
+const TreeSelect = (index) => {
+    withdrawalPhChannelRef.value=index
+}
 
 function submit() {
     //如果channel_curr.min_amount存在，则做判断
     if(channel_curr.value.min_amount) {
         if(Number(withdrawalAmountRef.value)<Number(channel_curr.value.min_amount)) {
-            showToast(`Valor mínimo de retirada é ${channel_curr.value.min_amount}`)
+            showToast(t('account.minimum') + ` ${channel_curr.value.min_amount}`)
             return
         }
     }
@@ -66,14 +96,14 @@ function submit() {
     //如果channel_curr.max_amount存在，则做判断
     if(channel_curr.value.max_amount) {
         if(Number(withdrawalAmountRef.value)>Number(channel_curr.value.max_amount)) {
-            showToast(`Valor máximo de retirada é ${channel_curr.value.max_amount}`)
+            showToast(t('account.maximum') + ` ${channel_curr.value.max_amount}`)
             return
         }
     }
 
     //原来逻辑
     if(withdrawalAmountRef.value<10) {
-        showToast('Retirada maior que 10')
+        showToast(t('account.greaterthan10'))
         return
     }
     if(autoclick.value) {
@@ -112,8 +142,8 @@ function onInputAmount(e) {
     }
 
     // 限制最大值
-    if (val && parseFloat(val) > 20000) {
-        val = '20000';
+    if (val && parseFloat(val) > channel_curr.value?.max_amount) {
+        val = channel_curr.value?.max_amount;
     }
     
     withdrawalAmountRef.value = val;
@@ -147,7 +177,7 @@ watch(withdrawalAmountRef, (newVal) => {
 </script>
 
 <template>
-    <pu-page title="Saque" class="z-[999]">
+    <pu-page :title="t('pageTitle.Sack')" class="z-[999]">
         <pu-card theme="3" class="py-4" v-if="currentTemplate.value=='template_one'">
             <section class="w-full py-3 px-4 mb-5 rounded-lg bg-rgbawhite10  border border-rgbawhite10">
                 <p class="text-sm opacity-85">Se você tiver dúvidas ou problemas, entre em contato com o suporte ao cliente. Obrigado!</p>
@@ -178,7 +208,7 @@ watch(withdrawalAmountRef, (newVal) => {
             <dl :class="not_arrow_cash?'border-rgbawhite10':'border-border1'" class="w-full h-[3.125rem] px-3 border rounded-lg flex items-center  "
              >
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="opacity-45">R$</span>
+                    <span class="opacity-45">{{ currentUnit.value }}</span>
                 </dt>
                 <!-- @input="onInputAmount" -->
               
@@ -200,13 +230,13 @@ watch(withdrawalAmountRef, (newVal) => {
             </dl>
 
          
-            <div v-if="not_arrow_cash" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
+            <div v-if="not_arrow_cash && showBalance != 1" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <svg class="w-4 h-4 mr-1.5 opacity-45 inline-block align-middle" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z" fill="none" stroke="currentColor" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 37C25.3807 37 26.5 35.8807 26.5 34.5C26.5 33.1193 25.3807 32 24 32C22.6193 32 21.5 33.1193 21.5 34.5C21.5 35.8807 22.6193 37 24 37Z" fill="currentColor"/>
                     <path d="M24 12V28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="text-xs opacity-45 align-middle">Você preciso apostar R$ {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
+                <span class="text-xs opacity-45 align-middle">Você preciso apostar {{ currentUnit.value }} {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
             </div>
             <div class="mt-8 px-8 flex justify-center" >
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'" class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center ctx-theme__linear">
@@ -245,7 +275,7 @@ watch(withdrawalAmountRef, (newVal) => {
             <dl :class="not_arrow_cash?'border-rgbawhite10':'border-defaultborder'" class="w-full h-[3.125rem] px-3 border bg-default-bg rounded-lg flex items-center  "
              >
                 <dt class="mr-3 text-four font-bold shrink-0">
-                    <span >R$</span>
+                    <span >{{ currentUnit.value }}</span>
                 </dt>
                 <!-- @input="onInputAmount" -->
               
@@ -265,13 +295,13 @@ watch(withdrawalAmountRef, (newVal) => {
                     </svg>
                 </dd>
             </dl>
-            <div v-if="not_arrow_cash" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
+            <div v-if="not_arrow_cash && showBalance != 1" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <svg class="w-4 h-4 mr-1.5 opacity-45 inline-block align-middle" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z" fill="none" stroke="currentColor" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 37C25.3807 37 26.5 35.8807 26.5 34.5C26.5 33.1193 25.3807 32 24 32C22.6193 32 21.5 33.1193 21.5 34.5C21.5 35.8807 22.6193 37 24 37Z" fill="currentColor"/>
                     <path d="M24 12V28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="text-xs opacity-45 align-middle">Você preciso apostar R$ {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
+                <span class="text-xs opacity-45 align-middle">Você preciso apostar {{ currentUnit.value }} {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
             </div>
             <div class="mt-8 px-8 flex justify-center" >
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'" class="w-full bg-btncolor text-themeblack rounded-lg  text-center p-3">
@@ -282,40 +312,48 @@ watch(withdrawalAmountRef, (newVal) => {
 
         <pu-card theme="3" class="py-4" v-if="currentTemplate.value=='template_three'">
             <section class="w-full py-3 px-4 mb-5 bg-tablergba20 rounded-lg">
-                <p class="text-sm opacity-85 text-themetext1">Se você tiver dúvidas ou problemas, entre em contato com o suporte ao cliente. Obrigado!</p>
+                <p class="text-sm opacity-85 text-themetext1">{{ t('depCenter.withdrawalDetail') }}</p>
                 <div class="p-2  rounded-full mt-2 flex items-center justify-center bg-theme  " @click="openServiceFunc()">
                     <img  :src=HomeImg.icon_service  class="w-6 h-5 mr-2">
-                    <span class="text-themetext1">suporte online</span>
+                    <span class="text-themetext1">{{ t('depCenter.onlinesupport') }}</span>
                 </div>
             </section>
             <section class="w-full py-3 px-4 mb-5 bg-tablergba20 rounded-lg">
-                <p class="text-sm opacity-85 text-themetext1">Canal de pagamento:</p>
-                <ul class="w-full text-xs flex flex-wrap">
+                <p class="text-sm opacity-85 text-themetext1">{{ t('depCenter.PaymentChannel:') }}</p>
+                <ul class="w-full text-xs flex flex-wrap" v-if="currentUnit.value == 'R$'">
                     <template v-for="item,index in channelListRef" :key="index">
                         <li @click="withdrawalChannelIndexRef=index" :class="index==withdrawalChannelIndexRef?'m3-theme-btn4':'bg-tablergba40'" class="h-9 px-5 mr-2.5 mt-2.5 rounded-lg flex items-center">
                             <span>{{ item.name }}</span>
                         </li>
                     </template>
                 </ul>
+                <ul class="w-full text-xs flex flex-wrap" v-else-if="currentUnit.value == '₱ '">
+                    <li v-for="item, index in channelList.channel || []" :key="index"
+                        @click="TreeSelect(index)"
+                        :class=" index == withdrawalPhChannelRef ? 'm3-theme-btn4' : 'bg-tablergba40'"
+                        class="h-9 px-5 mr-2.5 mt-2.5 rounded-lg flex items-center">
+                        <span>{{ item.name }}</span>
+                    </li>
+                </ul>
             </section>
             <section class="mb-5 text-center">
-                <h5 class="mb-1 text-sm text-themetext1">Conta Saldo:</h5>
+                <h5 class="mb-1 text-sm text-themetext1">{{ t('depCenter.AccountBalance') }}:</h5>
                 <p>
                     <img :src=CommonImg.img_money class="w-8 h-8 mr-2 inline-block align-middle">
                     <span class="text-4xl align-middle">{{ memberRef&&memberRef.account&&memberRef.account.user_money}}</span>
                 </p>
             </section>
-            <p class="mb-2 text-sm text-themetext2">Valor do saque</p>
+            <p class="mb-2 text-sm text-themetext2">{{ t('depCenter.WithdrawalValue') }}</p>
             <dl :class="not_arrow_cash?'border-rgbawhite10':'m3-theme-btn2'" class="w-full h-[3.125rem] px-3 border rounded-lg flex items-center">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-themetext0">R$</span>
+                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                 </dt>
                 <!-- @input="onInputAmount" -->
                 <dd class="flex-1 overflow-hidden">
                     <input type="text"
                     inputmode="decimal"
                     v-model="withdrawalAmountRef" 
-                    :placeholder="`valor(${channel_curr?.min_amount || 10} ~ ${channel_curr?.max_amount || 20000})`"
+                    :placeholder="`${t('depCenter.value')}(${channel_curr?.min_amount || 100} ~ ${channel_curr?.max_amount || 50000})`"
                     @focus="input_focus=true" 
                     :readonly="not_arrow_cash"
                     @input="onInputAmount" 
@@ -333,11 +371,11 @@ watch(withdrawalAmountRef, (newVal) => {
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 37C25.3807 37 26.5 35.8807 26.5 34.5C26.5 33.1193 25.3807 32 24 32C22.6193 32 21.5 33.1193 21.5 34.5C21.5 35.8807 22.6193 37 24 37Z" fill="currentColor"/>
                     <path d="M24 12V28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="text-xs opacity-45 align-middle">Você preciso apostar R${{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
+                <span class="text-xs opacity-45 align-middle">{{ t("depCenter.Youneedtobet")  }} {{ currentUnit.value }}{{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
             </div>
             <div class="mt-8 px-8 flex justify-center">
                 <a @click="submit()" :class="autoclick?'m3-theme-btn1':'pointer-events-none m3-theme-btn3'" class="w-full rounded-lg  text-center p-3">
-                    <span>Saque</span>
+                    <span>{{ t('Sack') }}</span>
                 </a>
             </div> 
         </pu-card> 
@@ -377,7 +415,7 @@ watch(withdrawalAmountRef, (newVal) => {
               
             <dl class="w-full h-[3.125rem] px-3 bg-rgbablack80  rounded-lg flex items-center">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-themetext2">R$</span>
+                    <span class="text-themetext2">{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
                     <input type="text"
@@ -395,9 +433,9 @@ watch(withdrawalAmountRef, (newVal) => {
                     </svg>
                 </dd>
             </dl>
-            <div v-if="not_arrow_cash" class=" py-2 mt-1 rounded-lg  ">
+            <div v-if="not_arrow_cash && showBalance != 1" class=" py-2 mt-1 rounded-lg  ">
                 <img :src="CommonImg.icon_rich_warn" alt="" class="w-4 h-4 mr-1 inline-block align-middle">
-                <span class="text-xs  align-middle">Você preciso apostar <span class="text-themetext0">  R$  {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span> </span>
+                <span class="text-xs  align-middle">Você preciso apostar <span class="text-themetext0">  {{ currentUnit.value }}  {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span> </span>
             </div>
 
             </div>
@@ -413,12 +451,12 @@ watch(withdrawalAmountRef, (newVal) => {
             <section class="mb-10 ">
                  <div class="flex items-center mb-4">
                     <p class="text-2xl  text-themewhite font-bold mr-2">Depósito</p>
-                    <img :src="MineImg.icon_pig" class="w-[1.6rem] h-[1.2rem] mr-2"/>
+                    <img :src="MineImg.icon_pig" class="w-[1.6rem] h-[1.6rem] mr-2"/>
                  </div>
                  <div class="text-[0.875rem] text-themetext4">
                     <p>Bônus resgatável após 1x faturamento</p>
                     <p>Recarregue sua conta e participe de nossas </p>
-                    <img :src="MineImg.img_support" class=" h-[1.2rem] mr-1 inline-block align-middle" />
+                    <img :src="MineImg.img_support" class=" h-[1.2rem] mr-1 inline-block align-middle" @click="openServiceFunc()"/>
                  </div>
             </section>
             <section class="w-full  mb-10 " >
@@ -433,11 +471,11 @@ watch(withdrawalAmountRef, (newVal) => {
             </section>
 
             <section class="mb-5">
-                <h5 class="mb-1 text-sm font-bold" >Conta Saldo <span class="text-themetext0">R$ {{ memberRef&&memberRef.account&&memberRef.account.user_money }}</span> </h5>
+                <h5 class="mb-1 text-sm font-bold" >Conta Saldo <span class="text-themetext0">{{ currentUnit.value }} {{ memberRef&&memberRef.account&&memberRef.account.user_money }}</span> </h5>
                 <dl :class="not_arrow_cash?'border-rgbawhite10':'border-border1'" class="m5-theme-input w-full h-[3.125rem] px-3 border rounded-lg flex items-center  "
              >
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-themetext0">R$</span>
+                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                 </dt>
                 <!-- @input="onInputAmount" -->
               
@@ -457,13 +495,13 @@ watch(withdrawalAmountRef, (newVal) => {
                     </svg>
                 </dd>
             </dl>
-            <div v-if="not_arrow_cash" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
+            <div v-if="not_arrow_cash && showBalance != 1" class="px-4 py-2 mt-1 rounded-lg border border-rgbawhite10 bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <svg class="w-4 h-4 mr-1.5 opacity-45 inline-block align-middle" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24 44C29.5228 44 34.5228 41.7614 38.1421 38.1421C41.7614 34.5228 44 29.5228 44 24C44 18.4772 41.7614 13.4772 38.1421 9.85786C34.5228 6.23858 29.5228 4 24 4C18.4772 4 13.4772 6.23858 9.85786 9.85786C6.23858 13.4772 4 18.4772 4 24C4 29.5228 6.23858 34.5228 9.85786 38.1421C13.4772 41.7614 18.4772 44 24 44Z" fill="none" stroke="currentColor" stroke-linejoin="round"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 37C25.3807 37 26.5 35.8807 26.5 34.5C26.5 33.1193 25.3807 32 24 32C22.6193 32 21.5 33.1193 21.5 34.5C21.5 35.8807 22.6193 37 24 37Z" fill="currentColor"/>
                     <path d="M24 12V28" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="text-xs opacity-45 align-middle">Você preciso apostar R$ {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
+                <span class="text-xs opacity-45 align-middle">Você preciso apostar {{ currentUnit.value }} {{ fn(memberRef&&memberRef.account&&memberRef.account.bet_amount) }}</span>
             </div>
             </section>
             

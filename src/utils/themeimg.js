@@ -139,6 +139,8 @@ export const useThemeImages = () => {
       socialbg: getThemeImage('socialbg.png','aside'),
 
       img_changfenlei: getThemeImage('img_celan_k.png','aside'),
+      img_hotgame_bg: getThemeImage('img_hotGame_bg.png','aside'),
+      icon_hotfire: getThemeImage('img_hotfire.png','aside'),
     },
     
     //底部导航栏
@@ -400,6 +402,12 @@ export const useThemeImages = () => {
       img_giftlink: getThemeImage('giftcode-link.png','giftcode'),
       bg_card1: getThemeImage('giftcode-cardbg1.png','giftcode'),
       bg_card2: getThemeImage('giftcode-cardbg2.png','giftcode'),
+
+      img_membergiftbg: getThemeImage('membergift-bg.png','giftcode'),
+      img_membergiftvip: getThemeImage('icon.png','giftcode'),
+      img_membergiftdate: getThemeImage('img_date.png','giftcode'),
+      img_membergiftmoney: getThemeImage('img_money.png','giftcode'),
+      img_membergifttime: getThemeImage('img_time.png','giftcode'),
     },
 
     //totalrecharge
@@ -661,6 +669,7 @@ export const useThemeImages = () => {
       icon_password_phone: getThemeImage('login-password-phone.png','login'),
       icon_flag_br: getThemeImage('flag-br.png','login'),
       icon_colse:getThemeImage('btn_close.png','login'),
+      icon_flagsmall_br: getThemeImage('img_flagsmall.png','login'),
       
     },
     // 投注七天签到活动
@@ -698,7 +707,6 @@ export const useThemeImages = () => {
       icon_dia5: getThemeImage('Dia5.png','bettingCheckIn'),
       icon_dia6: getThemeImage('Dia6.png','bettingCheckIn'),
     },
-
     // 会员答谢日
     monthlybetting:{
       img_bg: getThemeImage('bg.png','monthlybetting'),
@@ -718,10 +726,50 @@ export const useThemeImages = () => {
       img_item_bg: getThemeImage('img_slots1.png','monthlybetting'),
     },
     memberDay:{
-      img_bg: getThemeImage('bg.png','memberDay'),
-      img_date: getThemeImage('img_date.png','memberDay'),
-      img_money: getThemeImage('img_money.png','memberDay'),
-      img_time: getThemeImage('img_time.png','memberDay'),
+      img_bg: getThemeImage('bg.png','memberday'),
+      img_date: getThemeImage('img_date.png','memberday'),
+      img_money: getThemeImage('img_money.png','memberday'),
+      img_time: getThemeImage('img_time.png','memberday'),
+    },
+    worldCup:{
+      img_mainbg: getThemeImage('bg_top.png','worldcup'),
+      img_bg1: getThemeImage('bg1.png','worldcup'),
+      img_bg2: getThemeImage('bg2.png','worldcup'),
+      img_bggroup: getThemeImage('bg_group.png','worldcup'),
+      btn_close: getThemeImage('btn_close.png','worldcup'),
+      btn_enviar: getThemeImage('btn_enviar.png','worldcup'),
+      btn_mudar: getThemeImage('btn_mudar.png','worldcup'),
+      btn_receber: getThemeImage('btn_receber.png','worldcup'),
+      btn_receber1: getThemeImage('btn_receber1.png','worldcup'),
+      img_coin1: getThemeImage('img_coin1.png','worldcup'),
+      img_jinji: getThemeImage('img_jinji.png','worldcup'),
+      img_ling_di: getThemeImage('img_ling_di.png','worldcup'),
+      img_terminou: getThemeImage('img_terminou.png','worldcup'),
+      img_time: getThemeImage('img_time.png','worldcup'),
+      img_time1: getThemeImage('img_time1.png','worldcup'),
+      img_time2: getThemeImage('img_time2.png','worldcup'),
+      img_vs0: getThemeImage('img_vs0.png','worldcup'),
+      img_vs1: getThemeImage('img_vs1.png','worldcup'),
+      img_vs2: getThemeImage('img_vs2.png','worldcup'),
+      img_yuan1: getThemeImage('img_yuan1.png','worldcup'),
+      img_yuan2: getThemeImage('img_yuan2.png','worldcup'),
+      img_light: getThemeImage('img_light.png','worldcup'),
+      group8_banner:getThemeImage('group8_banner.png','worldcup'),
+      group8text: getThemeImage('group8text.png','worldcup'),
+      img_group8_1:getThemeImage('group_8_1.png','worldcup'),
+      img_group8_2:getThemeImage('group_8_2.png','worldcup'),
+      group16_banner:getThemeImage('group16_banner.png','worldcup'),
+      group16text: getThemeImage('group16text.png','worldcup'),
+      img_group16_1:getThemeImage('group_16_1.png','worldcup'),
+      img_group16_2:getThemeImage('group_16_2.png','worldcup'),
+      group32_banner:getThemeImage('group32_banner.png','worldcup'),
+      group32text: getThemeImage('group32text.png','worldcup'),
+      img_group32_1:getThemeImage('group_32_1.png','worldcup'),
+      img_group32_2:getThemeImage('group_32_2.png','worldcup'),
+      group0_banner:getThemeImage('group0_banner.png','worldcup'),
+      group0text: getThemeImage('group0text.png','worldcup'),
+      img_group0_1:getThemeImage('group_fase1.png','worldcup'),
+      img_group0_2:getThemeImage('group_fase2.png','worldcup'),
     }
 
   }

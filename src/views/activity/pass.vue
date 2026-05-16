@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { isAuthRef } from '@/model/user'
 import { passModel } from '@/model/activity'
 import { openLoginFunc } from '@/utils/config'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const PassImg = useThemeImages().pass
@@ -59,7 +59,7 @@ function closeBuyPass() {
 </script>
 
 <template>
-     <pu-page title="Passe" class="z-[999]" v-if="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'||currentTemplate.value == 'template_three'">
+     <pu-page :title="t('pageTitle.Pass')" class="z-[999]" v-if="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'||currentTemplate.value == 'template_three'">
         <!-- 顶部banner -->
         <div class="banner relative">
             <img :src=PassImg.bg_pass alt="Grande Retorno de Depósito" class="w-full" />
@@ -92,25 +92,25 @@ function closeBuyPass() {
                     <!-- 等级 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ rechargeAmountRef }}</div>
-                        <div class="text-rgbawhite50 text-sm mt-1">Depósito (R$)</div>
+                        <div class="text-rgbawhite50 text-sm mt-1">{{ t('deposit') }} ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 积分 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ betAmountRef }}</div>
-                        <div class="text-rgbawhite50 text-sm mt-1">Aposta (R$)</div>
+                        <div class="text-rgbawhite50 text-sm mt-1">{{ t("commCenter.Bet") }} ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 天数 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ loginCountRef }}</div>
-                        <div class="text-rgbawhite50 text-sm mt-1">Entrar (Dias)</div>
+                        <div class="text-rgbawhite50 text-sm mt-1">{{ t("enter") }} ({{ t("account.days") }})</div>
                     </div>
                 </div>
             </div>
         </pu-card>
 
-        <pu-card theme="4" class="-mt-1" v-else="currentTemplate.value=='template_three'">
+        <pu-card theme="4" class="-mt-1" v-else-if="currentTemplate.value=='template_three'">
             <div class="relative w-full overflow-hidden rounded-xl" 
                 :style="{
                     backgroundImage: `url(${PassImg.bg_info})`,
@@ -126,19 +126,19 @@ function closeBuyPass() {
                     <!-- 等级 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ rechargeAmountRef }}</div>
-                        <div class="text-themewhite text-sm mt-1">Depósito (R$)</div>
+                        <div class="text-themewhite text-sm mt-1">{{ t('deposit') }} ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 积分 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ betAmountRef }}</div>
-                        <div class="text-themewhite text-sm mt-1">Aposta (R$)</div>
+                        <div class="text-themewhite text-sm mt-1">{{ t("commCenter.Bet") }} ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 天数 -->
                     <div class="flex flex-col items-center">
                         <div class="text-themewhite text-2xl font-bold">{{ loginCountRef }}</div>
-                        <div class="text-themewhite text-sm mt-1">Entrar (Dias)</div>
+                        <div class="text-themewhite text-sm mt-1">{{ t("enter") }} ({{ t("account.days") }})</div>
                     </div>
                 </div>
             </div>
@@ -176,7 +176,7 @@ function closeBuyPass() {
                         class="lvImg mx-auto"
                     />
                     <div>
-                        <span class="mt-0.5 text-sm text-rgbawhite50 text-center"> {{ item.cond === 'login' ? 'Dias' : 'R$' }} </span>
+                        <span class="mt-0.5 text-sm text-rgbawhite50 text-center"> {{ item.cond === 'login' ? t('account.days') :  currentUnit.value  }} </span>
                         <span class="mt-0.5 ml-1 font-bold text-center"> {{ item.cond_num }}</span>
                     </div>
                 </div>
@@ -193,7 +193,7 @@ function closeBuyPass() {
                         </div>
                         
                     </div>
-                    <span class="text-sm">R$ </span>
+                    <span class="text-sm">{{ currentUnit.value }} </span>
                     <span class="pl-2 font-bold">{{ item.bonus }}</span>
                     <div v-if="item.bonus_has_recv && item.bonus_has_recv == 1"> 
                         <img 
@@ -210,7 +210,7 @@ function closeBuyPass() {
                             :src=PassImg.img_gray
                             v-if="isBuyPassRef == 0" class="h-full  absolute inset-0 ml-[1rem] "
                         />
-                    <span class="text-sm pl-3">R$ </span>
+                    <span class="text-sm pl-3">{{ currentUnit.value }} </span>
                     <span class="pl-2 font-bold" >{{ item.bonus_pass }}</span>
                     <div v-if="item.bonus_pass_has_recv && item.bonus_pass_has_recv == 1">
                         <img 
@@ -229,7 +229,7 @@ function closeBuyPass() {
             </div>
         </pu-card>
 
-        <pu-card theme="4" class="mt-1" v-else="currentTemplate.value=='template_three'">
+        <pu-card theme="4" class="mt-1" v-else-if="currentTemplate.value=='template_three'">
             <img :src=PassImg.img_cardbg class="w-full px-1" />
             <div class="list -mt-10 flex flex-col items-center">
             <div 
@@ -261,7 +261,7 @@ function closeBuyPass() {
                         class="lvImg mx-auto"
                     />
                     <div>
-                        <span class="mt-0.5 text-sm text-rgbawhite50 text-center"> {{ item.cond === 'login' ? 'Dias' : 'R$' }} </span>
+                        <span class="mt-0.5 text-sm text-rgbawhite50 text-center"> {{ item.cond === 'login' ? t('account.days') :  currentUnit.value  }} </span>
                         <span class="mt-0.5 ml-1 font-bold text-center"> {{ item.cond_num }}</span>
                     </div>
                 </div>
@@ -278,7 +278,7 @@ function closeBuyPass() {
                         </div>
                         
                     </div>
-                    <span class="text-sm">R$ </span>
+                    <span class="text-sm">{{ currentUnit.value }} </span>
                     <span class="pl-2 font-bold">{{ item.bonus }}</span>
                     <div v-if="item.bonus_has_recv && item.bonus_has_recv == 1"> 
                         <img 
@@ -296,7 +296,7 @@ function closeBuyPass() {
                             :src=PassImg.img_gray
                         />
                     </div>
-                    <span class="text-sm pl-3">R$ </span>
+                    <span class="text-sm pl-3">{{ currentUnit.value }} </span>
                     <span class="pl-2 font-bold" >{{ item.bonus_pass }}</span>
                     <div v-if="item.bonus_pass_has_recv && item.bonus_pass_has_recv == 1">
                         <img 
@@ -320,7 +320,7 @@ function closeBuyPass() {
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent "  :class="[currentTemplate.value=='template_one'?' to-themewhite':' to-four']"></em>
                 <h5 class="ma-w-[60%] px-2 text-sm text-center"  :class="[currentTemplate.value=='template_one'?'':' text-four']">
-                    <span>Descrição da Atividade</span>
+                    <span>{{ t("ActivityDescription")  }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent"  :class="[currentTemplate.value=='template_one'?' to-themewhite':' to-four']"></em>
             </div>
@@ -328,11 +328,11 @@ function closeBuyPass() {
             </div>
         </pu-card>
 
-        <pu-card theme="3" class="mb-3 pt-5"  v-else="currentTemplate.value=='template_three'">
+        <pu-card theme="3" class="mb-3 pt-5"  v-else-if="currentTemplate.value=='template_three'">
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2" ></em>
                 <h5 class="ma-w-[60%] px-2 text-sm text-themetext2" >
-                    <span>Descrição da Atividade</span>
+                    <span>{{ t("ActivityDescription")  }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
             </div>
@@ -364,11 +364,11 @@ function closeBuyPass() {
                 >
                       
                 <span class="pl-1 pb-1 text-themewhite text-m font-bold flex items-center h-full">
-                    Comprar Passe 
+                    {{ t("activityCenter.BuyPass") }} 
                 </span>
 
                 <span class="pl-1 pb-1 text-four font-bold text-m flex items-center h-full">
-                     R$ {{ passPriceRef }}
+                     {{ currentUnit.value }} {{ passPriceRef }}
                 </span> 
             </button>
         </div>
@@ -396,7 +396,7 @@ function closeBuyPass() {
                     :class="[currentTemplate.value=='template_one'?'bg-searchbg':'bg-rgbablack50']"
                     > <!-- 背景色#241b61，高度h-16，宽度w-32 -->
                         <div class="text-four text-3xl font-bold" style="-webkit-text-stroke: 0.5px #622101;"> <!-- 文字颜色#fff000，描边#622101 -->
-                            R$  {{ passPriceRef }}
+                            {{ currentUnit.value }}  {{ passPriceRef }}
                         </div>
                     </div>
 
@@ -406,7 +406,7 @@ function closeBuyPass() {
                 </div>
             </pu-card>
 
-            <pu-card theme="3" class="relative flex flex-col items-center justify-center" v-else="currentTemplate.value=='template_three'">
+            <pu-card theme="3" class="relative flex flex-col items-center justify-center" v-else-if="currentTemplate.value=='template_three'">
                 <img :src=PassImg.bg_wind class="w-[23rem] h-full object-cover rounded-xl" />
                 <div class="absolute inset-0 -top-20 flex flex-col items-center justify-center">
               
@@ -424,7 +424,7 @@ function closeBuyPass() {
                     :class="[currentTemplate.value=='template_one'?'bg-searchbg':'bg-rgbablack50']"
                     > 
                         <div class="text-themetext0 text-3xl font-bold" style="-webkit-text-stroke: 0.5px #622101;">
-                            R$  {{ passPriceRef }}
+                            {{ currentUnit.value }}  {{ passPriceRef }}
                         </div>
                     </div>
 
@@ -435,12 +435,12 @@ function closeBuyPass() {
                     <div class=" flex text-center px-10 mt-2">
                         <div class="bg-rgbablack50 rounded-lg items-center justify-center flex h-18 w-[10rem]"> <!-- 背景色#241b61，高度h-16，宽度w-32 -->
                         <div class="text-themetext0 text-xl font-bold" style="-webkit-text-stroke: 0.5px #0a2400;"> <!-- 文字颜色#fff000，描边#622101 -->
-                            R$  {{ passPriceRef }}
+                            {{ currentUnit.value }}  {{ passPriceRef }}
                         </div>
                         </div>
 
                         <div class="text-center text-base mt-2 leading-none">
-                            Compre o Passe deste mês e receba todas as recompensas de uma só vez.
+                            {{ t("activityCenter.activityDetail4") }}
                         </div> 
                     </div>
 
@@ -457,7 +457,7 @@ function closeBuyPass() {
                         }"
                         @click="handleBuyPass"
                     >
-                        Compre agora
+                        {{ t("activityCenter.Buynow") }}
                 </button>  
             </pu-card>
         </div>
@@ -504,13 +504,13 @@ function closeBuyPass() {
                     <!-- 等级 -->
                     <div class="flex m4-ten-btn flex-col items-center font-bold  rounded-xl py-3 px-2">
                         <div class=" text-2xl">{{ rechargeAmountRef }}</div>
-                        <div class=" text-[0.78rem]">Depósito (R$)</div>
+                        <div class=" text-[0.78rem]">Depósito ({{ currentUnit.value }})</div>
                     </div>
 
                     <!-- 积分 -->
                     <div class="flex m4-ten-btn flex-col items-center font-bold  rounded-xl py-3 px-2">
                         <div class=" text-2xl">{{ betAmountRef }}</div>
-                        <div class=" text-[0.78rem]">Aposta (R$)</div>
+                        <div class=" text-[0.78rem]">Aposta ({{ currentUnit.value }})</div>
                     </div>
 
                     <!-- 天数 -->
@@ -543,7 +543,7 @@ function closeBuyPass() {
                                 ? PassImg.text_entrar
                                 : PassImg.text_aposta" class="lvImg mx-auto" />
                         <div>
-                            <span class="mt-0.5 text-sm m4-text text-center"> {{ item.cond === 'login' ? 'Dias' : 'R$'
+                            <span class="mt-0.5 text-sm m4-text text-center"> {{ item.cond === 'login' ? 'Dias' :  currentUnit.value 
                                 }} </span>
                             <span class="mt-0.5 ml-1 font-bold text-center"> {{ item.cond_num }}</span>
                         </div>
@@ -562,7 +562,7 @@ function closeBuyPass() {
                             </div>
 
                         </div>
-                        <span class="text-sm z-[99]">R$ </span>
+                        <span class="text-sm z-[99]">{{ currentUnit.value }} </span>
                         <span class="pl-2 font-bold z-[99]">{{ item.bonus }}</span>
                         <div v-if="item.bonus_has_recv && item.bonus_has_recv == 1">
                             <img :src=PassImg.icon_gou class="absolute bottom-2 right-1 w-4 h-4 yes" />
@@ -574,7 +574,7 @@ function closeBuyPass() {
                         <!-- 新增背景层 -->
                         <img :src=PassImg.img_gray v-if="isBuyPassRef == 0"
                             class="h-full  absolute inset-0 ml-[1rem] " />
-                        <span class="text-sm text-themetext0 pl-3">R$ </span>
+                        <span class="text-sm text-themetext0 pl-3">{{ currentUnit.value }} </span>
                         <span class="pl-2 text-themetext0 font-bold">{{ item.bonus_pass }}</span>
                         <div v-if="item.bonus_pass_has_recv && item.bonus_pass_has_recv == 1">
                             <img :src=PassImg.icon_gou class="absolute bottom-2 -right-1 w-4 h-4 yes" />
@@ -625,7 +625,7 @@ function closeBuyPass() {
                 </span>
 
                 <span class="pl-1 pb-1 text-one font-bold text-l flex items-center h-full">
-                    R$ {{ passPriceRef }}
+                    {{ currentUnit.value }} {{ passPriceRef }}
                 </span>
             </button>
         </div>
@@ -649,7 +649,7 @@ function closeBuyPass() {
                     <div class="bg-white/20 mt-6 rounded-lg p-2 items-center justify-center flex  w-full">
                         <!-- 背景色#241b61，高度h-16，宽度w-32 -->
                         <div class="text-white text-3xl font-bold"> <!-- 文字颜色#fff000，描边#622101 -->
-                            R$ <span class="text-themetext0">{{ passPriceRef }}</span>
+                            {{ currentUnit.value }} <span class="text-themetext0">{{ passPriceRef }}</span>
                         </div>
                     </div>
 
@@ -699,13 +699,13 @@ function closeBuyPass() {
                     <!-- 等级 -->
                     <div class="flex flex-col items-center justify-center bg-gradient-to-b from-themecardlinear1 to-themecardlinear2 rounded-xl w-[6rem] h-[3.5rem]">
                         <div class="text-themewhite text-xl font-bold">{{ rechargeAmountRef }}</div>
-                        <div class="text-themewhite text-[0.625rem] ">Depósito (R$)</div>
+                        <div class="text-themewhite text-[0.625rem] ">Depósito ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 积分 -->
                     <div class="flex flex-col items-center justify-center bg-gradient-to-b from-themecardlinear1 to-themecardlinear2 rounded-xl w-[6rem] h-[3.5rem]">
                         <div class="text-themewhite text-xl font-bold">{{ betAmountRef }}</div>
-                        <div class="text-themewhite text-[0.625rem] ">Aposta (R$)</div>
+                        <div class="text-themewhite text-[0.625rem] ">Aposta ({{ currentUnit.value }})</div>
                     </div>
                     
                     <!-- 天数 -->
@@ -749,30 +749,30 @@ function closeBuyPass() {
                         class="lvImg mx-auto"
                     />
                     <div>
-                        <span class="mt-0.5 text-[0.7rem] text-themewhite text-center "> {{ item.cond === 'login' ? 'Dias' : 'R$' }} </span>
+                        <span class="mt-0.5 text-[0.7rem] text-themewhite text-center "> {{ item.cond === 'login' ? 'Dias' :  currentUnit.value  }} </span>
                         <span class="mt-0.5 ml-1 text-sm text-center"> {{ item.cond_num }}</span>
                     </div>
                 </div>
 
                 <!-- 中间部分 -->
-                    <div class="flex items-center justify-center w-[7.5rem] h-[3.75rem] relative">
+                <div class="flex items-center justify-center w-[7.5rem] h-[3.75rem] relative">
 
-                        <div v-if="item.bonus_recv && item.bonus_recv == 1 && item.bonus_has_recv != 1 && item.bonus_pass_recv != 1"
-                            class="h-[3.75rem] w-[7.4rem] absolute inset-0 -left-[0.2rem] top-[0.1rem] z-0">
-                            <!-- 图片容器 -->
-                            <div class="image-container">
-                                <img :src=PassImg.img_choose alt="扫光背景图">
-                                <!-- 扫光效果 -->
-                                <div class="light-effect"></div>
-                            </div>
+                    <div v-if="item.bonus_recv && item.bonus_recv == 1 && item.bonus_has_recv != 1 && item.bonus_pass_recv != 1"
+                        class="h-[3.75rem] w-[7.4rem] absolute inset-0 -left-[0.2rem] top-[0.1rem] z-0">
+                        <!-- 图片容器 -->
+                        <div class="image-container">
+                            <img :src=PassImg.img_choose alt="扫光背景图">
+                            <!-- 扫光效果 -->
+                            <div class="light-effect"></div>
+                        </div>
 
-                        </div>
-                        <span class="text-sm z-10">R$ </span>
-                        <span class="pl-2 font-bold z-10">{{ item.bonus }}</span>
-                        <div v-if="item.bonus_has_recv && item.bonus_has_recv == 1">
-                            <img :src=PassImg.icon_gou class="absolute bottom-2 right-1 w-4 h-4 yes" />
-                        </div>
                     </div>
+                    <span class="text-sm z-10">{{ currentUnit.value }} </span>
+                    <span class="pl-2 font-bold z-10">{{ item.bonus }}</span>
+                    <div v-if="item.bonus_has_recv && item.bonus_has_recv == 1">
+                        <img :src=PassImg.icon_gou class="absolute bottom-2 right-1 w-4 h-4 yes" />
+                    </div>
+                </div>
 
                 <!-- 后面的部分 -->
                 <div class="flex items-center justify-center text-themetext0 w-[7.5rem] h-[3.9rem] relative">
@@ -782,7 +782,7 @@ function closeBuyPass() {
                             :src=PassImg.img_gray
                         />
                     </div> -->
-                    <span class="text-[0.7rem] pl-3 text-one">R$ </span>
+                    <span class="text-[0.7rem] pl-3 text-one">{{ currentUnit.value }} </span>
                     <span class="pl-2 text-one" >{{ item.bonus_pass }}</span>
                     <div v-if="item.bonus_pass_has_recv && item.bonus_pass_has_recv == 1">
                         <img 
@@ -841,7 +841,7 @@ function closeBuyPass() {
                 </span>
 
                 <span class="pl-1 pb-1 text-four font-bold text-m flex items-center h-full">
-                     R$ {{ passPriceRef }}
+                     {{ currentUnit.value }} {{ passPriceRef }}
                 </span>  -->
             </button>
         </div>
@@ -865,7 +865,7 @@ function closeBuyPass() {
                     <div class=" flex flex-col items-center text-center px-10 mt-2">
                         <div class="bg-rgbablack50 rounded-lg items-center justify-center flex h-[3rem] w-[8rem] mb-2"> <!-- 背景色#241b61，高度h-16，宽度w-32 -->
                             <div class="text-themewhite text-l font-bold" style="-webkit-text-stroke: 0.5px #0a2400;"> <!-- 文字颜色#fff000，描边#622101 -->
-                                R$  <span class="font-bold text-four text-2xl text-themetext0"> {{ passPriceRef }}</span>
+                                {{ currentUnit.value }}  <span class="font-bold text-four text-2xl text-themetext0"> {{ passPriceRef }}</span>
                             </div>
                         </div>
 

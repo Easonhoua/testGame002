@@ -16,7 +16,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
 import { useThemeImages } from '@/utils/themeimg'
-
+const currentUnit = import.meta.env.VITE_UNIT || 'R$'
 const CommonImg = useThemeImages().common 
 
 // 游戏名称及权重配置
@@ -168,11 +168,11 @@ function genNotices() {
       if (amount >= 1000) {
         amount = Math.round(amount / 10) * 10 // 确保是10的整数倍
       }
-      arr.push(`${phone} acabou de extrair ${amount} R$`)
+      arr.push(`${phone} acabou de extrair ${amount} ${ currentUnit }`)
     } else {
       // 生成中奖消息 必须是10的整数倍
       var amount = Math.floor(Math.random() * ((10000 - 100) / 10 + 1)) * 10 + 100
-      arr.push(`${phone} acaba de ganhar ${amount} R$ em ${game}`)
+      arr.push(`${phone} acaba de ganhar ${amount} ${ currentUnit } em ${game}`)
     }
   }
   return arr

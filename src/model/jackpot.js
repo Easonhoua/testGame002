@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { $get, $post } from '@/request'
-
+import { t } from '@/i18n'
 // Jackpot排行榜数据模型
 export function useJackpotModel() {
 
@@ -51,9 +51,9 @@ export function useJackpotModel() {
 
   // 转盘类型配置
   const rankTypes = [
-    { key: 'dayRank', jpkey: 'dayJackpot', mkey: 'memberDayInfo', name: 'DIA' },
-    { key: 'weekRank', jpkey: 'weekJackpot', mkey: 'memberWeekRank', name: 'SEM' },
-    { key: 'monthRank', jpkey: 'monthJackpot', mkey: 'memberMonthRank', name: 'Mês' }
+    { key: 'dayRank', jpkey: 'dayJackpot', mkey: 'memberDayInfo', name: t('DAY') },
+    { key: 'weekRank', jpkey: 'weekJackpot', mkey: 'memberWeekRank', name: t('SEM') },
+    { key: 'monthRank', jpkey: 'monthJackpot', mkey: 'memberMonthRank', name: t('userCenter.Month') }
   ]
 
   // 计算并缓存结束时间

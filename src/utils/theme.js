@@ -3,6 +3,7 @@
  * 根据域名自动切换不同的主题颜色和图片
  */
 import { useTemplate } from '@/utils/template'
+import { applyThemeTokens } from '@/theme/tokens'
 const { currentTemplate } = useTemplate()
 // 主题配置映射表
 const themeConfig = {
@@ -756,7 +757,7 @@ const themeConfig = {
         faqcolor1: ' #07793a',
         faqcolor2: ' #2bb05d',
         btncolor: ' #f8fe01',
-        card1: ' #79db74 ',
+        card1: ' #79db74',
         card2: ' #2e9c6f',
         pwa: ' #01875f',
         two: ' #FF0000',
@@ -1218,6 +1219,114 @@ const themeConfig = {
       },
       images: {
         folder: 'gold',
+      }
+    },
+    // 黑金主题(菲律宾)
+    'goldPhilip': {
+      name: 'goldPhilip',
+      colors: {
+        themewhite: '#ffffff',
+        themeblack: '#000000',
+        rgbawhite10: 'rgba(255,255,255,0.1)',
+        rgbawhite30: 'rgba(255,255,255,0.3)',
+        rgbawhite50: 'rgba(255,255,255,0.5)',
+        rgbawhite80: 'rgba(255,255,255,0.8)',
+        rgbablack15: 'rgba(0,0,0,0.15)',
+        rgbablack30: 'rgba(0,0,0,0.3)',
+        rgbablack50: 'rgba(0,0,0,0.5)',
+        rgbablack80: 'rgba(0,0,0,0.8)',
+        //字体颜色
+        themetext0: ' #fff000',
+        themetext1: ' #fffbb8',
+        themetext2: ' #8f7945',
+        themetext3: ' #645432',
+        themetext4: ' #281b12',
+        //背景
+        defaultBg: '#1e0f00',
+        tablebg: '#1e0f00',
+        defaultborder: '#644c33',
+        theme: '#644c33',
+
+        bodyBg: '#251406',
+        searchbg: '#251406',
+        // searchborder:' #8e560c',
+
+        //表格背景
+        tablergba: '#8D7444',
+        tablergba40: 'rgba(141,116,68,0.4)',
+        tablergba20: 'rgba(141,116,68,0.2)',
+        tablergba10: 'rgba(141,116,68,0.1)',
+
+        //登录按钮 色卡10
+        loginlinear3: ' #4d3d35',
+        loginlinear4: ' #2a2017',
+        border1: ' #f2cc8a',
+
+        //其他按钮
+        // allbtn:' #804227',
+        minecardbg: 'rgba(141,116,68,0.2)',
+
+        btnlinar3: ' #ca9134 ',
+        btnlinar4: ' #ffe67b ',
+
+        downloadlinear1: ' #ca9134',
+        downloadlinear2: ' #ffe67b',
+
+        downloadlinear3: ' #f70fff',
+        downloadlinear4: ' #fd9e22',
+
+        btnlinar1: ' #ca9134 ',
+        btnlinar2: ' #ffe67b ',
+        //卡色13
+        richlinar1: ' #f8fe01',
+        richlinar2: ' #f8fe01',
+
+        mysteriousgoldlinear1: ' #f8fe01',
+        mysteriousgoldlinear2: ' #f8fe01',
+        gold100: ' #f8fe01',
+        gold500: ' #f8fe01',
+        //卡色 14
+        mysteriousgoldlinear5: ' #ECD3AE',
+        mysteriousgoldlinear6: ' #D1A277',
+        minelinear1: ' #a28036',
+        minelinear2: ' #6b5022',
+
+        nine: ' #655635',
+        homeranktext: ' #663409',
+        //卡色 15
+        themecardlinear1: ' #a28036 ',
+        themecardlinear2: ' #6b5022 ',
+        //卡色 14 
+        morelinear1: ' #a28036',
+        morelinear2: ' #6b5022',
+
+        faqcolor1: ' #6b5022',
+        faqcolor2: ' #a28036',
+        faqcolor3: 'rgba(141,116,68,0.4)',
+        faqcolor4: ' #a28036',
+
+        btncolor: ' #d9ff00',
+        //卡色 15
+        card1: ' #a28036',
+        card2: ' #6b5022',
+
+        pwa: ' #01875f',
+        //红点
+        two: ' #FF0000',
+
+        vanprimary: ' #251406',
+        vanplabg: ' rgba(255,255,255,0.15) ',
+        vanlodingicon: 'rgba(255,255,255,0.25) ',
+        vanerricon: 'rgba(255,255,255,0.25) ',
+        vantabfontsize: ' inherit ',
+        vantabnavbg: 'transparent ',
+        vantabtext: 'inherit',
+        vantabactive: ' #251406',
+        vantabbottombar: ' #251406'
+
+      },
+      images: {
+        folder: 'goldPhilip',
       }
     },
 
@@ -1775,6 +1884,8 @@ const themeConfig = {
         rgbablack30: 'rgba(0,0,0,0.3)',
         rgbablack50: 'rgba(0,0,0,0.5)',
         rgbablack80: 'rgba(0,0,0,0.8)',
+        m4tentext:'#ffffff',
+        m4ninetext:'#ffffff',
         theme: '#10121d',
         //字体颜色
         themetext0: ' #ffd100',
@@ -1791,6 +1902,10 @@ const themeConfig = {
         inputborder: '#258cff',
 
 
+        logininputcolor1: '#0a0b12',
+        logininputborder: '#242b42',
+        loginBtncolor: '#183b5f',
+        loginBg: '#141825',
 
         bodyBg: ' #10121d',
         defaultBg: ' #10121d',
@@ -1841,50 +1956,125 @@ const themeConfig = {
         folder: 'deepblue',
       }
     },
+     'blackgold': {
+      name: 'blackgold',
+      colors: {
+        themewhite: '#ffffff',
+        themeblack: '#000000',
+        rgbawhite10: 'rgba(255,255,255,0.1)',
+        rgbawhite30: 'rgba(255,255,255,0.3)',
+        rgbawhite50: 'rgba(255,255,255,0.5)',
+        rgbawhite80: 'rgba(255,255,255,0.8)',
+        rgbablack15: 'rgba(0,0,0,0.15)',
+        rgbablack30: 'rgba(0,0,0,0.3)',
+        rgbablack50: 'rgba(0,0,0,0.5)',
+        rgbablack80: 'rgba(0,0,0,0.8)',
+        m4tentext:'#1d1507',
+        m4ninetext:'#1d1507',
+        theme: '#1d1507',
+        //字体颜色
+        themetext0: ' #ffd100',
+        themetext1: ' #e6d18a',
+        themetext2: ' #f9df94',
+        themetext3: ' #cdaf95',
+        themetext4: ' #b9b4a5',
+
+        btncolor: ' #1d1507',
+
+        //0b1127-102e53输入框/内容框边258cff
+        inputcolor1: '#271b0f',
+        inputcolor2: '#a5763d',
+        inputborder: '#d7bc76',
+
+
+
+        bodyBg: ' #1d1507',
+        defaultBg: ' #1d1507',
+
+        tablebg1: '#6f4e29',
+        tablebg2: '#553c20',
+        
+        //内容底
+        btn1_bg: '#3c3735',
+        btn_border:'#4f433f',
+
+        //登录按钮 色卡247ee3-eb4487
+        gold100: ' #faf46e',
+        gold500: ' #f5ae56',
+
+        //按钮2
+        themecardlinear1: ' #edd594',
+        themecardlinear2: ' #fffdd4',
+
+        //二级底
+        btnlinar3: ' #594009',
+        btnlinar4: ' #a27028',
+
+
+         //三级窗/底框
+        thirsmodel1:'#2c2015',
+        thirsmodel2:'#5b3d16',
+        thirsmodelboder: '#d7bc76',
+
+        //横条&活动奖励
+        activitymodel1: '#1e150c',
+        activitymodel2: '#5b3d16',
+        texterror:' #ff0000',
+        homeranktext: ' #1c0308',
+        pwa: ' #01875f',
+        two: ' #FF0000',
+        vanprimary: ' #1d1507',
+        vanplabg: ' rgba(255,255,255,0.15) ',
+        vanlodingicon: 'rgba(36, 33, 33, 0.25) ',
+        vanerricon: 'rgba(255,255,255,0.25) ',
+        vantabfontsize: ' inherit ',
+        vantabnavbg: 'transparent ',
+        vantabtext: 'inherit',
+        vantabactive: ' #1d1507',
+        vantabbottombar: ' #1d1507 ',
+      },
+      images: {
+        folder: 'blackgold',
+      }
+    },
   },
+}
+
+const DEFAULT_TEMPLATE = 'template_one'
+const THEME_STORAGE_KEY = 'current-theme'
+
+const getTemplateThemeNames = (templateThemes) => {
+  return Object.keys(templateThemes || {}).filter((key) => key !== 'name')
+}
+
+export function resolveThemeConfig(templateName = import.meta.env.VITE_TEMPLATE, themeName = import.meta.env.VITE_THEME) {
+  const resolvedTemplateName = themeConfig[templateName] ? templateName : DEFAULT_TEMPLATE
+  const templateThemes = themeConfig[resolvedTemplateName]
+  const availableThemeNames = getTemplateThemeNames(templateThemes)
+  const resolvedThemeName = availableThemeNames.includes(themeName) ? themeName : availableThemeNames[0]
+
+  return {
+    templateName: resolvedTemplateName,
+    themeName: resolvedThemeName,
+    theme: templateThemes[resolvedThemeName],
+    availableThemeNames,
+  }
 }
 
 /**
  * 获取当前域名对应的主题配置
  */
 export function getCurrentTheme() {
-
-  if(window.themecolor == null){
-    let currentTheme = import.meta.env.VITE_THEME || themeConfig.default
-    const templateselection = import.meta.env.VITE_TEMPLATE
-    const color = localStorage.getItem('current-theme')
-    if(color){
-      currentTheme = color
-    }
-     // 添加安全检查
-    //  if (!themeConfig[templateselection]) {
-    //   console.error(`模板 "${templateselection}" 未在主题配置中找到`)
-    //   templateselection = 'template_one' // fallback 到默认模板
-    // }
-    
-    // if (!themeConfig[templateselection][currentTheme]) {
-    //   console.error(`主题 "${currentTheme}" 在模板 "${templateselection}" 下未找到`)
-    //   currentTheme = Object.keys(themeConfig[templateselection])[0] // 使用第一个可用主题
-    // }
-
-
-    // 返回默认主题
-    window.themecolor = themeConfig[templateselection][currentTheme]
+  if (window.themecolor == null) {
+    const templateName = import.meta.env.VITE_TEMPLATE || DEFAULT_TEMPLATE
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY)
+    const envTheme = import.meta.env.VITE_THEME
+    const { theme } = resolveThemeConfig(templateName, storedTheme || envTheme)
+    window.themecolor = theme
   }
+
   return window.themecolor
-  
-  // let currentTheme = import.meta.env.VITE_THEME || themeConfig.default
-  // const templateselection = import.meta.env.VITE_TEMPLATE
-
-  // const color = localStorage.getItem('theme_color')
-  // if(window.VCONSOLE_READY && color){
-  //   currentTheme = color
-  // }
-  // 返回默认主题
-  // return themeConfig[templateselection][currentTheme]
-
 }
-const originalApplyTheme = applyTheme;
 
 /**
  * 应用主题到页面
@@ -1892,142 +2082,15 @@ const originalApplyTheme = applyTheme;
 export function applyTheme(theme) {
   const root = document.documentElement
   const colors = theme.colors
-  //  // 调用原始 applyTheme 函数
-  // originalApplyTheme(theme);
-  // 更新 meta 标签
-  updateThemeColorMeta(theme);
-  // 设置所有 CSS 变量
-  root.style.setProperty('--color-themewhite', colors.themewhite)
-  root.style.setProperty('--color-themeblack', colors.themeblack)
-  root.style.setProperty('--color-rgbawhite10', colors.rgbawhite10)
-  root.style.setProperty('--color-rgbawhite50', colors.rgbawhite50)
-  root.style.setProperty('--color-rgbawhite30', colors.rgbawhite30)
-  root.style.setProperty('--color-rgbawhite80', colors.rgbawhite80)
-  root.style.setProperty('--color-rgbablack15', colors.rgbablack15)
-  root.style.setProperty('--color-rgbablack30', colors.rgbablack30)
-  root.style.setProperty('--color-rgbablack50', colors.rgbablack50)
-  root.style.setProperty('--color-rgbablack80', colors.rgbablack80)
-  root.style.setProperty('--color-theme', colors.theme)
-  root.style.setProperty('--color-theme-light', colors.themeLight)
-  root.style.setProperty('--color-themetext', colors.textcolorone)
-  root.style.setProperty('--color-one', colors.textcolorthree)
-  root.style.setProperty('--color-two', colors.two)
-  root.style.setProperty('--color-three', colors.three)
-  root.style.setProperty('--color-four', colors.textcolortwo)
-  root.style.setProperty('--color-textcolorsix', colors.textcolorsix)
-  root.style.setProperty('--color-nine', colors.nine)
-  root.style.setProperty('--color-border1', colors.border1)
-  root.style.setProperty('--color-tablebg', colors.tablebg)
-  root.style.setProperty('--color-tablergba', colors.tablergba)
-  root.style.setProperty('--color-tablergba40', colors.tablergba40)
-  root.style.setProperty('--color-tablergba20', colors.tablergba20)
-  root.style.setProperty('--color-tablergba10', colors.tablergba10)
-  root.style.setProperty('--color-gold-100', colors.gold100)
-  root.style.setProperty('--color-gold-500', colors.gold500)
-  root.style.setProperty('--color-header-bg', colors.headerBg)
-  root.style.setProperty('--color-aside-bg', colors.asideBg)
-  root.style.setProperty('--color-body-bg', colors.bodyBg)
-  root.style.setProperty('--color-default-bg', colors.defaultBg)
-  root.style.setProperty('--color-drawer-text', colors.redsmallbg)
-  root.style.setProperty('--color-loginlinear-3', colors.loginlinear3)
-  root.style.setProperty('--color-loginlinear-4', colors.loginlinear4)
-  root.style.setProperty('--color-themecardlinear1', colors.themecardlinear1)
-  root.style.setProperty('--color-themecardlinear2', colors.themecardlinear2)
-  root.style.setProperty('--color-linear-9', colors.redbglinear1)
-  root.style.setProperty('--color-linear-10', colors.redbglinear2)
-  root.style.setProperty('--color-linear-11', colors.weeklinear1)
-  root.style.setProperty('--color-linear-12', colors.weeklinear2)
-  root.style.setProperty('--color-linear-18', colors.mysteriousgoldlinear1)
-  root.style.setProperty('--color-linear-19', colors.mysteriousgoldlinear2)
-  root.style.setProperty('--color-linear-22', colors.mysteriousgoldlinear5)
-  root.style.setProperty('--color-linear-23', colors.mysteriousgoldlinear6)
-  root.style.setProperty('--color-text-1', colors.text1)
-  root.style.setProperty('--color-pwa', colors.pwa)
-  root.style.setProperty('--color-homeranktext', colors.homeranktext)
-  root.style.setProperty('--color-searchbg', colors.searchbg)
-  root.style.setProperty('--color-searchborder', colors.searchborder)
-  root.style.setProperty('--color-faqcolor1', colors.faqcolor1)
-  root.style.setProperty('--color-faqcolor2', colors.faqcolor2)
-  root.style.setProperty('--color-faqcolor3', colors.faqcolor3)
-  root.style.setProperty('--color-faqcolor4', colors.faqcolor4)
-  root.style.setProperty('--van-primary-color', colors.vanprimary)
-  root.style.setProperty('--van-image-placeholder-background', colors.vanplabg)
-  root.style.setProperty('--van-image-loading-icon-color', colors.vanlodingicon)
-  root.style.setProperty('--van-image-error-icon-color', colors.vanerricon)
-  root.style.setProperty('--van-tab-font-size', colors.vantabfontsize)
-  root.style.setProperty('--van-tabs-nav-background', colors.vantabnavbg)
-  root.style.setProperty('--van-tab-text-color', colors.vantabtext)
-  root.style.setProperty('--van-tab-active-text-color', colors.vantabactive)
-  root.style.setProperty('--van-tabs-bottom-bar-color', colors.vantabbottombar)
-  root.style.setProperty('--color-btnlinar1', colors.btnlinar1)
-  root.style.setProperty('--color-btnlinar2', colors.btnlinar2)
-  root.style.setProperty('--color-btnlinar3', colors.btnlinar3)
-  root.style.setProperty('--color-btnlinar4', colors.btnlinar4)
-  // 模板二新加
-  root.style.setProperty('--color-noticelinear1', colors.noticelinear1)
-  root.style.setProperty('--color-noticelinear2', colors.noticelinear2)
-  root.style.setProperty('--color-downloadlinear1', colors.downloadlinear1)
-  root.style.setProperty('--color-downloadlinear2', colors.downloadlinear2)
-  root.style.setProperty('--color-downloadlinear3', colors.downloadlinear3)
-  root.style.setProperty('--color-downloadlinear4', colors.downloadlinear4)
-  root.style.setProperty('--color-minecardbg', colors.minecardbg)
-  root.style.setProperty('--color-richlinar1', colors.richlinar1)
-  root.style.setProperty('--color-richlinar2', colors.richlinar2)
-  root.style.setProperty('--color-minelinear1', colors.minelinear1)
-  root.style.setProperty('--color-minelinear2', colors.minelinear2)
-  root.style.setProperty('--color-defaultborder', colors.defaultborder)
-  root.style.setProperty('--color-morelinear1', colors.morelinear1)
-  root.style.setProperty('--color-morelinear2', colors.morelinear2)
-  root.style.setProperty('--color-btncolor', colors.btncolor)
-  root.style.setProperty('--color-card1', colors.card1)
-  root.style.setProperty('--color-card2', colors.card2)
-  root.style.setProperty('--color-allbtn', colors.allbtn)
-  root.style.setProperty('--color-six', colors.six)
-  root.style.setProperty('--color-cardbg', colors.cardbg)
-  root.style.setProperty('--color-mysteriousgoldtext', colors.mysteriousgoldtext)
-  root.style.setProperty('--color-redpacktext', colors.redpacktext)
-  root.style.setProperty('--color-pddcardtext', colors.pddcardtext)
-  root.style.setProperty('--color-texterror', colors.texterror)
 
-  
-  //模板三
-  //字体颜色
-  root.style.setProperty('--color-themetext0', colors.themetext0)
-  root.style.setProperty('--color-themetext1', colors.themetext1)
-  root.style.setProperty('--color-themetext2', colors.themetext2)
-  root.style.setProperty('--color-themetext3', colors.themetext3)
-  root.style.setProperty('--color-themetext4', colors.themetext4)
-  //按钮颜色
-// 模板四
-  root.style.setProperty('--color-tablebg2', colors.tablebg2)
-  root.style.setProperty('--color-activitybox1', colors.activitybox1)
-  root.style.setProperty('--color-activitybox2', colors.activitybox2)
-  root.style.setProperty('--color-activityborder1', colors.activityborder1)
-  root.style.setProperty('--color-activityborder2', colors.activityborder2)
-  root.style.setProperty('--color-m4tentext', colors.m4tentext)
-  root.style.setProperty('--color-m4ninetext', colors.m4ninetext)
-
-
-  // 模板五
-  root.style.setProperty('--color-inputcolor1', colors.inputcolor1)
-  root.style.setProperty('--color-inputcolor2', colors.inputcolor2)
-  root.style.setProperty('--color-inputborder', colors.inputborder)
-  root.style.setProperty('--color-tablebg1', colors.tablebg1)
-  root.style.setProperty('--color-tablebg2', colors.tablebg2)
-  root.style.setProperty('--color-btn1_bg', colors.btn1_bg)
-  root.style.setProperty('--color-btn_border', colors.btn_border)
-  root.style.setProperty('--color-thirsmodel1', colors.thirsmodel1)
-  root.style.setProperty('--color-thirsmodel2', colors.thirsmodel2)
-  root.style.setProperty('--color-thirsmodelboder', colors.thirsmodelboder)
-  root.style.setProperty('--color-activitymodel1', colors.activitymodel1)
-  root.style.setProperty('--color-activitymodel2', colors.activitymodel2)
-  
+  updateThemeColorMeta(theme)
+  applyThemeTokens(root, colors)
 
   // 设置主题名称属性，方便调试
   root.setAttribute('data-theme', theme.name)
 
   // 存储当前主题到 localStorage
-  localStorage.setItem('current-theme', theme.name)
+  localStorage.setItem(THEME_STORAGE_KEY, theme.name)
 }
 
 /**
@@ -2069,32 +2132,28 @@ export function getThemeImage(imageName, folder = '') {
 
 /**
  * 切换主题（用于测试或手动切换）
- * @param {string} themeName - 主题名称或域名
+ * @param {string} themeName - 当前模板下的主题名称
  */
 export function switchTheme(themeName) {
-  let theme = themeConfig[themeName]
-  // 如果找不到，尝试通过名称查找
-  if (!theme) {
-    theme = Object.values(themeConfig).find(t => t.name === themeName)
-  }
+  const templateName = import.meta.env.VITE_TEMPLATE || DEFAULT_TEMPLATE
+  const { theme } = resolveThemeConfig(templateName, themeName)
 
-  // 如果还是找不到，使用默认主题
-  if (!theme) {
-    theme = themeConfig.default
-  }
-
+  window.themecolor = theme
   applyTheme(theme)
   return theme
 }
 
 /**
- * 获取所有可用的主题列表
+ * 获取当前模板下所有可用的主题列表
  */
 export function getAvailableThemes() {
-  return Object.entries(themeConfig).map(([key, value]) => ({
-    key,
-    name: value.name,
-    isDefault: key === 'default'
+  const templateName = import.meta.env.VITE_TEMPLATE || DEFAULT_TEMPLATE
+  const { themeName, availableThemeNames } = resolveThemeConfig(templateName, import.meta.env.VITE_THEME)
+
+  return availableThemeNames.map((name) => ({
+    key: name,
+    name,
+    isDefault: name === themeName,
   }))
 }
 export function updateThemeColorMeta(theme) {

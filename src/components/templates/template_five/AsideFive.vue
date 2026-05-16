@@ -3,15 +3,17 @@ import { watch,ref, computed } from 'vue'
 import { fn } from '@/i18n'
 import { isAuthRef, memberLocal } from '@/model/user'
 import { redPakageStateRef} from '@/model/other'
-import { gameLogo, appIcon} from '@/model/pwa'
+import { gameLogo, appIcon,pwaIndexModel} from '@/model/pwa'
 import { useThemeImages } from '@/utils/themeimg'
 import { socialMenuListRef} from '@/model/common'
+import { gameModel } from '@/model/game'
+import { playBtnAudioFunc, isPwaFunc } from '@/utils/core'
 const AsideImg = useThemeImages().aside
 const CommonImg = useThemeImages().common 
 const HomeImg = useThemeImages().home 
 const MineImg = useThemeImages().mine 
 // 获取共用逻辑
-import { useHome } from '@/composables/useHome'
+import { useMine } from '@/composables/useMine'
 import { useAside } from '@/composables/useAside'
 import { t } from '@/i18n.js' 
 const openFirm = ref(false)
@@ -21,7 +23,7 @@ const props = defineProps({
     navList: [Array, Object],
     hashSign: Boolean,
 })
-
+const { getPwaConfigFunc } = pwaIndexModel()
 
 // 每次打开侧边栏时，展开“活动”
 watch(() => props.modelValue, (isOpen) => {
@@ -74,7 +76,64 @@ const {
     gameListRef,
     openGameAll,
 } = useAside(close)
+const { 
+    toWithdrawal,
+} = useMine()
+const { gameDetailFunc } = gameModel()
 
+const sortedGames = computed(() => {
+    const hotCategory = gameListRef.value.find(cat => cat.title && cat.title.toLowerCase() === 'quente')
+    if (hotCategory && hotCategory.games) {
+      return hotCategory.games.slice(0, 5).map((game, eqIdx) => ({ ...game, _catIdx: gameListRef.value.findIndex(cat => cat.title && cat.title.toLowerCase() === 'quente'), _eqIdx: eqIdx }))
+    }
+    return []
+
+})
+
+const hotGameNumber = computed(() => {
+  const hotCategory = gameListRef.value.find(cat => cat.title && cat.title.toLowerCase() === 'quente')
+  return hotCategory && hotCategory.games ? hotCategory.games.length : 0
+})
+
+const filteredGames = computed(() => {
+  if (!searchQuery.value) return []
+  const allGames = []
+  const seenThirdPartyIds = new Set()
+  gameListRef.value.forEach((category, catIdx) => {
+    if (category.games) {
+      const seenTitlesInCategory = new Set() // 每个分类独立的 Set
+      category.games.forEach((game, eqIdx) => {
+        const titleLower = game.title.toLowerCase()
+        const thirdPartyId = game.third_party_game_id
+        // 如果当前分类中标题还没出现过，才添加到结果中
+        if (!seenTitlesInCategory.has(titleLower)&& !seenThirdPartyIds.has(thirdPartyId)) {
+          seenTitlesInCategory.add(titleLower)
+          seenThirdPartyIds.add(thirdPartyId)
+          allGames.push({ ...game, _catIdx: catIdx, _eqIdx: eqIdx })
+        }
+      })
+    }
+  })
+
+  return allGames.filter(game =>
+    game.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+const toGame = async (game) => {
+  playBtnAudioFunc()
+  if (!isPwaFunc()) {
+    await getPwaConfigFunc().then(isShow => {
+      if (isShow !== true) {
+        gameDetailFunc(game.id)
+        close()
+      }
+    })
+  } else {
+    gameDetailFunc(game.id)
+    close()
+  }
+}
 
 
 
@@ -151,7 +210,7 @@ const {
                             </ol>
                             <div v-if="isAuthRef">
                                 <div class=" w-full rounded-lg  m5-theme-input text-center my-2 py-1 font-bold">
-                                    <span class="text-[1rem] text-themetext0 ">R$ {{
+                                    <span class="text-[1rem] text-themetext0 ">{{ currentUnit.value }} {{
                                         fn(memberLocal.account && memberLocal.account.user_money || 0) }}</span>
                                 </div>
                                 <dl class="w-full h-8 text-xs flex mt-1 mb-1 gap-4">
@@ -163,7 +222,7 @@ const {
                                         </router-link>
                                     </dd>
                                     <dd class="w-1/2 pl-1.5 bg-gradient-to-b from-inputcolor1 to-inputcolor2 rounded-lg">
-                                        <router-link to="/withdrawal" @click="onclickNoNav()"
+                                        <router-link to="/withdrawal" @click="toWithdrawal()"
                                             class="w-full h-full rounded-[1rem] text-center  flex items-center justify-center">
                                             <img :src="MineImg.icon_saque" class="w-5 h-5 mr-1 shrink-0" />
                                             <span>Saque</span>
@@ -174,6 +233,37 @@ const {
                             </div>
                         </div>
                         
+                        <!-- 热门游戏 -->
+                         <div class="mx-2 mb-1 p-2 pb-1"
+                                :style="{ backgroundImage: `url(${AsideImg.img_hotgame_bg})`,
+                                    backgroundSize: 'contain',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat'
+                                 }">
+
+                                <div class="w-full flex items-center ">
+                                    <img :src="AsideImg.icon_hotfire" class="w-6 h-8" />
+                                    <div class="flex flex-col  ml-2  text-themewhite">
+                                        <span class="font-bold">Popular</span>
+                                        <span class="text-xs text-themetext3">Seleção de jogos ({{ hotGameNumber }})</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-1">
+                                <div v-for="game in sortedGames" :key="game.id" class="w-[30%]  pt-1 pb-1"
+                                    @click="toGame(game)"
+                                >
+                                <div class="relative">
+                                    <van-image
+                                    :src="game.cover"
+                                    class="w-full aspect-[3/4] rounded-lg overflow-hidden"
+                                    lazy-load
+                                    fit="cover"
+                                    />
+                                </div>
+                                </div>
+                                </div>
+                        </div>        
+
                         <!-- <div class="px-4"> -->
                             <!-- 厂商 -->
                             <div class="  mx-2 px-3 py-2 mt-1 flex flex-between items-center unified-button "

@@ -51,7 +51,7 @@ function close() {
         <div class="max-w-full relative overflow-hidden rounded-2xl bg-cover bg-center min-h-[500px]" :class="isIphoneSE()? 'mt-10' : ''"  
             :style="{backgroundImage: `url(${PddImg.img_tanchuang})`}">
 
-            <p class="mt-2 text-2xs text-center"><span>Receba R$ 100 de graça</span></p>
+            <p class="mt-2 text-2xs text-center"><span>Receba {{ currentUnit.value }} {{  needBonusRef }} de graça</span></p>
             <a href="javascript:;" @click="close()" class="w-10 h-10 absolute right-2 top-1 flex items-center justify-center">
                 <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 10.5858L9.17157 7.75736L7.75736 9.17157L10.5858 12L7.75736 14.8284L9.17157 16.2426L12 13.4142L14.8284 16.2426L16.2426 14.8284L13.4142 12L16.2426 9.17157L14.8284 7.75736L12 10.5858Z"></path>
@@ -64,7 +64,7 @@ function close() {
                     <div class="w-full h-10 pt-5 flex items-center justify-center">
                         <div class="flex items-center">
                             <img :src=CommonImg.img_money class="w-9 h-8 mr-2">
-                            <b class="text-sm opacity-45">R$&nbsp;</b>
+                            <b class="text-sm opacity-45">{{ currentUnit.value }}&nbsp;</b>
                         </div>
                        
                         <b class="text-3xl text-themetext"> {{ totalBonusRef}}</b>  
@@ -103,7 +103,7 @@ function close() {
                                     <span class="opacity-45">Acabou de sacar</span>
                                     <div class="flex items-center">
                                         <em class="w-4 h-4 bg-body-bg text-themewhite rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-one">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -121,7 +121,7 @@ function close() {
             <em class="w-full h-full bg-black/25 bg-blur absolute left-0 top-0 block"></em>
             <div class="max-w-full relative overflow-hidden rounded-2xl bg-cover bg-center min-h-[300px] overflow-y-auto" :class="isIphoneSE()? 'mt-10' : ''" >
                 <div class="flex items-center justify-between bg-gradient-to-r from-themecardlinear2 to-themecardlinear1  h-[5rem]">
-                    <p class=" text-2xs text-center flex-1 ml-10 -mt-6"><span>Receba R$ 100 de graça</span></p>
+                    <p class=" text-2xs text-center flex-1 ml-10 -mt-6"><span>Receba {{ currentUnit.value }} {{ needBonusRef }} de graça</span></p>
                     <a href="javascript:;" @click="close()" class="w-10 h-10 -mt-6  flex items-center justify-center">
                         <img :src=CommonImg.btn_close class="w-4 h-4">
                     </a>
@@ -134,7 +134,7 @@ function close() {
                         <div class="w-full h-10 pt-5 flex items-center justify-center">
                             <div class="flex items-center">
                                 <img :src="CommonImg.img_money" class="w-9 h-8 mr-2">
-                                <b class="text-sm opacity-45">R$&nbsp;</b>
+                                <b class="text-sm opacity-45">{{ currentUnit.value }}&nbsp;</b>
                             </div>
                         
                             <b class="text-3xl text-four"> {{ totalBonusRef}}</b>  
@@ -173,7 +173,7 @@ function close() {
                                         <span class="opacity-45">Acabou de sacar</span>
                                         <div class="flex items-center">
                                             <em class="w-4 h-4 ctx-box-bg6  text-four  rounded-full not-italic flex items-center justify-center">
-                                                <span class="text-[0.625rem]">R$</span>
+                                                <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                             </em>
                                             <span class="text-four">&nbsp;{{ item.bonus }}</span>
                                         </div>
@@ -191,7 +191,7 @@ function close() {
             <em class="w-full h-full bg-black/25 bg-blur absolute left-0 top-0 block"></em>
             <div class="max-w-full relative overflow-hidden rounded-2xl bg-cover bg-center min-h-[300px] overflow-y-auto" :class="isIphoneSE()? 'mt-10' : ''" >
                 <div class="flex items-center justify-between m3-theme-bg1  h-[5rem]">
-                    <p class=" text-2xs text-center flex-1 ml-10 -mt-6 text-themetext1"><span>Receba R$ 100 de graça</span></p>
+                    <p class=" text-2xs text-center flex-1 ml-10 -mt-6 text-themetext1"><span>{{ t('pageTitle.Receive') + ' '+   currentUnit.value +' ' + needBonusRef + ' '+ t('pageTitle.forfree') }}</span></p>
                     <a href="javascript:;" @click="close()" class="w-10 h-10 -mt-6  flex items-center justify-center">
                         <img :src=CommonImg.btn_close class="w-4 h-4">
                     </a>
@@ -199,12 +199,12 @@ function close() {
             
                 <pu-card theme="3" class="bg-gradient-to-b from-card1 to-card2 rounded-3xl -mt-7">
                     <section class="w-full relative p-2">
-                        <p class="mt-2 text-xs text-center"><span>SAQUE RÁPIDO</span></p>
-                        <p class="mt-2 text-xs text-center"><span>Parabéns pela sua boa sorte, você ganhou</span></p>
+                        <p class="mt-2 text-xs text-center"><span>{{ t("activityCenter.QUICKSERVE") }}</span></p>
+                        <p class="mt-2 text-xs text-center"><span>{{ t("activityCenter.wonDetail") }}</span></p>
                         <div class="w-full h-10 pt-5 flex items-center justify-center">
                             <div class="flex items-center">
                                 <img :src="CommonImg.img_money" class="w-9 h-8 mr-2">
-                                <b class="text-sm opacity-45 text-themetext0">R$&nbsp;</b>
+                                <b class="text-sm opacity-45 text-themetext0">{{ currentUnit.value }}&nbsp;</b>
                             </div>
                         
                             <b class="text-3xl text-themetext0"> {{ totalBonusRef}}</b>  
@@ -216,16 +216,16 @@ function close() {
                                 </em>
                             </div>
                             <p class="mt-2 text-xs text-center">
-                                <span>Ainda é necessário&nbsp;</span>
+                                <span>{{ t('activityCenter.necessary') }}&nbsp;</span>
                                 <b class="text-themetext0">{{ Number(needBonusRef-totalBonusRef).toFixed(2)<0?'0':Number(needBonusRef-totalBonusRef).toFixed(2) }}</b>
-                                <span>&nbsp;para realizar do saque</span>
+                                <span>&nbsp;{{ t('activityCenter.makewithdrawal') }}</span>
                             </p>
                         </div>
                         <!-- @click="close()" -->
                         <div class="w-full pt-5 flex justify-center relative z-20">
                             <button @click="openshare()" class="relative w-full h-10 px-4 !text-sm rounded-full m3-theme-btn1  capitalize ">
                                 <!-- <span>Entrar</span> -->
-                                <span>Reivindique mais para sacar</span>
+                                <span>{{ t("activityCenter.Claimmore") }}</span>
                                 <img
                                     :src="CommonImg.gif_finger"
                                     class="absolute left-[70%] top-10 w-[6rem] h-[6rem] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -240,10 +240,10 @@ function close() {
                                 <template v-for="item,index in [...reportListRef, ...reportListRef]" :key="index">
                                     <li class="w-full h-8 px-4 flex items-center justify-between">
                                         <span class="">{{item.mobile}}</span>
-                                        <span class="">Acabou de sacar</span>
+                                        <span class="">{{ t('activityCenter.Hejustwithdrew') }}</span>
                                         <div class="flex items-center">
                                             <em class="w-4 h-4 ctx-box-bg6  text-themetext0  rounded-full not-italic flex items-center justify-center">
-                                                <span class="text-[0.625rem]">R$</span>
+                                                <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                             </em>
                                             <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                         </div>
@@ -261,7 +261,7 @@ function close() {
         <em class="w-full h-full bg-black/25 bg-blur absolute left-0 top-0 block"></em>
         <div class="max-w-full relative overflow-hidden rounded-2xl bg-cover m4-popcard-3 min-h-[300px] overflow-y-auto" :class="isIphoneSE()? 'mt-10' : ''" >
             <div class="flex items-center justify-between">
-                <p class=" text-2xs text-center flex-1 ml-10 mt-4 "><span>Receba R$ 100 de graça</span></p>
+                <p class=" text-2xs text-center flex-1 ml-10 mt-4 "><span>Receba {{ currentUnit.value }} {{ needBonusRef }} de graça</span></p>
                 <a href="javascript:;" @click="close()" class="w-10 h-10 mt-2  flex items-center justify-center">
                     <img :src=CommonImg.btn_close  class="w-4 h-4">
                 </a>
@@ -274,7 +274,7 @@ function close() {
                     <div class="w-full h-10 pt-5 flex items-center justify-center">
                         <div class="flex items-center">
                             <img :src="CommonImg.img_money"  class="w-9 h-8 mr-2">
-                            <b class="text-sm text-themetext0">R$&nbsp;</b>
+                            <b class="text-sm text-themetext0">{{ currentUnit.value }}&nbsp;</b>
                         </div>
                        
                         <b class="text-3xl text-themetext0"> {{ totalBonusRef}}</b>  
@@ -313,7 +313,7 @@ function close() {
                                     <span >Acabou de sacar</span>
                                     <div class="flex items-center">
                                         <em class="w-4 h-4 bg-themetext0  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -331,7 +331,7 @@ function close() {
         <em class="w-full h-full bg-black/25 bg-blur absolute left-0 top-0 block"></em>
         <div class="max-w-full relative overflow-hidden rounded-2xl bg-cover bg-gradient-to-l from-thirsmodel1 to-thirsmodel2 min-h-[300px] overflow-y-auto" :class="isIphoneSE()? 'mt-10' : ''" >
             <div class="flex items-center justify-between">
-                <p class=" text-2xs text-center flex-1 ml-10 mt-4 "><span>Receba R$ 100 de graça</span></p>
+                <p class=" text-2xs text-center flex-1 ml-10 mt-4 "><span>Receba {{ currentUnit.value }} {{ needBonusRef }} de graça</span></p>
                 <a href="javascript:;" @click="close()" class="w-10 h-10 mt-2  flex items-center justify-center">
                     <img :src=CommonImg.btn_close  class="w-4 h-4">
                 </a>
@@ -344,7 +344,7 @@ function close() {
                     <div class="w-full h-10 pt-5 flex items-center justify-center">
                         <div class="flex items-center">
                             <img :src="CommonImg.img_money"  class="w-9 h-8 mr-2">
-                            <b class="text-sm text-themetext0">R$&nbsp;</b>
+                            <b class="text-sm text-themetext0">{{ currentUnit.value }}&nbsp;</b>
                         </div>
                        
                         <b class="text-3xl text-themetext0"> {{ totalBonusRef}}</b>  
@@ -383,7 +383,7 @@ function close() {
                                     <span >Acabou de sacar</span>
                                     <div class="flex items-center">
                                         <em class="w-4 h-4 bg-themetext0  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                     </div>

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { t, fn } from '@/i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { withdrawalAmountRef, withdrawalChannelIndexRef, withdrawalModel } from '@/model/account'
+import { withdrawalAmountRef, withdrawalChannelIndexRef,withdrawalPhChannelRef, withdrawalModel } from '@/model/account'
 import { useThemeImages } from '@/utils/themeimg'
 
 const CommonImg = useThemeImages().common 
@@ -10,6 +10,10 @@ const route = useRoute()
 const router = useRouter()
 let cpfTouched = ref(false)
 const { channelListRef, withdrawInfoRef, dataRef, starWithdrawalFunc, getWithdrawInfoFunc } = withdrawalModel({ch: true})
+import { useTemplate } from '@/utils/template'
+const { currentUnit } = useTemplate()
+
+// const currentTheme = import.meta.env.VITE_THEME
 
 let input_focus = ref(false)
 let cash_type_list = ref([
@@ -38,12 +42,26 @@ let autoclick = computed(()=> {
     
     return res
 })
+
+
+let phautoclick = computed(()=> {
+    let res = true
+    
+    if(!dataRef.value.amount) res = false
+    if(!dataRef.value.phone) res = false
+    if(error_payAccount.value) res = false
+    if(!dataRef.value.name) res = false
+    return res
+})
+
+
 let is_readonly = ref({
     cpf: false,
     name: false,
     email: false,
     phone: false,
 })
+
 
 // 新增：CPF校验和提示
 // let cpfError = ref('')
@@ -91,6 +109,62 @@ const cpfError = computed(() => {
   return !regex.test(cpf)
 })
 
+const error_payAccount = computed(()=> {
+    let _val = false
+    const regex = /^9\d{2} \d{3} \d{4}$/
+    let regres = regex.test(dataRef.value.phone)
+    if(!regres&&dataRef.value.phone) {
+        _val = true
+    }
+    return _val
+})
+
+
+// 格式化数字为 3-3-4 格式（带空格）
+const formatThreeThreeFour = (value) => {
+  // 移除非数字字符
+  const digits = value.replace(/\D/g, '');
+  
+  // 按 3-3-4 添加空格
+  const parts = [];
+  if (digits.length > 0) parts.push(digits.substring(0, 3));
+  if (digits.length > 3) parts.push(digits.substring(3, 6));
+  if (digits.length > 6) parts.push(digits.substring(6, 10));
+  
+  return parts.join(' ');
+};
+
+// 获取纯数字（移除空格）
+const getRawDigits = (formattedStr) => {
+  return formattedStr.replace(/\s/g, '');
+};
+
+// 处理输入事件
+const handleInput = (event) => {
+    const oldValue = event.target.value;
+    const oldCursorPos = event.target.selectionStart;
+    
+    // 获取纯数字
+    const rawDigits = getRawDigits(oldValue);
+    
+    // 格式化为 3-3-4
+    const newFormattedValue = formatThreeThreeFour(rawDigits);
+    
+    // 如果内容没变化，则退出
+    if (newFormattedValue === oldValue) return;
+    
+    // 更新响应式数据
+    dataRef.value.phone = newFormattedValue;
+};
+
+// // 阻止手动输入空格
+// const handleKeydown = (event) => {
+//   if (event.key === ' ' || event.key === 'Space') {
+//     event.preventDefault();
+//   }
+// };
+
+
 
 function choiceChannel(item) {
     cash_type.value = item.value
@@ -99,6 +173,14 @@ function submit() {
     if(autoclick.value) {
         dataRef.value.payment_channel = channel_curr.value.channle
         dataRef.value.type = cash_type.value
+        starWithdrawalFunc()
+    }
+}
+
+const phsubmit = () => {
+    if(phautoclick.value) {
+        dataRef.value.payment_channel = '108'
+        dataRef.value.type = withdrawalPhChannelRef.value == 0?'gcash':'paymaya'
         starWithdrawalFunc()
     }
 }
@@ -145,16 +227,40 @@ onMounted(()=> {
 </script>
 
 <template>
-    <pu-page title="Saque" class="z-[999]">
-        <pu-card theme="3" class="py-4">
+    <pu-page :title="t('pageTitle.Sack')" class="z-[999]">
+        <pu-card theme="3" class="py-4" v-if="currentTemplate.value == 'template_three'&&currentUnit=='₱ '">
             <section class="mb-5 text-center">
-                <h5 class="mb-1 text-sm opacity-65">Saldo de demo:</h5>
+                <h5 class="mb-1 text-sm opacity-65">{{ t('account.DemonBalance') }}:</h5>
+                <p>
+                    <img :src=CommonImg.img_money class="w-6 h-6 mr-2 inline-block align-middle">
+                    <span class="text-4xl align-middle">{{ fn(withdrawalAmountRef) }}</span>
+                </p>
+            </section>
+            <ui-input v-model="dataRef.phone" label="Pay account" :error="error_payAccount" placeholder="enter pay account" @input="handleInput">
+                <template #error v-if="error_payAccount">{{ t('account.PleaseEnter11DigitsForCPF') }}</template>
+            </ui-input>
+            <br>
+            <ui-input type="text" v-model="dataRef.name" label="Account Name"  placeholder="enter account name" >
+                
+            </ui-input>
+            <!-- <div v-if="cpfError" class="text-red-500 text-xs mt-1">{{ cpfError }}</div> -->
+            <br>
+            <div class="flex justify-center">
+                <a @click="phsubmit()" :class="phautoclick?'':'opacity-50 pointer-events-none'"
+                 class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center m3-theme-btn1">
+                    <span>{{ t('Sack') }}</span>
+                </a>
+            </div>
+        </pu-card>
+        <pu-card theme="3" class="py-4" v-else>
+            <section class="mb-5 text-center">
+                <h5 class="mb-1 text-sm opacity-65">{{ t('account.DemonBalance') }}:</h5>
                 <p>
                     <img :src=CommonImg.img_money class="w-6 h-6 mr-2 inline-block align-middle">
                     <span class="text-4xl align-middle" :class="currentTemplate.value=='template_one'?'':'text-four'">{{ fn(withdrawalAmountRef) }}</span>
                 </p>
             </section>
-            <p class="mb-2 text-sm opacity-85">Tipo de ID Fiscal</p>
+            <p class="mb-2 text-sm opacity-85">{{ t('account.FiscalIDType') }}</p>
             <section class="h-8 mb-5 overflow-hidden">
                 <div class="w-full h-10 pb-2 overflow-x-auto">
                     <ul class="h-8 text-sm whitespace-nowrap flex">
@@ -162,26 +268,27 @@ onMounted(()=> {
                             <li @click="choiceChannel(item)" :class="item.value==cash_type?'border-one':'border-rgbawhite30'" class="min-w-[33.33%] h-full px-1.5 border-b-2 flex items-center justify-center shrink-0">
                                 <span :class="item.value==cash_type?'text-one':'text-rgbawhite80'">{{ item.label }}</span>
                             </li>
+
                         </template>
                     </ul>
                 </div>
             </section>
             <template v-if="cash_type=='EMAIL'">
                 <ui-input v-model="dataRef.email" label="Email ID" :readonly="is_readonly.email" placeholder="Por favor, digite o Email ID..."  :error="emailError">
-                    <template #error>Formato de e-mail inválido</template>
+                    <template #error>{{ t('account.InvalidEmailFormat') }}</template>
                 </ui-input>
                 <br> 
             </template>
             <template v-if="cash_type=='PHONE'">
                 <ui-input v-model="dataRef.phone" label="PHONE ID" :readonly="is_readonly.phone" placeholder="Por favor, digite o PHONE ID..." :error="phoneError" @input="onPhoneInput()">
-                    <template #error>Digite um número de telefone correto com 11 dígitos.</template>
+                    <template #error>{{ t('account.Say11DigitPhoneNumber') }}</template>
                 </ui-input>
                 <br>
             </template>
             <ui-input v-model="dataRef.name" label="Nome do beneficiário" :readonly="is_readonly.name" placeholder="Por favor, informe o nome do beneficiário"></ui-input>
             <br>
             <ui-input type="text" v-model="dataRef.cpf" label="CPF" :readonly="is_readonly.cpf" placeholder="Por favor, digite o CPF..."  :error="cpfError" @input="onCpfInput()" >
-                <template #error v-if="cpfError">Por favor insira 11 dígitos para CPF</template>
+                <template #error v-if="cpfError">{{ t('account.PleaseEnter11DigitsForCPF') }}</template>
             </ui-input>
             <!-- <div v-if="cpfError" class="text-red-500 text-xs mt-1">{{ cpfError }}</div> -->
             <br>
@@ -189,27 +296,28 @@ onMounted(()=> {
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'"
                 v-if="currentTemplate.value=='template_one' || currentTemplate.value=='template_five'"
                  class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center ctx-theme__linear">
-                    <span>Saque</span>
+                    <span>{{ t('Sack') }}</span>
                 </a>
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'"
                 v-if="currentTemplate.value=='template_two'"
                  class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center bg-btncolor  text-themeblack">
-                    <span>Saque</span>
+                    <span>{{ t('Sack') }}</span>
                 </a>
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'"
                 v-if="currentTemplate.value=='template_three'"
                  class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center m3-theme-btn1">
-                    <span>Saque</span>
+                    <span>{{ t('Sack') }}</span>
                 </a>
                 <a @click="submit()" :class="autoclick?'':'opacity-50 pointer-events-none'"
                 v-if="currentTemplate.value=='template_four'"
                  class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center m4-nine-btn">
-                    <span>Saque</span>
+                    <span>{{ t('Sack') }}</span>
                 </a>
             </div>
-            <article class="mt-12 px-4 text-xs text-rgbawhite50 text-center">
-                <p>Fornecer informações precisas de e-mail e telefone ajuda a acelerar o processo de pagamento do banco.</p>
-            </article>
+            
         </pu-card>
+        <article class="mt-12 px-4 text-xs text-rgbawhite50 text-center">
+                <p>{{ t('account.accountDetail1') }}</p>
+            </article>
     </pu-page>
 </template>

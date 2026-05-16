@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { t } from '@/i18n'
 import { useScreenSafeArea } from '@vueuse/core'
 import { bodyWidthRef } from '@/utils/config'
 import { playBtnAudioFunc } from '@/utils/core'
@@ -37,7 +38,7 @@ defineExpose({ show, open })
             <section :style="`padding-top: ${top};`" class="w-full">
                 <div class="w-full h-[3.25rem] relative flex items-center justify-center">
                     <h3 class="text-base leading-4 font-medium text-center line-clamp-2 capitalize" style="max-width: 60%;">
-                        <span>Informações de Saque</span>
+                        <span>{{ t('userCenter.WithdrawalInformation') }}</span>
                     </h3>
                     <div class="absolute top-0 right-0 h-full flex items-center">
                         <a @click="show=false" href="javascript:;" class="h-full px-3 flex items-center">
@@ -56,7 +57,7 @@ defineExpose({ show, open })
                         </svg>
                     </template>
                     <template #left>
-                        <span class="text-[0.8125rem] opacity-85">Nome</span>
+                        <span class="text-[0.8125rem] opacity-85">{{ t('account.name') }}</span>
                     </template>
                     <template #default>
                         <p class="text-sm text-right">{{ withdrawInfoRef.name||'- -'}}</p>
@@ -70,7 +71,7 @@ defineExpose({ show, open })
                         </svg>
                     </template>
                     <template #left>
-                        <span class="text-[0.8125rem] opacity-85">Número de Telefone</span>
+                        <span class="text-[0.8125rem] opacity-85">{{ t('modelPage.Phonenumber') }}</span>
                     </template>
                     <template #default>
                         <p class="text-sm text-right">{{ withdrawInfoRef.phone||'- -'}}</p>
@@ -84,7 +85,7 @@ defineExpose({ show, open })
                         </svg>
                     </template>
                     <template #left>
-                        <span class="text-[0.8125rem] opacity-85">Email</span>
+                        <span class="text-[0.8125rem] opacity-85">{{ t('modelPage.Email') }}</span>
                     </template>
                     <template #default>
                         <p class="text-sm text-right">{{ withdrawInfoRef.email||'- -'}}</p>

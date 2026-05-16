@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { t } from '@/i18n'
 import { isRegisterSuccessShowRef } from '@/model/user'
 import { useThemeImages } from '@/utils/themeimg'
-
+import { blogTagIdsRef } from '@/model/common'
 const CommonBgImg = useThemeImages().commonbg 
 </script>
 
@@ -21,14 +21,14 @@ const CommonBgImg = useThemeImages().commonbg
                 </button>
                 <div class="w-66 max-w-full mx-auto -mt-14 pt-18 px-8 pb-8 bg-default-bg text-rgbawhite80 rounded-b-2xl">
                     <p class="text-xs text-center">
-                        <b>Compartilhe o link para convidar amigos e ganhe imediatamente</b>
+                        <b>{{ t('modelPage.Sharelink') }}</b>
                     </p>
                     <p class="text-base text-one text-center">
-                        <b>R$ 1,000</b>
+                        <b>{{ currentUnit.value }} 1,000</b>
                     </p>
                     <div class="w-full mt-6 flex justify-center">
-                        <button @click="$router.push('/agent')" class="w-36 h-12 !px-3 !text-base ctx-theme__linear rounded-xl">
-                            <span>Receber</span>
+                        <button @click="blogTagIdsRef.includes(2) ? $router.push('/recharge') : $router.push('/agent')" class="w-36 h-12 !px-3 !text-base ctx-theme__linear rounded-xl">
+                            <span>{{ t('Receive') }}</span>
                         </button>
                     </div>
                 </div>

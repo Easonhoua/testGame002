@@ -30,6 +30,7 @@ async function copyInviteCode(_val) {
 }
 
 import { useMine } from '@/composables/useMine'
+import { blogTagIdsRef } from '@/model/common'
 const { 
     appIcon,
     amount_rate,
@@ -78,12 +79,12 @@ const {
                     <!-- 余额 -->
                     <p class="mb-0.5 text-right">
                         <span class="text-xs opacity-85">Saldo:&nbsp;</span>
-                        <b class="text-sm text-four">R$&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
+                        <b class="text-sm text-four">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
                     </p>
                     <!-- 每日奖励 -->
                     <p class="mb-0.5 text-right">
                         <span class="text-xs opacity-85">Total de bônus recebidos:&nbsp;</span>
-                        <b class="text-sm text-four">R$&nbsp;{{ fn(memberRef.give_amount||0 )}}</b>
+                        <b class="text-sm text-four">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.give_amount||0 )}}</b>
                     </p>
                     <ol class="w-full !pt-1 text-xs flex">
                         <li class="w-1/2 pr-1">
@@ -158,7 +159,7 @@ const {
             </div>
         </pu-card>
         <pu-card theme="0" class="mt-3 p-2" >
-            <router-link to="/agent" class="w-full mb-2 flex items-center justify-between">
+            <router-link :to="blogTagIdsRef.includes(2) ? '/recharge' : '/agent'" class="w-full mb-2 flex items-center justify-between">
                 <b class="text-sm ">Agente</b>
                 <div class="flex items-center text-three">
                     <span class="text-xs"  >Ver Mais</span>
@@ -171,7 +172,7 @@ const {
                     <span>Comissão direto de hoje</span>
                 </p>
                 <p class="pl-3 shrink-0">
-                    <span class="text-xs opacity-45">R$</span>
+                    <span class="text-xs opacity-45">{{ currentUnit.value }}</span>
                     <span class="text-sm text-four">{{ fn(memberRef.agent_bonus, 0) }}</span>
                 </p>
             </div>

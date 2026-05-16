@@ -1,6 +1,6 @@
 <script setup>
 
-    import { fn } from '@/i18n'
+    import { t,fn } from '@/i18n'
     import { isAuthRef, memberLocal } from '@/model/user'
     import { redPakageStateRef} from '@/model/other'
     import { gameLogo, appIcon} from '@/model/pwa'
@@ -8,9 +8,9 @@
     import { socialMenuListRef} from '@/model/common'
     const CommonImg = useThemeImages().common
     const AsideImg = useThemeImages().aside
-    
+    import { useMine } from '@/composables/useMine'
     import { useAside } from '@/composables/useAside'
-    
+
     const props = defineProps({
         modelValue: Boolean,
         navList: [Array, Object],
@@ -35,7 +35,9 @@
         onToProfile,
         copyInviteCode
     } = useAside(close)
-    
+    const { 
+    toWithdrawal,
+} = useMine()
     </script>
     
     <template>
@@ -85,18 +87,18 @@
                                     <ol v-if="!isAuthRef" class="w-full h-9 flex items-center mt-2 mb-2">
                                         <li class="w-1/2 h-full pr-1.5 ">
                                             <a href="javascript:;" @click="toLogin()" class="w-full h-full text-center  rounded-[0.88rem] capitalize m3-theme-btn2 text-themetext2 flex items-center justify-center">
-                                                <span>Entrar</span>
+                                                <span>{{ t('enter') }}</span>
                                             </a>
                                         </li>
                                         <li class="w-1/2 h-full pl-1.5">
                                             <a href="javascript:;" @click="toRegister()" class="w-full h-full text-center rounded-[0.88rem] capitalize m3-theme-btn1  flex items-center justify-center">
-                                                <span>Registro</span>
+                                                <span>{{ t('Registration') }}</span>
                                             </a>
                                         </li>
                                     </ol>
                                     <div class="rounded-lg text-center  " style="max-width: 10rem; margin: 0 auto;">
                                         <span class="text-[1.38rem] text-themetext0 ">{{ fn(memberLocal.account&&memberLocal.account.user_money||0) }}</span>
-                                        <span class="text-xs text-themetext0">&nbsp;R$</span>
+                                        <span class="text-xs text-themetext0">&nbsp;{{ currentUnit.value }}</span>
                                     </div>
                                     <dl class="w-full h-8 text-xs flex mt-1 mb-1">
                                         <dd class="w-1/2 pr-1.5">
@@ -105,16 +107,16 @@
                                             style="background-repeat: no-repeat; background-size: 100% 100%;"
                                             class="w-full h-full text-center  flex items-center justify-center text-themetext4">
                                                 <img :src=AsideImg.icon_recharge class="w-5 h-5 mr-1">
-                                                <span>Depósito</span>
+                                                <span>{{t('deposit')}}</span>
                                             </router-link>
                                         </dd>
                                         <dd class="w-1/2 pl-1.5">
-                                            <router-link to="/withdrawal" @click="onclickNoNav()" 
+                                            <router-link to="/withdrawal" @click="toWithdrawal()" 
                                             :style="{ backgroundImage: `url(${AsideImg.bg_deposito2})`}"
                                             style="background-repeat: no-repeat; background-size: 100% 100%;"
                                             class="w-full h-full text-center  flex items-center justify-center text-themetext1">
                                                 <img :src=AsideImg.icon_withdraw class="w-5 h-5 mr-1">
-                                                <span>Saque</span>
+                                                <span>{{t('Sack')}}</span>
                                             </router-link>
                                         </dd>
                                     </dl>
@@ -138,10 +140,10 @@
                                         <!-- <span class="title text-themefont text-sm">Benefícios e bônus</span> -->
                                         <nav class="w-full text-[0.525rem] flex flex-wrap">
                                             <template v-for="item,index in navList" :key="index">
-                                                <a @click="onclickNav(item.activity_type)" href="javascript:;" class="w-1/2 py-1">
-                                                    <div class="mx-1 px-1 rounded-lg flex items-center relative" :style="{ backgroundColor: 'var(--color-tablergba40)' }">
+                                                <a @click="onclickNav(item.activity_type)" href="javascript:;" class="w-1/2 pt-1">
+                                                    <div class="mx-0.5 px-1 rounded-lg flex items-center relative" :style="{ backgroundColor: 'var(--color-tablergba40)' }">
                                                         <div class=" relative mr-1 shrink-0">
-                                                            <img :src="item.icon" class="w-10 h-10 mt-1 object-contain">
+                                                            <img :src="item.icon" class="w-10 h-10 object-contain">
                                                             <div v-if="item.activity_type!='sign_in'&&item.count>0" class="w-3 h-3 text-[0.725rem] !leading-none bg-two border-[0.5px] border-white rounded-full absolute top-0.5 -right-0.5 flex items-center justify-center">
                                                                 <b>{{ item.count }}</b>
                                                             </div>

@@ -1,5 +1,6 @@
 import { onMounted, ref,computed} from 'vue'
 import { $get, $post } from '@/request'
+import { t } from '@/i18n'
 import { isAuthRef } from '@/model/user'
 import { useRouter } from 'vue-router'
 import { rechargePayInfoRef } from '@/model/account'
@@ -339,7 +340,6 @@ export function monthlybettingModel() {
             needRecharge.value = res.data.eligibility.need_recharge||0
             datelistRef.value = res.data.config.month_lottery_config||[]
             canDrawRef.value = res.data.can_draw||0
-            console.log(res.data.last_reward,789456)
            lastrewardRef.value = res.data.last_reward || 0;
             const lastRewardInt = Math.floor(Number(lastrewardRef.value) || 0);
             const arr = lastRewardInt.toString().padStart(5, '0');
@@ -380,3 +380,52 @@ export function monthlybettingModel() {
         return{monthlybettingData,slotNumbersRef,contentRef,needBetRef,needBetdays,ranktop1Ref,ranktop2Ref,ranktop3Ref,
             rankalllistRef,rankdateRef,needRecharge,datelistRef,canDrawRef,ranklistRef,monthlybettingConfigFunc,monthlybettingRankFunc,drawbtnFunc}
     }
+
+
+    // 会员答谢日
+export function memberGiftModel() {
+// 活动配置
+const endTime = ref('')
+const CollectionTime = ref(0)
+const reward = ref(0)
+const contentRef = ref('')
+const receive_statusRef = ref(0)
+
+    //七日投注签到配置
+    async function  memberGiftConfigFunc(loading) {
+        let res = await $get({url: '/activity/v1/member-day/index'}, {loading})
+        if (res.code == 422) {
+            showToast({ message: res.message || '活动未开启', type: 'error' })
+            return
+        }
+        if(res.code != 200) return
+        receive_statusRef.value = res.data.receive_status||0
+        endTime.value = res.data.end_time|| t('activityCenter.Permanent')
+        CollectionTime.value = res.data.reward_day||0
+        reward.value = res.data.max_reward_amount||0
+        contentRef.value = res.data.content||''
+    }
+    async function  recebermemberGiftFunc(loading) {
+        if(receive_statusRef.value != 1){
+            return;
+        }
+        let res = await $post({url: '/activity/v1/member-day/receive'}, {loading: true})
+        if(res.code != 200) {
+            showToast({
+                message: res.message,
+                type: 'error'
+            });
+            return false
+        }
+        await memberGiftConfigFunc()
+    }
+    
+
+  
+    
+    onMounted(()=>{
+        memberGiftConfigFunc()
+    })
+
+    return{endTime,CollectionTime,reward,contentRef,recebermemberGiftFunc,receive_statusRef}
+}

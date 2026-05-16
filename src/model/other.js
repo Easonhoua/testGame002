@@ -140,10 +140,10 @@ export var signShowRef = ref(false)
 export var signConfigRef = ref({})
 export var signBonusRef = ref(0)
 export var signSuccessRef = ref(false)
+export var isSignInRef = ref(false)
 
 export function signInModel(init) {
     const { userInfoFunc } = userModel(false)
-    const isSignInRef = ref(false)
     const router = useRouter()
     // status 1:可领取 2:已领取 3:未到时间 4:已过期
     async function signConfigFunc(__init) {

@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
+import { t } from '@/i18n'
 import { useScreenSafeArea } from "@vueuse/core";
 import { bodyWidthRef } from "@/utils/config";
 import {
@@ -8,13 +9,7 @@ import {
   gameListRef,
   gameModel,
 } from "@/model/game";
-console.log("游戏列表组件gameAllCateId", gameAllCateId.value);
-console.log(
-  "gameAllShowRef",
-  gameAllShowRef.value,
-  gameListRef.value,
-  gameModel.value,
-);
+
 import { playBtnAudioFunc, isPwaFunc } from "@/utils/core";
 import { pwaIndexModel } from "@/model/pwa";
 import { useThemeImages } from "@/utils/themeimg";
@@ -196,7 +191,7 @@ function close() {
                             </a>
                         </div>
                         <h3 class="text-base leading-4 font-medium text-center line-clamp-2 capitalize" style="max-width: 60%;">
-                            <span>Jogos</span>
+                            <span>{{ t('games') }}</span>
                         </h3>
                     </div>
                 </header>
@@ -598,7 +593,7 @@ function close() {
                       @click="onClickTab(item.id)"
                       :class="
                         item.id == gameAllCateId
-                          ? 'bg-gradient-to-r from-themecardlinear1 to-themecardlinear2'
+                          ? 'm5-theme-btn2'
                           : 'bg-rgbawhite10'
                       "
                       class="w-full px-0.5 py-2 rounded-xl cursor-pointer"

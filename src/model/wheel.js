@@ -4,6 +4,7 @@ import { playBtnAudioFunc } from '@/utils/core'
 import { openLoginFunc, isEverLoginFunc } from '@/utils/config'
 import { isAuthRef } from '@/model/user'
 
+const currentUnit = import.meta.env.VITE_UNIT || 'R$'
 
 // 转盘类型枚举
 export const WHEEL_TYPES = {
@@ -243,7 +244,6 @@ export function useWheelModel() {
             return { success: false, message: res.message }
     
         } catch (error) {
-            console.error('抽奖失败:', error)
             isSpinning.value = false
             return { success: false, message: '抽奖失败，请重试' }
         }
@@ -259,7 +259,7 @@ export function useWheelModel() {
             wheelType: currentWheelType.value,
             wheelName: currentWheelConfig.value.name,
             prize: prizeData.prize,
-            amount: prizeData.amount || `R$ ${prizeData.prize}`
+            amount: prizeData.amount || `${ currentUnit } ${prizeData.prize}`
         }
         
         rewardRecords.value.unshift(record)
@@ -314,7 +314,7 @@ export function useWheelModel() {
                 wheelType: randomWheelType,
                 wheelName: randomWheelConfig.name,
                 prize: randomPrize.bonus,
-                amount: `R$ ${randomPrize.bonus}`
+                amount: `${ currentUnit } ${randomPrize.bonus}`
             })
         }
     

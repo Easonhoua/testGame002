@@ -34,7 +34,7 @@ var gameCurrencyRef = ref(0)
 var isCash=ref(0)
 //分享手机号码
 export var phoneNumbers = ref([])
-export var shareMsg = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe R$ 10.000 por dia!`)
+export var shareMsg = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe {{ currentUnit.value }} 10.000 por dia!`)
 export var isHideSpinBtn = ref(false)
 export var pddContentRef = ref('')
 

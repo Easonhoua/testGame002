@@ -108,7 +108,7 @@ function submitPassword(){
 <template>
     <pu-page
         v-if="currentTemplate.value == 'template_one' || currentTemplate.value == 'template_two' || currentTemplate.value == 'template_three'"
-        title="Configuração" class="z-[999]" style="background-size: cover;"
+        :title="t('pageTitle.Settings')" class="z-[999]" style="background-size: cover;"
         :style="{ background: `url(${CommonBgImg.bg_body_1}) center` }">
         <pu-card theme="3" v-if="memberRef && memberRef.id" class="pt-11 pb-6 flex justify-center">
             <div @click="playBtnAudioFunc()" class="relative">
@@ -134,7 +134,7 @@ function submitPassword(){
         </pu-card>
         <pu-card theme="3" class="py-5 text-sm">
             <dl class="mb-4 block">
-                <dt class="mb-1 pl-3 text-rgbawhite50 block">Conta registrada</dt>
+                <dt class="mb-1 pl-3 text-rgbawhite50 block">{{ t('userCenter.RegisteredAccount') }}</dt>
                 <dd class="w-full h-[3.125rem] px-4 bg-rgbawhite10 rounded-2xl flex items-center">
                     <div class="text-[0.8125rem] flex-1 overflow-hidden">
                         <p class="truncate">{{ memberRef.username }}</p>
@@ -143,7 +143,7 @@ function submitPassword(){
             </dl>
             <change-nickname>
                 <dl class="mb-4 block cursor-pointer">
-                    <dt class="mb-1 pl-3 text-rgbawhite50 block">Meu Nome de Marca</dt>
+                    <dt class="mb-1 pl-3 text-rgbawhite50 block">{{ t('userCenter.BrandName') }}</dt>
                     <dd class="w-full h-[3.125rem] px-4 bg-rgbawhite10 rounded-2xl flex items-center">
                         <div class="text-[0.8125rem] flex-1 overflow-hidden">
                             <p class="truncate">{{ memberRef.nickname || '- -' }}</p>
@@ -158,7 +158,7 @@ function submitPassword(){
             </change-nickname>
             <change-password>
                 <dl class="mb-4 block cursor-pointer">
-                    <dt class="mb-1 pl-3 text-rgbawhite50 block">Senha</dt>
+                    <dt class="mb-1 pl-3 text-rgbawhite50 block">{{ t('userCenter.Password') }}</dt>
                     <dd class="w-full h-[3.125rem] px-4 bg-rgbawhite10 rounded-2xl flex items-center">
                         <div class="text-[0.8125rem] flex-1 overflow-hidden">
                             <p class="truncate">
@@ -177,7 +177,7 @@ function submitPassword(){
                 <dl class="mb-4 block cursor-pointer">
                     <dd class="w-full h-[3.125rem] px-4 bg-rgbawhite10 rounded-2xl flex items-center">
                         <div class="text-[0.8125rem] flex-1 overflow-hidden">
-                            <p class="truncate">Informações de Saque</p>
+                            <p class="truncate">{{ t('userCenter.WithdrawalInformation') }}</p>
                         </div>
                         <svg class="w-5 h-5 ml-2 opacity-45 shrink-0" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 -960 960 960" fill="currentColor">
@@ -193,7 +193,7 @@ function submitPassword(){
                 <dl class="block cursor-pointer">
                     <dd class="w-full h-[3.125rem] px-4 bg-rgbawhite10 rounded-2xl flex items-center">
                         <div class="text-[0.8125rem] flex-1 overflow-hidden">
-                            <p class="truncate">Sair da conta</p>
+                            <p class="truncate">{{ t("userCenter.Logoutaccount") }}</p>
                         </div>
                         <svg class="w-5 h-5 ml-2 opacity-45 shrink-0" stroke="currentColor" stroke-width="4"
                             viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,7 +207,7 @@ function submitPassword(){
         </pu-card>
         <!-- 添加版本号显示 - 放在底部 -->
         <div class="w-full h-8 flex items-center justify-center">
-            <span class="text-xs opacity-50">Versão {{ version }}</span>
+            <span class="text-xs opacity-50">{{t("userCenter.Version")}} {{ version }}</span>
         </div>
         <Panddingbottom></Panddingbottom>
     </pu-page>

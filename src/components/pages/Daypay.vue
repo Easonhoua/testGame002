@@ -1,15 +1,16 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
+import { t } from '@/i18n'
 import { useRouter } from 'vue-router'
 import { isIphoneSE } from '@/utils/core'
-import { DayPayModel, showDayPayRef, dayPayInfoRef, dayPayTiemRef, dayPayContent } from '@/model/other'
+import { showDayPayRef, dayPayInfoRef, dayPayTiemRef, dayPayContent } from '@/model/other'
 import { useThemeImages } from '@/utils/themeimg'
 const CommonImg = useThemeImages().common
 const DaypayImg = useThemeImages().daypay
 
 const router = useRouter()
 // 倒计时相关
-const countdownTime = dayPayTiemRef
+const countdownTime = ref(0)
 const hours = ref(0)
 const minutes = ref(0)
 const seconds = ref(0)
@@ -44,16 +45,37 @@ function updateCountdown() {
 
 // 初始化倒计时
 function initCountdown() {
-    // 这里可以根据实际需求设置倒计时时间
-    // 比如从服务器获取剩余时间
-    countdownTime.value = 24 * 60 * 60 // 24小时
-
+    if (timer) {
+        clearInterval(timer)
+    }
+    if (!countdownTime.value || countdownTime.value <= 0) {
+        hours.value = '00'
+        minutes.value = '00'
+        seconds.value = '00'
+        return
+    }
     updateCountdown() // 立即更新一次
     timer = setInterval(updateCountdown, 1000)
 }
-onMounted(() => {
-    initCountdown()
-})
+
+watch(
+    () => [showDayPayRef.value, dayPayTiemRef.value],
+    ([show, time]) => {
+        if (!show) {
+            if (timer) {
+                clearInterval(timer)
+                timer = null
+            }
+            return
+        }
+        if (Number(time) > 0) {
+            countdownTime.value = Number(time)
+            initCountdown()
+        }
+    },
+    { immediate: true }
+)
+
 onBeforeUnmount(() => {
     if (timer) {
         clearInterval(timer)
@@ -96,11 +118,11 @@ onBeforeUnmount(() => {
                         <div class="flex justify-between items-center textline border-t  "
                             :class="currentTemplate.value == 'template_one' ? 'border-searchborder bg-tablergba40' : 'border-defaultborder bg-tablergba40'"
                             v-for="(item, index) in dayPayInfoRef" :key="index">
-                            <span class="text-rgbawhite80"><span class="text-themeLight">R$</span>
+                            <span class="text-rgbawhite80"><span class="text-themeLight">{{ currentUnit.value }}</span>
                                 {{ item.pay_num }}</span>
                             <span v-if="currentTemplate.value == 'template_one' || currentTemplate.value == 'template_five'" class="text-four"><span
-                                    class="!text-themeLight">R$</span> {{ item.send_num }}</span>
-                            <span v-else>R$ <span class="text-four"> {{ item.send_num }}</span></span>
+                                    class="!text-themeLight">{{ currentUnit.value }}</span> {{ item.send_num }}</span>
+                            <span v-else>{{ currentUnit.value }} <span class="text-four"> {{ item.send_num }}</span></span>
                         </div>
                     </div>
                     <!-- 倒计时 - -->
@@ -149,25 +171,26 @@ onBeforeUnmount(() => {
                     :class="isIphoneSE() ? 'max-h-[17rem]' : 'max-h-[20rem]'">
                     <div class="table mx-auto z-20  border border-defaultborder">
                         <div class="flex justify-between text-themewhite line bg-tablergba">
-                            <span class="border-r border-defaultborder">Depósito</span>
-                            <span>Bônus</span>
+                            <span class="border-r border-defaultborder">{{ t('deposit') }}</span>
+                            <span>{{ t('Bonus') }}</span>
                         </div>
                         <!--dayPayInfoRef  -->
                         <!--  -->
                         <div class="flex justify-between items-center textline border-t  border-defaultborder bg-faqcolor3"
                             v-for="(item, index) in dayPayInfoRef" :key="index">
-                            <span class="text-white"><span class="text-themetext1">R$</span> {{ item.pay_num }}</span>
-                            <span class="text-themetext1">R$ <span class="text-themetext0">
+                            <span class="text-white"><span class="text-themetext1">{{ currentUnit.value }}</span> {{ item.pay_num }}</span>
+                            <span class="text-themetext1">{{ currentUnit.value }} <span class="text-themetext0">
                                     {{ item.send_num }}</span></span>
                         </div>
                     </div>
 
                     <button class="w-[10rem] mt-7 py-3 rounded-[1rem] m3-theme-btn1" @click="goRecharge()">
-                        Depósito Imediato
+                        {{ t('modelPage.InstantDeposit') }}
                     </button>
 
                     <!-- 倒计时 - -->
                     <div class="countdown px-4 py-[0.15rem] rounded-[1rem] mt-3 flex items-center"
+                       
                         :class="currentTemplate.value == 'template_one' || currentTemplate.value == 'template_five' ? 'bg-gradient-to-r from-gold-500 to-gold-100' : ' bg-rgbawhite30'">
                         <img :src=DaypayImg.img_time class="w-[1rem] h-[1rem] mr-2 " />
                         <em class="text-themewhite font-bold flex items-center">
@@ -183,7 +206,7 @@ onBeforeUnmount(() => {
                         <div class=" flex items-center">
                             <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themewhite"></em>
                             <h5 class="ma-w-[60%] px-2 text-sm text-center">
-                                <span>Descrição da Atividade</span>
+                                <span>{{ t('ActivityDescription') }}</span>
                             </h5>
                             <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themewhite"></em>
                         </div>
@@ -210,8 +233,8 @@ onBeforeUnmount(() => {
                         <!--  -->
                         <div class="flex justify-between items-center textline odd:bg-tablebg2"
                             v-for="(item, index) in dayPayInfoRef" :key="index">
-                            <span class="text-themetext0"><span class="text-white">R$</span> {{ item.pay_num }}</span>
-                            <span class="text-themetext0"><span class="text-white">>R$</span> {{ item.send_num }}</span>
+                            <span class="text-themetext0"><span class="text-white">{{ currentUnit.value }}</span> {{ item.pay_num }}</span>
+                            <span class="text-themetext0"><span class="text-white">>{{ currentUnit.value }}</span> {{ item.send_num }}</span>
                         </div>
                     </div>
                     <!-- 倒计时 - -->
@@ -260,8 +283,8 @@ onBeforeUnmount(() => {
                         <!--  -->
                         <div class="flex justify-between items-center textline odd:bg-tablebg2"
                             v-for="(item, index) in dayPayInfoRef" :key="index">
-                            <span class="text-themetext0"><span class="text-white">R$</span> {{ item.pay_num }}</span>
-                            <span class="text-themetext0"><span class="text-white">>R$</span> {{ item.send_num }}</span>
+                            <span class="text-themetext0"><span class="text-white">{{ currentUnit.value }}</span> {{ item.pay_num }}</span>
+                            <span class="text-themetext0"><span class="text-white">>{{ currentUnit.value }}</span> {{ item.send_num }}</span>
                         </div>
                     </div>
                     <!-- 倒计时 - -->
@@ -278,19 +301,19 @@ onBeforeUnmount(() => {
                     <button class="px-4 py-1 mt-4 rounded-full  m5-theme-btn1 text-sm"  @click="goRecharge()">
                         Depósito Imediato
                     </button>
-            <!-- <div class="rules w-[19rem]  mt-5">
-                <h5 class=" px-2 text-l font-bold mb-3 text-start m4-text">
-                    <span>Descrição da Atividade:</span>
-                </h5>
+                    <div class="rules w-[19rem]  mt-5">
+                        <h5 class=" px-2 text-l font-bold mb-3 text-start text-themewhite">
+                            <span>Descrição da Atividade:</span>
+                        </h5>
 
-                <article class="list-decimal pl-5 text-[0.78rem] text-themetext3" v-html="dayPayContent" v-if="dayPayContent"></article>
-                 <ol class="list-decimal pl-5 text-[0.78rem] text-themetext3 " v-else>
-                <li>Esta atividade só pode ser participada uma vez.</li>
-                <li>Antes da contagem regressiva terminar, a primeira recarga receberá o bõnus correspondente.</li>
-                <li>O uso do bõnus deve seguir as regras da plataforma.</li>
-                <li>A empresa reserva-se o direito de interpretação final sobre esta atividade.</li>
-                </ol>
-            </div> -->
+                        <article class="list-decimal pl-5 text-[0.78rem] text-themewhite" v-html="dayPayContent" v-if="dayPayContent"></article>
+                        <ol class="list-decimal pl-5 text-[0.78rem] text-themewhite " v-else>
+                        <li>Esta atividade só pode ser participada uma vez.</li>
+                        <li>Antes da contagem regressiva terminar, a primeira recarga receberá o bõnus correspondente.</li>
+                        <li>O uso do bõnus deve seguir as regras da plataforma.</li>
+                        <li>A empresa reserva-se o direito de interpretação final sobre esta atividade.</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </section>

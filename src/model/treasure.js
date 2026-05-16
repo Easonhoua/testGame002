@@ -8,6 +8,9 @@ export function boxModel(init = { list: true }) {
     let boxListRef = ref([])
     let page = ref(0)
     let pageSize = ref(20)
+    let childListLoadingRef = ref(false)
+    let childListFinishedRef = ref(false)
+    let childListStatusRef = ref(1)
     let childNum = ref(0)
     let childListRef = ref([])
     let DepositRef = ref(0)//存款
@@ -80,21 +83,39 @@ export function boxModel(init = { list: true }) {
        
     }
     //获取下级列表
-    async function boxListChildFunc(sta) {
+    async function boxListChildFunc(sta, init = false) {
+        if(init || childListStatusRef.value !== sta) {
+            page.value = 0
+            childListRef.value = []
+            childListFinishedRef.value = false
+            childListStatusRef.value = sta
+        }
+        if(childListLoadingRef.value || childListFinishedRef.value) return
 
-        playBtnAudioFunc()
+        childListLoadingRef.value = true
         let data = {
             offset: page.value*pageSize.value,
             limit: pageSize.value,
             status: sta
         }
         const res = await $get({ url: '/activity/v1/treasure/eligibility', params: data }, {loading: false, toast: false})
+        childListLoadingRef.value = false
         if(res.code != 200) return
-        childListRef.value = res.data || []
+        let list = res.data || []
+        if(page.value == 0) {
+            childListRef.value = list
+        }else {
+            childListRef.value = [...childListRef.value, ...list]
+        }
+        if(list.length < pageSize.value) {
+            childListFinishedRef.value = true
+            return
+        }
+        page.value += 1
     }
     onMounted(()=> {
         if(init.list) boxListFunc()
     })
 
-    return { configListRef, boxListRef, childListRef, childNum, boxListFunc, boxTaskFunc,boxListChildFunc,DepositRef,BetRef,boxRuleRef,boxBannerRef,bannerLoaded,phoneNumbers}
+    return { configListRef, boxListRef, childListRef, childNum, boxListFunc, boxTaskFunc,boxListChildFunc,DepositRef,BetRef,boxRuleRef,boxBannerRef,bannerLoaded,phoneNumbers,childListLoadingRef,childListFinishedRef}
 }

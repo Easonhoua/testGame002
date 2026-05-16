@@ -80,7 +80,6 @@ onMounted(()=> {
     resetBaseSize()
 
     setTimeout(() => {
-        console.log('initFirebase')
           //初始化Firebase
         if(isIOS()&&isPwaFunc()){
             //提示是否要去授权框

@@ -479,7 +479,7 @@ const amount_rate = computed(() => {
               <dt class="flex-1 overflow-hidden">
                 <h6 class="text-base flex items-center">
                   <img :src="VipImg.icon_vip" class="w-6 h-6 mr-2" />
-                  <span class="text-themetext1">Pode receber bônus</span>
+                  <span class="text-themetext1">{{ t('userCenter.Receivebonuses') }}</span>
                 </h6>
                 <p class="text-3xl font-bold">{{ fn(vipInfoRef.bonus) }}</p>
               </dt>
@@ -494,7 +494,7 @@ const amount_rate = computed(() => {
                   "
                   class="h-9 px-4 !text-sm rounded-[2rem]"
                 >
-                  <span>Receber</span>
+                  <span>{{ t('Receive') }}</span>
                 </button>
               </dd>
             </dl>
@@ -502,7 +502,7 @@ const amount_rate = computed(() => {
               @click="$router.push('/vip/bonus')"
               class="px-4 py-2 bg-black/15 cursor-pointer flex justify-between items-center"
             >
-              <p class="text-xs text-themetext0">Registro de Envio de Bônus</p>
+              <p class="text-xs text-themetext0">{{ t('userCenter.BonusShippingRegistration') }}</p>
               <icon-chevron-right
                 class="w-5 h-5 ml-2 text-themetext0 shrink-0"
               ></icon-chevron-right>
@@ -519,7 +519,7 @@ const amount_rate = computed(() => {
               <dl class="w-full block">
                 <dt class="w-full">
                   <span class="text-xs text-themetext1"
-                    >Volume acumulado de apostas:</span
+                    >{{ t('userCenter.Volume1') }}</span
                   >
                   <span class="text-base float-right">{{
                     fn(
@@ -552,7 +552,7 @@ const amount_rate = computed(() => {
               <dl class="w-full p-2 mt-2 bg-rgbablack30 block rounded-xl">
                 <dt class="w-full">
                   <span class="text-xs text-themetext1"
-                    >Volume de apostas deste mês:</span
+                    >{{ t('userCenter.Volume2') }}</span
                   >
                   <span class="text-base opacity-85 float-right">{{
                     fn(
@@ -577,7 +577,7 @@ const amount_rate = computed(() => {
                   class="w-full text-xs text-themetext0 flex items-center justify-between"
                 >
                   <span>0</span>
-                  <span>Manter a divisão: 0</span>
+                  <span>{{ t('userCenter.KeepTheDivision') }}: 0</span>
                 </dd>
               </dl>
             </div>
@@ -593,7 +593,7 @@ const amount_rate = computed(() => {
             class="ma-w-[60%] px-2 text-sm text-themetext0 text-center"
             style="font-weight: 600"
           >
-            <span>Rendimentos VIP</span>
+            <span>{{ t('Income') }} VIP</span>
           </h5>
           <em
             class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext0"
@@ -604,11 +604,11 @@ const amount_rate = computed(() => {
         >
           <thead>
             <tr class="bg-tablergba40 text-themetext1">
-              <td>Nível</td>
-              <td>Apostas</td>
-              <td>Bônus<br />upgrade</td>
-              <td>Bônus<br />semanal</td>
-              <td>Bônus<br />mensal</td>
+              <td>{{ t('userCenter.Level') }}</td>
+              <td>{{ t('userCenter.Bets') }}</td>
+              <td>{{ t('userCenter.Upgradebonus') }}</td>
+              <td>{{ t('userCenter.Weeklybonus') }}</td>
+              <td>{{ t('userCenter.Monthlybonus') }}</td>
             </tr>
           </thead>
           <tbody>
@@ -637,7 +637,7 @@ const amount_rate = computed(() => {
             class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"
           ></em>
           <h5 class="ma-w-[60%] px-2 text-sm text-four text-themetext2">
-            <span>Descrição da Atividade</span>
+            <span>{{ t('ActivityDescription') }}</span>
           </h5>
           <em
             class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"
@@ -698,7 +698,7 @@ const amount_rate = computed(() => {
                       >Volume acumulado de apostas:</span
                     >
                     <span class="text-xs text-themetext0 float-right font-bold"
-                      >R$ {{ next_level.bet_amount
+                      >{{ currentUnit.value }} {{ next_level.bet_amount
                       }}<span class="m4-text"> to </span> VIP.{{
                         next_level.vip
                       }}
@@ -729,7 +729,7 @@ const amount_rate = computed(() => {
                       >Volume de apostas deste mês:</span
                     >
                     <span class="text-xs text-themetext0 float-right"
-                      >R$
+                      >{{ currentUnit.value }}
                       {{
                         fn(
                           memberRef &&
@@ -766,7 +766,7 @@ const amount_rate = computed(() => {
                 <div class="flex items-center">
                   <img :src="VipImg.icon_vip" class="w-6 h-6 mr-2" />
                   <p class="text-xl font-bold text-themetext0">
-                    R${{ fn(vipInfoRef.bonus) }}
+                    {{ currentUnit.value }}{{ fn(vipInfoRef.bonus) }}
                   </p>
                 </div>
               </dt>
@@ -869,7 +869,7 @@ const amount_rate = computed(() => {
                     >Volume acumulado de apostas:</span
                   >
                   <!-- <span class="text-base opacity-85 float-right">{{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money)}}</span> -->
-                  <span class="text-[0.625rem]"> R$ {{ next_level.bet_amount
+                  <span class="text-[0.625rem]"> {{ currentUnit.value }} {{ next_level.bet_amount
                       }}<span > to </span> VIP.{{
                         next_level.vip
                       }} </span>
@@ -947,7 +947,7 @@ const amount_rate = computed(() => {
                 <div class="flex items-center">
                   <img :src="VipImg.icon_vip" class="w-6 h-6 mr-2" />
                   <p class="text-xl font-bold text-themetext0">
-                    R${{ fn(vipInfoRef.bonus) }}
+                    {{ currentUnit.value }}{{ fn(vipInfoRef.bonus) }}
                   </p>
                 </div>
               </dt>

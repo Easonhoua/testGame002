@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { randNumberFunc, resetTimeFunc, isIphoneSE, playBtnAudioFunc } from '@/utils/core'
 import { redPakageShowRef, redPakageDataRef, redPakageAmountRef, redPakageStateRef, redPakageModel } from '@/model/other'
 import { useThemeImages } from '@/utils/themeimg'
@@ -38,7 +38,7 @@ function clickClose() {
 <template>
     <teleport to="body">
 
-        <!--  -->
+        <!-- redPakageShowRef -->
         <section v-if="redPakageShowRef"
             class="w-wrap max-w-full h-full pb-20 fixed top-0 z-[99] left-0 right-0  mx-auto flex items-center justify-center">
             <em class="w-full h-full bg-rgbablack30 bg-blur absolute left-0 top-0 block"></em>
@@ -62,7 +62,7 @@ function clickClose() {
             <!-- <div class="absolute top-2 left-2 text-themewhite z-50">Status: {{ redPakageStateRef.status }}</div> -->
 
             <section class="w-full max-h-full px-ctx overflow-y-auto relative z-10"
-                v-if="currentTemplate.value == 'template_one'|| currentTemplate.value == 'template_five'">
+                v-if="currentTemplate.value == 'template_one'">
                 <!-- 可以领取 redPakageStateRef.status == 1-->
                 <template v-if="redPakageStateRef.status == 1">
                     <div>
@@ -71,7 +71,7 @@ function clickClose() {
                             <ul
                                 class="!pl-3 !list-disc text-xs leading-normal text-themewhite absolute left-4 right-4 top-[9.375rem]">
                                 <li>Membros recarregados podem reivindicar gratuitamente.</li>
-                                <li>Valor máximo de queda em dinheiro: R${{ 7.777 }}.</li>
+                                <li>Valor máximo de queda em dinheiro: {{ currentUnit.value }}{{ 7.777 }}.</li>
                             </ul>
                             <a href="javascript:;" @click="takeRedPakageFunc()"
                                 class="w-20 h-16 -ml-10 block absolute left-1/2 top-[14.75rem]"></a>
@@ -96,7 +96,7 @@ function clickClose() {
                         <img :src=RedpacketImg.img_redpacketbg2 class="w-full h-full object-cover block">
                         <div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
                             <p class="text-themewhite text-lg font-bold">
-                                <span>R$&nbsp;</span>
+                                <span>{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-3xl text-four">{{ fn(redPakageAmountRef || 0) }}</span>
                             </p>
                             <p class="text-themeblack text-sm mt-8">
@@ -127,10 +127,10 @@ function clickClose() {
                         </button>
                         <div class="p-4 -mt-5 ctx-theme__linear">
                             <p class="text-sm text-center">
-                                <b>Máximo de Queda R$ 5.000.000 por vez</b>
+                                <b>Máximo de Queda {{ currentUnit.value }} 5.000.000 por vez</b>
                             </p>
                             <p class="text-center font-bold">
-                                <span class="text-sm">R$</span>
+                                <span class="text-sm">{{ currentUnit.value }}</span>
                                 <!-- <span class="text-2xl text-four">{{ fn(redPakageDataRef&&redPakageDataRef.bonus||0) }}</span> -->
                                 <span class="text-2xl text-four">{{ 7.777 }}</span>
                             </p>
@@ -165,8 +165,8 @@ function clickClose() {
                                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themeblack"></em>
                             </div>
                             <article class="ctx-article p-mb text-xs">
-                                <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com R$ 5.000.000.</p>
-                                <p>2.Valor máximo da chuva de dinheiro: R$ 7.777</p>
+                                <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com {{ currentUnit.value }} 5.000.000.</p>
+                                <p>2.Valor máximo da chuva de dinheiro: {{ currentUnit.value }} 7.777</p>
                                 <p>3.Membros recarregados podem reivindicar gratuitamente.</p>
                                 <p>4.O bônus precisa atingir um volume de negócios 1x para poder ser retirado.</p>
                             </article>
@@ -191,7 +191,7 @@ function clickClose() {
                             <ul
                                 class="!pl-9 !list-disc text-xs leading-normal text-redpacktext absolute left-9 right-8 top-[33%]">
                                 <li>Membros recarregados podem reivindicar gratuitamente.</li>
-                                <li>Valor máximo de queda em dinheiro: R${{ 7.777 }}.</li>
+                                <li>Valor máximo de queda em dinheiro: {{ currentUnit.value }}{{ 7.777 }}.</li>
                             </ul>
 
                             <!-- Coletar 按钮 - 居中定位 -->
@@ -216,7 +216,7 @@ function clickClose() {
                             <div class="absolute top-[-11%] left-0 w-full h-full flex flex-col items-center justify-center">
                                
                                 <p class=" text-redpacktext  text-lg font-bold">
-                                    <span>R$&nbsp;</span>
+                                    <span>{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-3xl text-redpacktext">{{ fn(redPakageAmountRef || 0) }}</span>
                                 </p>
                                 <p class="text-black text-sm mt-4">
@@ -242,10 +242,10 @@ function clickClose() {
                             </div>
                             <div class="p-2 font-bold mt-[-5rem]  bg-gradient-to-r from-btnlinar1 to-btnlinar2">
                                 <p class="text-sm text-center">
-                                    <span>Máximo de Queda R$ 5.000.000 por vez</span>
+                                    <span>Máximo de Queda {{ currentUnit.value }} 5.000.000 por vez</span>
                                 </p>
                                 <p class="text-center ">
-                                    <span class="text-sm">R$</span>
+                                    <span class="text-sm">{{ currentUnit.value }}</span>
                                     <span class="text-2xl text-four">{{ 7.777 }}</span>
                                 </p>
                             </div>
@@ -280,9 +280,9 @@ function clickClose() {
                                         <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-white"></em>
                                     </div>
                                     <article class=" p-mb text-[0.68rem]">
-                                        <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com R$
+                                        <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com {{ currentUnit.value }}
                                             5.000.000.</p>
-                                        <p>2.Valor máximo da chuva de dinheiro: R$ 7.777</p>
+                                        <p>2.Valor máximo da chuva de dinheiro: {{ currentUnit.value }} 7.777</p>
                                         <p>3.Membros recarregados podem reivindicar gratuitamente.</p>
                                         <p>4.O bônus precisa atingir um volume de negócios 1x para poder ser retirado.
                                         </p>
@@ -293,27 +293,26 @@ function clickClose() {
                     </div>
                 </template>
             </section>
-            <section class="w-full max-h-full  overflow-y-auto relative z-10" v-else>
+            <section class="w-full max-h-full  overflow-y-auto relative z-10 top-10" v-else>
                 <!-- 可以领取 redPakageStateRef.status == 1-->
                 <template v-if="redPakageStateRef.status == 1">
                     <div>
-                        <div class="w-full h-[3rem] flex justify-end items-end relative top-[-1rem] right-[1rem]"
-                            @click="clickClose()">
-                            <img :src=CommonImg.btn_close class="w-[1.5rem] h-[1.5rem]" />
-                        </div>
-
                         <div class="w-[20rem]  mx-auto relative flex flex-col items-center">
                             <img :src=RedpacketImg.img_redpacketbg1 class="w-full h-auto block relative">
-                            <div class="absolute top-[34%] text-text-one text-[1.88rem]  font-bold">
-                                <div class=" text-textwhite text-[1.88rem]  font-bold">Chuva de dinheiro</div>
+                            <div class="min-w-[14rem] absolute top-[34%] text-text-one text-[1.88rem]  font-bold">
+                                <div class=" text-textwhite text-[1.88rem] text-center font-bold">{{ t('activityCenter.rainofmoney') }}</div>
                                 <ul class="!pl-10 !list-disc text-[0.88rem] leading-normal text-textwhite absolute ">
-                                    <li>Membros recarregados podem reivindicar gratuitamente.</li>
-                                    <li>Valor máximo de queda em dinheiro: R${{ 7.777 }}.</li>
+                                    <li>{{ t('activityCenter.activityDetail5') }}</li>
+                                    <li>{{ t('activityCenter.activityDetail6')  }} {{ currentUnit.value }}{{ 7.777 }}.</li>
                                 </ul>
                             </div>
 
                             <div class="px-8 py-8 text-textwhite text-[1.28rem] rounded-[2rem] absolute top-[67%]"
-                                @click="takeRedPakageFunc()">Agarrar</div>
+                                @click="takeRedPakageFunc()">{{ t('Grab') }}</div>
+                        </div>
+                        <div class="w-full h-[3rem] mt-10 flex justify-center items-center "
+                            @click="clickClose()">
+                            <img :src=CommonImg.btn_close class="w-[1.5rem] h-[1.5rem]" />
                         </div>
                     </div>
 
@@ -328,15 +327,15 @@ function clickClose() {
                         </div>
                         <img :src=RedpacketImg.img_redpacketbg2 class="w-full h-full object-cover block">
                         <div class="absolute top-10 left-0 w-full h-full flex flex-col items-center justify-center">
-                            <div class="absolute top-[12rem] text-themetext2 text-[1.5rem] font-bold">Chuva de dinheiro
+                            <div class="absolute top-[12rem] text-themetext2 text-[1.5rem] font-bold">{{ t('activityCenter.rainofmoney') }}
                             </div>
                             <!-- <img :src=RedpacketImg.img_red class="w-[5rem] h-auto" /> -->
                             <p class=" text-themewhite mt-[7rem] text-lg font-bold">
-                                <span>R$&nbsp;</span>
+                                <span>{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-3xl text-redpacktext">{{ fn(redPakageAmountRef || 0) }}</span>
                             </p>
                             <p class="text-themetext3 text-sm mt-5">
-                                Horário de coleta:
+                               {{ t('activityCenter.CollectionTimes') }}
                             </p>
                             <p class="text-themetext3 text-sm mt-1">
                                 {{ resetTimeFunc(redPakageDataRef && redPakageDataRef.receive_time || 0) }}
@@ -352,12 +351,12 @@ function clickClose() {
                         <div class="absolute top-2 right-2 z-20" @click="clickClose()">
                             <img :src=CommonImg.btn_close class="w-[1.5rem] h-[1.5rem] animate-pulse" />
                         </div>
-                        <div class="p-2 font-bold mt-[-5.3rem]  m3-theme-btn1">
+                        <div class="p-2 font-bold mt-[-5.3rem]  bg-gradient-to-r from-btnlinar2 to-btnlinar1">
                             <p class="text-sm text-center text-white">
-                                <span>Máximo de Queda R$ 5.000.000 por vez</span>
+                                <span>{{ t('activityCenter.Maximumamount') }}</span>
                             </p>
                             <p class="text-center ">
-                                <span class="text-sm text-white">R$</span>
+                                <span class="text-sm text-white">{{ currentUnit.value }}</span>
                                 <span class="text-2xl text-themetext0">{{ 7.777 }}</span>
                             </p>
                         </div>
@@ -367,7 +366,7 @@ function clickClose() {
                                     <b>{{
                                         Object.keys(redPakageDataRef && redPakageDataRef.list
                                             && redPakageDataRef.list || {}).length
-                                    }}X por dia</b>
+                                    }}X {{ t('activityCenter.perday') }}</b>
                                 </p>
                                 <ol class="mt-2 text-xs flex flex-wrap">
                                     <template v-for="item, index in redPakageDataRef && redPakageDataRef.list || []"
@@ -387,16 +386,16 @@ function clickClose() {
                                 <div class="w-full mb-2 flex items-center">
                                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-white"></em>
                                     <h5 class="ma-w-[60%] px-2 text-sm text-center">
-                                        <span>Descrição da Atividade</span>
+                                        <span>{{ t('ActivityDescription') }}</span>
                                     </h5>
                                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-white"></em>
                                 </div>
                                 <article class=" p-mb text-[0.68rem]">
-                                    <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com R$ 5.000.000.
+                                    <p>{{ t('activityCenter.activityDetail7') }}
                                     </p>
-                                    <p>2.Valor máximo da chuva de dinheiro: R$ 7.777</p>
-                                    <p>3.Membros recarregados podem reivindicar gratuitamente.</p>
-                                    <p>4.O bônus precisa atingir um volume de negócios 1x para poder ser retirado.</p>
+                                    <p>{{ t('activityCenter.activityDetail8') }}</p>
+                                    <p>{{ t('activityCenter.activityDetail9') }}</p>
+                                    <p>{{ t('activityCenter.activityDetail10') }}</p>
                                 </article>
                             </div>
                         </div>

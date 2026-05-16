@@ -3,7 +3,7 @@ import { $get, $post } from '@/request'
 import { signConfigRef, redPakageStateRef} from '@/model/other'
 import { shareMsg } from '@/model/pdd'
 import { isAuthRef} from '@/model/user'
-
+ import { t } from '@/i18n'
 // 社媒列表
 export var socialListRef = ref([])
 export var socialMenuListRef = ref([]) // location = 1 左菜单栏底部
@@ -12,6 +12,8 @@ export var socialRedeemListRef = ref([]) // location = 2 兑换码
 export var rechargeTextRef = ref('')
 // 主页浮标
 export const buoyListRef = ref([])
+//底部浮标
+export const footerListRef = ref([])
 
 // 首充列表
 export const payListRef = ref([])
@@ -38,6 +40,7 @@ export var marqueeRef = ref('')
 export var footerTextRef = ref('')
 //pdd配置
 export var pddBaseConfRef = ref({})
+export const blogTagIdsRef = ref([])
 //pdd首页弹窗是否打开
 export var isPopPdd = computed(() => {
     let isPop = false
@@ -71,6 +74,10 @@ export async function getCommonConfigFunc() {
         // 按照 location 字段拆分
         socialMenuListRef.value = (socialListRef.value || []).filter(item => item && item.location == 1)
         socialRedeemListRef.value = (socialListRef.value || []).filter(item => item && item.location == 2)
+    }
+    //底部导航栏配置
+    if(data.banner[5]){
+        footerListRef.value = data.banner[5] || []
     }
 
     //浮标配置
@@ -130,70 +137,73 @@ export async function getCommonConfigFunc() {
 
             switch (type) {
                 case 'sign_in':
-                    item.title = 'Entrar'
+                    item.title = t('aside.enter')
                     break;
                 case 'treasure':
-                    item.title = 'Tesouro'
+                    item.title = t('aside.Treasure')
                     break;
                 case 'rescue':
-                    item.title = 'Resgatar'
+                    item.title = t('aside.Rescue')
                     break;
                 case 'rescue_week':
-                    item.title = 'Semana'
+                    item.title = t('aside.Week')
                     break;
                 case 'vip_bonus':
-                    item.title = 'VIP'
+                    item.title = t('aside.VIP')
                     break;
                 case 'agent':
-                    item.title = 'Agente'
+                    item.title = t('aside.Agent')
                     break;
                 case 'lucky':
-                    item.title = 'Sorteio'
+                    item.title = t('aside.Prizedraw')
                     break;
                 case 'code':
-                    item.title = 'Troca'
+                    item.title = t('aside.Replacement')
                     break;
                 case 'red_packet':
-                    item.title = 'Coleta'
+                    item.title = t('aside.Collect')
                     break;
                 case 'total_recharge':
-                    item.title = 'Bônus'
+                    item.title = t('aside.Bonus')
                     break;
                 case 'pdd':
-                    item.title = 'Magnata'
+                    item.title = t('aside.Tycoon')
                     break;
                 case 'discount':
-                    item.title = 'Ofertas'
+                    item.title = t('aside.Offers')
                     break;
                 case 'grand_deposit':
-                    item.title = 'Ofertas'
+                    item.title = t('aside.Offers')
                     break;
                 case 'mystery':
-                    item.title = 'Misterioso'
+                    item.title = t('aside.Mysterious')
                     break;
                 case 'day7_back':
-                    item.title = '7 Dias'
+                    item.title = t('aside.7Days')
                     break;
                 case 'code_wash':
-                    item.title = 'Rebate'
+                    item.title = t('aside.Rebate')
                     break;
                 case "turntable":
-                    item.title = 'Roleta'
+                    item.title = t('aside.Roulette')
                     break;
                 case 'first_pay':
-                    item.title = 'Depósito'
+                    item.title = t('aside.Deposit')
                     break;
                 case 'pass':
-                    item.title = 'Passe'
+                    item.title = t('aside.Pass')
                     break;
                 case 'bet_rank':
-                    item.title = 'Classificação'
+                    item.title = t('aside.Classification')
                     break;
                 case 'bet_sign':
-                    item.title = 'Nível'
+                    item.title = t('aside.Level')
                     break;
                 case 'month_lottery':
-                    item.title = 'Super'
+                    item.title = t('aside.Super')
+                    break;
+                case 'member_day':
+                    item.title = t('aside.memberDay')
                     break;
                 default:
                     break;
@@ -250,7 +260,7 @@ export async function getRedPot() {
     const res = await $get({ url: '/activity/v2/index/red-dot' }, { loading: false })
     if (res.code != 200) return     
     const data = res.data || {}
-
+    blogTagIdsRef.value = res.data.blogTagIds||[]
     if(data.index_config){
         redPotActivityRef.value = data.index_config.activity_banner || []
         //更新navListRef中的count

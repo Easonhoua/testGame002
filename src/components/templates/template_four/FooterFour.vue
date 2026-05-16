@@ -1,14 +1,35 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useThemeImages } from '@/utils/themeimg'
+import { routeToViewFunc } from '@/model/basic'
+import { blogTagIdsRef } from '@/model/common'
 const FooterImg = useThemeImages().footer
-const menu_list = ref([
+const menu_list = computed(()=> {
+         // 默认菜单配置
+    const defaultList = [
         { icon: FooterImg.icon_home1, actIcon: FooterImg.icon_home2, path: '/' },
         { icon: FooterImg.icon_more1, actIcon: FooterImg.icon_more2, path: '/more' },
-        { icon: FooterImg.icon_agent1, actIcon: FooterImg.icon_agent2, path: '/agent', name: 'Comissão' },
+        { icon: FooterImg.icon_agent1, actIcon: FooterImg.icon_agent2,path: blogTagIdsRef.value.includes(2) ? '/recharge' : '/agent', name: 'Comissão' },
         { icon: FooterImg.icon_wallet1, actIcon: FooterImg.icon_wallet2, path: '/recharge', auth: true },
-        { icon: FooterImg.icon_user1, actIcon: FooterImg.icon_user2, path: '/mine', auth: true },
-    ])
+        { icon: FooterImg.icon_user1, actIcon: FooterImg.icon_user2, path: '/mine', auth: true }
+    ]
+    if (footerListRef.value) {
+        footerListRef.value.forEach(item => {
+            if (item.sort == 0) {
+                defaultList[2].icon = item.img
+                defaultList[2].name = item.desc_str || ''
+                routeToViewFunc(item.link).then(res => {
+                    if (res && res.path) {
+                        defaultList[2].path = res.path
+                    }
+                })
+            } else if (item.sort == 1) {
+                defaultList[2].actIcon = item.img
+            }
+        })
+    }
+    return defaultList
+})
 
 import { useFooter } from '@/composables/useFooter'
 const { 
@@ -16,6 +37,7 @@ const {
     redPotCountRef,
     current_path,
     onclickMenu,
+    footerListRef
 } = useFooter()
 
 </script>
@@ -40,7 +62,9 @@ const {
                                         :src="item.icon" 
                                         :class="item.name!=='Comissão'?'w-[3.5rem] h-[3rem]':'w-[3.5rem] h-[3rem] relative -top-[0.1rem] left-0'"
                                         v-show="item.path !== current_path"
-                                    > <img :src="FooterImg.icon_animation" class="rotating-element z-[1] absolute w-[2.85rem] h-[2.85rem] top-[0.15rem] left-[0.89rem]"  v-if="item.name=='Comissão'&&item.path !== current_path"/>
+                                    > 
+                                    
+                                    <img :src="FooterImg.icon_animation" class="rotating-element z-[1] absolute w-[2.85rem] h-[2.85rem] top-[0.15rem] left-[0.89rem]"  v-if="index==2"/>
                                    
                                     <img 
                                         :src="item.actIcon" 

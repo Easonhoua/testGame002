@@ -108,9 +108,11 @@
     
     .m5-theme-btn1 {
         background: linear-gradient(to left, var(--color-gold-100), var(--color-gold-500));
+        color: var(--color-m4ninetext) !important;
     }
     .m5-theme-btn2 {
         background: linear-gradient(-37deg, var(--color-themecardlinear1), var(--color-themecardlinear2));
+         color: var(--color-m4tentext) !important;
     }
 
     .m5-theme-model1 {

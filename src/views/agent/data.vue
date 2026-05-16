@@ -96,7 +96,7 @@ function onConfirm(value) {
                                 <span>Total das comissões</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-rgbawhite50">R$&nbsp;</span>
+                                <span class="text-xs text-rgbawhite50">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base">{{ fn(myDataRef.bonus) }}</b>
                             </p>
                         </li>
@@ -105,7 +105,7 @@ function onConfirm(value) {
                                 <span>Total de apostas</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-rgbawhite50">R$&nbsp;</span>
+                                <span class="text-xs text-rgbawhite50">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base">{{ fn(myDataRef.team_bet_amount) }}</b>
                             </p>
                         </li>
@@ -140,7 +140,7 @@ function onConfirm(value) {
                                 <span>Total das comissões</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-three">R$&nbsp;</span>
+                                <span class="text-xs text-three">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base text-four">{{ fn(myDataRef.bonus) }}</b>
                             </p>
                         </li>
@@ -149,7 +149,7 @@ function onConfirm(value) {
                                 <span>Total de apostas</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-three">R$&nbsp;</span>
+                                <span class="text-xs text-three">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base text-four">{{ fn(myDataRef.team_bet_amount) }}</b>
                             </p>
                         </li>
@@ -184,7 +184,7 @@ function onConfirm(value) {
                                 <span>Total das comissões</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-themetext1">R$&nbsp;</span>
+                                <span class="text-xs text-themetext1">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base">{{ fn(myDataRef.bonus) }}</b>
                             </p>
                         </li>
@@ -193,7 +193,7 @@ function onConfirm(value) {
                                 <span>Total de apostas</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-themetext1">R$&nbsp;</span>
+                                <span class="text-xs text-themetext1">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-base">{{ fn(myDataRef.team_bet_amount) }}</b>
                             </p>
                         </li>
@@ -228,7 +228,7 @@ function onConfirm(value) {
                                 <span>Total das comissões:</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-themetext0">R$&nbsp;</span>
+                                <span class="text-xs text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-themetext0">{{ fn(myDataRef.bonus) }}</b>
                             </p>
                         </li>
@@ -237,7 +237,7 @@ function onConfirm(value) {
                                 <span>Total de apostas:</span>
                             </h5>
                             <p>
-                                <span class="text-xs text-themetext0">R$&nbsp;</span>
+                                <span class="text-xs text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                                 <b class="text-themetext0">{{ fn(myDataRef.team_bet_amount) }}</b>
                             </p>
                         </li>

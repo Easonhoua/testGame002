@@ -5,6 +5,9 @@ import { isIOS} from '@/utils/core'
 import { agentV2Index,agentPhoneRef,agentShareRef, agentCanReceiveRef,agentReceivedRef,agentV2Receive,agentV2TotalData,agentSummaryRef,agentBonusInfoRef} from '@/model/agent'
 import InviteShareCard from '@/components/pages/InviteShareCard.vue'
 import { useThemeImages } from '@/utils/themeimg'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const AgentImg = useThemeImages().agent
 const CommonImg = useThemeImages().common
@@ -16,20 +19,20 @@ const emit = defineEmits(['change-tab'])
 
 // 下拉选择
 const open = ref(false)
-const current = ref('Hoje')
+const current = ref()
 const options = [
-  'Hoje',
-  'Ontem',
-  'Esta semana',
-  'Semana passada',
-  'Este mês',
-  'Mês passado',
+  t('commCenter.Today'),
+  t('commCenter.Yesterday'),
+  t('commCenter.Thisweek'),
+  t('commCenter.Lastweek'),
+  t('commCenter.Thismonth'),
+  t('commCenter.Lastmonth'),
 ]
 
 onMounted(()=> {
     agentV2Index()
     //默认选中今天
-    select('Hoje')
+    select(t('commCenter.Today'))
 })
 
 // 处理详情按钮点击事件
@@ -57,29 +60,29 @@ const select = (val) => {
     var startDate, endDate
     const today = new Date()
     switch (val) {
-        case 'Hoje':
+        case t('commCenter.Today'):
         startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
         endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
         break
-        case 'Ontem':
+        case t('commCenter.Yesterday'):
         startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1)
         endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1)
         break
-        case 'Esta semana':
+        case t('commCenter.Thisweek'):
         const firstDayOfWeek = today.getDate() - today.getDay()
         startDate = new Date(today.getFullYear(), today.getMonth(), firstDayOfWeek)
         endDate = new Date(today.getFullYear(), today.getMonth(), firstDayOfWeek + 6)
         break
-        case 'Semana passada':
+        case t('commCenter.Lastweek'):
         const firstDayOfLastWeek = today.getDate() - today.getDay() - 7
         startDate = new Date(today.getFullYear(), today.getMonth(), firstDayOfLastWeek)
         endDate = new Date(today.getFullYear(), today.getMonth(), firstDayOfLastWeek + 6)
         break
-        case 'Este mês':
+        case t('commCenter.Thismonth'):
         startDate = new Date(today.getFullYear(), today.getMonth(), 1)
         endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
         break
-        case 'Mês passado':
+        case t('commCenter.Lastmonth'):
         startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1)
         endDate = new Date(today.getFullYear(), today.getMonth(), 0)
         break
@@ -91,6 +94,9 @@ const select = (val) => {
 }
 
 const formatDate = (date) => {
+    if(!date){
+        return;
+    }
   const y = date.getFullYear()
   const m = String(date.getMonth() + 1).padStart(2, '0')
   const d = String(date.getDate()).padStart(2, '0')
@@ -257,7 +263,7 @@ const redirectSms = () => {
                 <div class="mt-3 px-8 w-full flex bg-tablebg2 justify-between items-center">
                     <div class=" flex flex-col items-center">
                         <h5 class="text-sm m4-text font-bold">Comissão Recebida</h5>
-                        <span class="text-2xl text-themetext0 font-bold">R${{ agentReceivedRef }}</span>
+                        <span class="text-2xl text-themetext0 font-bold">{{ currentUnit.value }}{{ agentReceivedRef }}</span>
                     </div>
                     <img :src=AgentImg.img_agentwin class=" w-[7.5rem] h-auto">
                 </div>
@@ -265,7 +271,7 @@ const redirectSms = () => {
                 <div class="mt-3 px-1 flex justify-between items-center">
                     <div class=" flex items-center">
                         <h5 class="text-[0.6rem] text-rgbawhite50">Comissão não recebida</h5>
-                        <span class="text-base text-themetext0 font-bold">&nbsp;R${{ agentCanReceiveRef }}</span>
+                        <span class="text-base text-themetext0 font-bold">&nbsp;{{ currentUnit.value }}{{ agentCanReceiveRef }}</span>
                     </div>
 
                     <button class="w-24 h-8 rounded-full transition"
@@ -385,7 +391,7 @@ const redirectSms = () => {
                 <!-- 总业绩 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
                     <h5 class="text-xs m4-text font-bold">Desempenho total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentSummaryRef.total_bet_amount ?? 0}}</span>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }}{{agentSummaryRef.total_bet_amount ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
@@ -424,7 +430,7 @@ const redirectSms = () => {
                 <!-- 总佣金 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
                     <h5 class="text-xs m4-text font-bold">Comissão total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentBonusInfoRef.total_bonus ?? 0}}</span>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }}{{agentBonusInfoRef.total_bonus ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
@@ -562,7 +568,7 @@ const redirectSms = () => {
                 <div class="mt-3 px-8 w-full flex bg-tablebg2 justify-between items-center">
                     <div class=" flex flex-col items-center">
                         <h5 class="text-sm text-themewhite font-bold">Comissão Recebida</h5>
-                        <span class="text-2xl text-themetext0 font-bold">R${{ agentReceivedRef }}</span>
+                        <span class="text-2xl text-themetext0 font-bold">{{ currentUnit.value }}{{ agentReceivedRef }}</span>
                     </div>
                     <img :src=AgentImg.img_agentwin class=" w-[7.5rem] h-auto">
                 </div>
@@ -570,7 +576,7 @@ const redirectSms = () => {
                 <div class="mt-3 px-1 flex justify-between items-center">
                     <div class=" flex items-center">
                         <h5 class="text-[0.6rem] text-themetext3">Comissão não recebida</h5>
-                        <span class="text-base text-themetext0 font-bold">&nbsp;R${{ agentCanReceiveRef }}</span>
+                        <span class="text-base text-themetext0 font-bold">&nbsp;{{ currentUnit.value }}{{ agentCanReceiveRef }}</span>
                     </div>
 
                     <button class="w-24 h-8 rounded-full transition"
@@ -688,7 +694,7 @@ const redirectSms = () => {
                 <!-- 总业绩 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
                     <h5 class="text-xs text-themewhite font-bold">Desempenho total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentSummaryRef.total_bet_amount ?? 0}}</span>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }}{{agentSummaryRef.total_bet_amount ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
@@ -727,7 +733,7 @@ const redirectSms = () => {
                 <!-- 总佣金 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
                     <h5 class="text-xs text-themewhite font-bold">Comissão total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentBonusInfoRef.total_bonus ?? 0}}</span>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }}{{agentBonusInfoRef.total_bonus ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
@@ -763,7 +769,7 @@ const redirectSms = () => {
             <invite-share-card></invite-share-card>
             <div class="px-3 -mt-2" v-if="agentPhoneRef.length > 0">   
                 <h3 class="pt-2 mb-1 text-sm ">
-                    <span class="m4-text">Enviar convite para jogador aleatório ajudar</span>
+                    <span class="m4-text">{{  t('commCenter.details1')  }}</span>
                 </h3>
                 
                 <div v-if="agentPhoneRef.length" class="relative">
@@ -819,7 +825,7 @@ const redirectSms = () => {
                     <dd class="flex-1">
                     <a @click="redirectToWhatsApp()" class="block min-h-11 px-3 py-2 bg-rgbawhite10 text-white flex items-center justify-between rounded-xl hover:bg-white/30">
                         <div class="text-[0.68rem]">
-                        <span>Enviar Mensagem</span><br>
+                        <span>{{ t('commCenter.SendMessage') }}</span><br>
                         <b>WhatsAPP</b>
                         </div>
                         <img src="/imgs/lo_whatsapp.svg" class="w-8 h-8">
@@ -828,7 +834,7 @@ const redirectSms = () => {
                     <dd class="flex-1">
                     <a @click="redirectSms()" class="relative min-h-11 px-3 py-2 bg-rgbawhite10 text-white flex items-center justify-between rounded-xl hover:bg-white/30">
                         <div class="text-[0.68rem]">
-                        <span>Enviar Mensagem</span><br>
+                        <span>{{ t('commCenter.SendMessage') }}</span><br>
                         <b>SMS</b>
                         <!-- <img :src="CommonImg.gif_finger" class="absolute left-[60%] top-10  w-[6rem] h-[6rem] -translate-x-1/2 -translate-y-1/2 pointer-events-none"/> -->
                         </div>
@@ -846,29 +852,29 @@ const redirectSms = () => {
         <pu-card theme="3" class="mb-3 ">
             <div class="w-full py-4  text-themewhite rounded-xl bg-tablergba20 px-2" >
                 <div class="px-1 flex justify-between items-center">
-                    <h5 class="text-sm font-bold m4-text">Comissão</h5>
-                    <button class="w-20 h-6 m4-ten-btn text-theme-text rounded-full flex items-center"
+                    <h5 class="text-sm font-bold m4-text">{{ t('commission') }}</h5>
+                    <button class="w-20 h-6 m3-theme-btn1 text-theme-text rounded-full flex items-center"
                         @click="goDatail"
                         >
                         <img :src="AgentImg.icon_ag04" alt="" class="h-4 ml-2 mr-1 ">
-                        <span class="text-[0.8rem]">Detalhes</span>
+                        <span class="text-[0.8rem]">{{ t('commCenter.Details') }}</span>
                     </button>
                 </div>
 
-                <p class="px-1 text-[0.6rem] text-rgbawhite50">O tempo de resolução da comissão é de 4:00-8:00 todos os dias.</p>
+                <p class="px-1 text-[0.6rem] text-rgbawhite50">{{ t('commCenter.details2') }}</p>
 
-                <div class="mt-3 px-8 w-full flex bg-tablergba40 justify-between items-center">
+                <div class="mt-3 px-6 w-full flex bg-tablergba40 justify-between items-center">
                     <div class=" flex flex-col items-center">
-                        <h5 class="text-sm m4-text font-bold">Comissão Recebida</h5>
-                        <span class="text-2xl text-themetext0 font-bold">R${{ agentReceivedRef }}</span>
+                        <h5 class="text-sm m4-text font-bold">{{ t('commCenter.CommissionReceived') }}</h5>
+                        <span class="text-2xl text-themetext0 font-bold">{{ currentUnit.value  }} &nbsp;{{ agentReceivedRef }}</span>
                     </div>
                     <img :src=AgentImg.img_agentwin class=" w-[7.5rem] h-auto">
                 </div>
 
                 <div class="mt-3 px-1 flex justify-between items-center">
                     <div class=" flex items-center">
-                        <h5 class="text-[0.6rem] text-rgbawhite50">Comissão não recebida</h5>
-                        <span class="text-base text-themetext0 font-bold">&nbsp;R${{ agentCanReceiveRef }}</span>
+                        <h5 class="text-[0.6rem] text-rgbawhite50">{{ t('commCenter.Commissionnotreceived') }}</h5>
+                        <span class="text-base text-themetext0 font-bold">{{ currentUnit.value  }} &nbsp;{{ agentCanReceiveRef }}</span>
                     </div>
 
                     <button class="w-24 h-8 rounded-full transition"
@@ -877,7 +883,7 @@ const redirectSms = () => {
                             : 'm4-nine-btn'"
                         :disabled="agentCanReceiveRef <= 0"
                         @click="handleReceiveClick">
-                        <span class="text-[0.9rem] align-middle">Receber</span>
+                        <span class="text-[0.9rem] align-middle">{{ t('Receive') }}</span>
                     </button>
                 </div>
 
@@ -887,7 +893,7 @@ const redirectSms = () => {
 
         <pu-card theme="0" class="mb-4 bg-tablergba20 mt-5 overflow-hidden">
             <div class="px-3 flex h-12 bg-tablergba40 justify-between items-center">
-                <h5 class="text-sm font-bold m4-text">Meus dados</h5>
+                <h5 class="text-sm font-bold m4-text">{{ t('commCenter.Mydata') }}</h5>
 
                 <div class="relative inline-block text-sm">
                     <!-- 触发按钮 -->
@@ -926,128 +932,128 @@ const redirectSms = () => {
                 
                 <!-- 我的数据 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
-                    <h5 class="text-xs m4-text font-bold">Novos subordinados</h5>
+                    <h5 class="text-xs m4-text font-bold">{{ t('commCenter.Newsubordinates') }}</h5>
                     <span class="text-xs text-themetext0 font-bold">&nbsp; {{agentSummaryRef.total_reg_num ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Novos subordinados diretos</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Newdirectsubordinates') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.reg_num ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Outros subordinados novos</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Othernewsubordinates') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_reg_num ?? 0}}</div>
                     </div>
                 </div>
                 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Valor de depósito</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Depositvalue') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_recharge_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Número de depósitos</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Numberofdeposits') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_recharge_num ?? 0}}</div>
                     </div>
                 </div>
                 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Valor do primeiro depósito</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Valuefirstdeposit') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_first_recharge_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Usuários 1º depósito</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Users1stdeposit') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_first_recharge_user_num ?? 0}}</div>
                     </div>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Valor novo + 1º depósito</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Newvalue1stdeposit') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_new_user_first_recharge_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Usuários novo + 1º depósito</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Newusers1stdeposit') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_new_user_first_recharge_user_num ?? 0}}</div>
                     </div>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Valor de saque</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Withdrawalvalue') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_withdraw_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Número de saques</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Numberofdraws') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_withdraw_num ?? 0}}</div>
                     </div>
                 </div>
 
                 <!-- 总业绩 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
-                    <h5 class="text-xs m4-text font-bold">Desempenho total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentSummaryRef.total_bet_amount ?? 0}}</span>
+                    <h5 class="text-xs m4-text font-bold">{{ t('commCenter.Totalperformance') }}</h5>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }} &nbsp;{{agentSummaryRef.total_bet_amount ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Desemprenhe direto</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Directunloading') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.direct_bet_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Outros desemprenhos</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Otherunemployment') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.team_bet_amount ?? 0}}</div>
                     </div>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Apostas válidas diretas</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.DirectValidBets') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.direct_bet_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Ganhos/perdas diretos</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Directgains/losses') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.real_win_amount ?? 0}}</div>
                     </div>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Depósito direto</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Directdeposit') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.recharge_amount ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Saque direto</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Directwithdrawal') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentSummaryRef.withdraw_amount ?? 0}}</div>
                     </div>
                 </div>
 
                 <!-- 总佣金 -->
                 <div class="mt-3 px-3 flex items-center text-themewhite">
-                    <h5 class="text-xs m4-text font-bold">Comissão total</h5>
-                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;R${{agentBonusInfoRef.total_bonus ?? 0}}</span>
+                    <h5 class="text-xs m4-text font-bold">{{  t('commCenter.TotalCommission')  }}</h5>
+                    <span class="text-xs text-themetext0 font-bold">&nbsp;&nbsp;{{ currentUnit.value }} &nbsp;{{agentBonusInfoRef.total_bonus ?? 0}}</span>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Comissão recebida</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Commissionreceived') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentBonusInfoRef.is_received ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Comissão não recebida</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Commissionnotreceived') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentBonusInfoRef.can_receive ?? 0}}</div>
                     </div>
                 </div>
 
                 <div class="flex px-2 py-1 gap-3">
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Comissão direta</div>
+                        <div class="text-[0.6rem] mb-1">{{  t('commCenter.DirectCommission')  }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentBonusInfoRef.direct_bonus ?? 0}}</div>
                     </div>
                     <div class="w-1/2 p-2 bg-tablergba40 text-center rounded-lg">
-                        <div class="text-[0.6rem] mb-1">Outras comissões</div>
+                        <div class="text-[0.6rem] mb-1">{{ t('commCenter.Othercommissions') }}</div>
                         <div class="text-[1.2rem] font-bold">{{agentBonusInfoRef.indirect_bonus ?? 0}}</div>
                     </div>
                 </div>

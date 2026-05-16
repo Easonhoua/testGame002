@@ -91,7 +91,7 @@ onUnmounted(() => {
                         <article class="ctx-article text-xs leading-normal">
                             <p>Deposite dentro de duas horas e receba 100% de bônus em dinheiro!</p>
                             <p>Cada conta tem direito a participar da promoção de bônus de primeiro depósito apenas uma vez</p>
-                            <p>Ao gastar mais de R$50 por semana no jogo, você poderá receber até 60% do valor das suas perdas como cashback</p>
+                            <p>Ao gastar mais de {{ currentUnit.value }}50 por semana no jogo, você poderá receber até 60% do valor das suas perdas como cashback</p>
                         </article>
                     </div>
                 </div>

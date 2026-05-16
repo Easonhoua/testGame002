@@ -42,12 +42,12 @@ onMounted(()=> {
 
         <pu-card theme="3" class="mb-3 pt-3 ">
             <h5 class=" px-2 text-l font-bold mb-3 text-start m4-text">
-                <span>Descrição da Atividade:</span>
+                <span>{{ t('ActivityDescription') }}:</span>
             </h5>
             <article class="p-mb text-sm text-themetext3 ctx-article"  v-html="agentContentRef" v-if="agentContentRef!=''"></article>
             <article class="p-mb text-sm text-themetext3" v-else>
-                <p>1. O uso do bônus deve seguir as regras da plataforma.</p>
-                <p>2. A empresa reserva-se o direito de interpretação final sobre esta atividade.</p>
+                <p>1. {{ t('commCenter.ruleDetail1')  }}</p>
+                <p>2.{{t('commCenter.ruleDetail2')}}</p>
             </article>
         </pu-card>  
         <em class="w-full h-[4.25rem] block"></em>

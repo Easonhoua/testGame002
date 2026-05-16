@@ -1,7 +1,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { $get, $post } from '@/request'
 import { openLoginFunc,isEverLoginFunc } from '@/utils/config'
-import { isAuthRef } from '@/model/user'
+import { blogTagIdsRef} from '@/model/common'
 import { signShowRef, signConfigRef, redPakageShowRef, redPakageStateRef, showFirstChargeRef} from '@/model/other'
 const currentTemplate = ref(import.meta.env.VITE_TEMPLATE || TEMPLATE_CONFIG.DEFAULT)
 export async function uploadBase64ImageFunc(image) {
@@ -21,7 +21,11 @@ export function routeToViewFunc(type) {
                 resolve(null)
                 break;
             case 'treasure':
-                resolve({path: '/treasure/box'})
+                if(blogTagIdsRef.value.includes(1)){
+                     resolve({path: '/recharge'})
+                }else{
+                    resolve({path: '/treasure/box'})
+                }
                 break;
             case 'rescue':
                 resolve({path: '/rescue/fund'})
@@ -30,7 +34,12 @@ export function routeToViewFunc(type) {
                 resolve({path: '/vip'})
                 break;
             case 'agent':
-                resolve({path: '/agent'})
+                if(blogTagIdsRef.value.includes(2)){
+                    resolve({path: '/recharge'})
+                }else{
+                     resolve({path: '/agent'})
+                }
+                
                 break;
             case 'lucky':
                 resolve({path: '/lucky/draw'})
@@ -58,7 +67,11 @@ export function routeToViewFunc(type) {
                 resolve({path: '/activity/totalrecharge'})
                 break;
             case 'pdd':
-                resolve({path: '/pdd'})
+                 if(blogTagIdsRef.value.includes(4)){
+                    resolve({path: '/recharge'})
+                }else{
+                     resolve({path: '/pdd'})
+                }
                 break;
             case 'grand_deposit':
                 resolve({path: '/great_offer'})
@@ -93,6 +106,9 @@ export function routeToViewFunc(type) {
                 break;
             case 'month_lottery':
                 resolve({path: '/activity/monthlybetting'})
+                break;
+            case 'member_day':
+                resolve({path: '/activity/membersGift'})
                 break;
             default:
                 reject()

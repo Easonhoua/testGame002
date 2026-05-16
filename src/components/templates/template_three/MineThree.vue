@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { t, fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { playBtnAudioFunc} from '@/utils/core'
 import ShareList from '@/components/pages/ShareList.vue'
 import LogOut from '@/components/pages/LogOut.vue'
-
+import { blogTagIdsRef } from '@/model/common'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const CommonImg = useThemeImages().common
@@ -13,12 +13,12 @@ const AsideImg = useThemeImages().aside
 
 
 const nav_list = ref([
-    {title: 'Mensagem', path: '/article/message', icon: MineImg.icon_msg},
-    {title: 'Todas as Promoções', path: '/more', icon: MineImg.icon_more},
-    {title: 'Registro do Jogo', path: '/game/record', icon: MineImg.icon_record},
-    {title: 'Registros de depósito e saqueo', path: '/moneyRecords', icon: MineImg.icon_moneylist},
-    {title: 'Configuração', path: '/profile', icon: MineImg.icon_set},
-    {title: 'Contatar o Serviço', type: 'service', icon: MineImg.icon_service},
+    {title: t('userCenter.Message'), path: '/article/message', icon: MineImg.icon_msg},
+    {title: t('userCenter.Allpromotions'), path: '/more', icon: MineImg.icon_more},
+    {title: t('userCenter.GameRegistration'), path: '/game/record', icon: MineImg.icon_record},
+    {title: t('userCenter.Depositextractionrecords'), path: '/moneyRecords', icon: MineImg.icon_moneylist},
+    {title: t('userCenter.Configuration'), path: '/profile', icon: MineImg.icon_set},
+    {title: t('userCenter.ContactSer'), type: 'service', icon: MineImg.icon_service},
 ])
 
 import { useMine } from '@/composables/useMine'
@@ -58,13 +58,13 @@ const {
                         </div>
                         <div class="flex-1 ">
                             <p class="mb-0.5 text-right">
-                            <span class="text-xs text-theme-text ">Saldo:&nbsp;</span>
-                            <b class="text-sm text-themetext0">R$&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
+                            <span class="text-xs text-theme-text ">{{ t('userCenter.balance') }}:&nbsp;</span>
+                            <b class="text-sm text-themetext0">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
                             </p>
                             <!-- 每日奖励 -->
                             <p class="mb-0.5 text-right">
-                                <span class="text-xs text-theme-text ">Total de bônus recebidos:&nbsp;</span>
-                                <b class="text-sm text-themetext0">R$&nbsp;{{ fn(memberRef.give_amount||0 )}}</b>
+                                <span class="text-xs text-theme-text ">{{ t('userCenter.TotalBR') }}:&nbsp;</span>
+                                <b class="text-sm text-themetext0">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.give_amount||0 )}}</b>
                             </p>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ const {
                                 style="background-repeat: no-repeat; background-size: 100% 100%;"
                             >    
                                 <img :src=AsideImg.icon_recharge class="w-4 h-4 mr-1 -mt-0.5" />
-                                <span class="text-themetext4">Depósito</span>
+                                <span class="text-themetext4">{{ t('deposit') }}</span>
                             </div>
                         </li>
                         <li class="w-1/2 pl-1">
@@ -98,7 +98,7 @@ const {
                             :style="{ backgroundImage: `url(${AsideImg.bg_deposito2})`}"
                             style="background-repeat: no-repeat; background-size: 100% 100%;">
                                 <img :src=AsideImg.icon_withdraw class="w-4 h-4 mr-1 " />
-                                <span class="text-themetext1">Saque</span>
+                                <span class="text-themetext1">{{t('Sack') }}</span>
                             </div>
                         </li>
                     </ol>
@@ -125,8 +125,8 @@ const {
                    
                         <!-- <img src="/imgs/user/mine-vip-card-2.png" class="w-[9.375rem] h-8 block"> -->
                          <div class="w-[8rem] h-8">
-                            <router-link to="/vip" @click="playBtnAudioFunc()" class="w-full h-full  pl-5 flex  flex_end items-center  ">
-                                <span class="text-xs text-themetext1">Ver Mais</span>
+                            <router-link to="/vip" @click="playBtnAudioFunc()" class="w-full h-full  pl-2 flex  flex_end items-center  ">
+                                <span class="text-xs text-themetext1">{{ t('userCenter.seeMore') }}</span>
                                 <icon-arrow-right size="2" class="w-6 h-6 "></icon-arrow-right>
                             </router-link>
 
@@ -135,7 +135,7 @@ const {
                  </div>
                 <dl class="w-full p-2 block">
                     <dt class="w-full">
-                        <span class="text-xs text-white">Volume acumulado de apostas:</span>
+                        <span class="text-xs text-white">{{  t('userCenter.Volume1')  }}</span>
                         <span class="text-base float-right">{{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money)}}</span>
                         <i class="clear-both block"></i>
                     </dt>
@@ -151,7 +151,7 @@ const {
                 </dl>
                 <dl class="w-full p-2 rounded-lg block">
                     <dt class="w-full">
-                        <span class="text-xs text-white">Volume de apostas deste mês:</span>
+                        <span class="text-xs text-white">{{ t('userCenter.Volume2') }}</span>
                         <span class="text-base opacity-85 float-right">{{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money) }}</span>
                         <i class="clear-both block"></i>
                     </dt>
@@ -162,30 +162,30 @@ const {
                     </dd>
                     <dd class="w-full text-xs flex items-center justify-between">
                         <span class="text-themetext4">0</span>
-                        <span class="text-themetext4">Manter a divisão: 0</span>
+                        <span class="text-themetext4">{{ t('userCenter.KeepTheDivision') }}: 0</span>
                     </dd>
                 </dl>
             </div>
         </pu-card>
         <pu-card theme="1" class="mt-3 p-3 bg-text-two">
-            <router-link to="/agent" class="w-full mb-2 flex items-center justify-between">
-                <b class="text-sm  text-theme-text ">Agente</b>
+            <router-link :to="blogTagIdsRef.includes(2) ? '/recharge' : '/agent'" class="w-full mb-2 flex items-center justify-between">
+                <b class="text-sm  text-theme-text ">{{ t('userCenter.Agent') }}</b>
                 <div class="flex items-center">
-                    <span class="text-xs text-themetext1">Ver Mais</span>
+                    <span class="text-xs text-themetext1">{{ t('userCenter.seeMore') }}</span>
                     <icon-arrow-right size="2" class="w-6 h-6 text-themetext1"></icon-arrow-right>
                 </div>
             </router-link>
             <!-- 从今天起直接佣金 -->
             <div class="w-full py-2 px-3 mb-2  text-themewhite rounded-lg flex items-center bg-black/20" >
                 <p class="text-xs text-themetext2 flex-1 overflow-hidden">
-                    <span>Comissão direto de hoje</span>
+                    <span>{{ t('userCenter.TodayCommission') }}</span>
                 </p>
                 <p class="pl-3 shrink-0">
-                    <span class="text-xs opacity-45 text-themetext0">R$&nbsp;</span>
+                    <span class="text-xs opacity-45 text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                     <span class="text-sm text-themetext0">{{ fn(memberRef.agent_bonus, 0) }}</span>
                 </p>
             </div>
-            <p class="text-xs text-theme-text text-center">Compartilhamento Rápido</p>
+            <p class="text-xs text-theme-text text-center">{{ t('userCenter.QuickShare') }}</p>
             <div class="w-full px-2 rounded-lg bg-black/20" >
                 <share-list :showName="true"></share-list>
             </div>
@@ -206,7 +206,7 @@ const {
                 <a href="javascript:;" class="w-full py-3 pl-4 pr-2 unified-button flex items-center">
                     <img :src=MineImg.icon_exit class="w-[1.375rem] h-[1.375rem] mr-2 shrink-0" />
                     <p class="flex-1 overflow-hidden">
-                        <span class="text-themetext1">Sair</span>
+                        <span class="text-themetext1">{{ t('userCenter.Logout') }}</span>
                     </p>
                     <icon-arrow-right size="2" class="w-6 h-6 opacity-45 shrink-0 text-themetext1"></icon-arrow-right>
                 </a>

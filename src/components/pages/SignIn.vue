@@ -10,7 +10,9 @@ const SignImg = useThemeImages().sign
 const TRechargeImg = useThemeImages().totalrecharge
 const { signShowRef, signConfigRef, signBonusRef, signSuccessRef, starSignInFunc } = signInModel()
 
-function onclickData(item) {
+let currentIndex = 1;
+function onclickData(item,index) {
+    currentIndex = index
     if(item.status == 1) {
         starSignInFunc()
     }
@@ -25,6 +27,7 @@ function close() {
 
 <template>
     <teleport to="body">
+        <!-- signShowRef -->
     <section v-if="signShowRef" class="w-full h-full fixed left-0 top-0 z-[99] flex items-center justify-center">
         <em class="w-full h-full bg-rgbablack30 bg-blur absolute left-0 top-0 block"></em>
         <div v-if="currentTemplate.value =='template_one'">
@@ -81,7 +84,7 @@ function close() {
                                     <div class="relative h-[1.3rem] text-center">
                                         <div v-if="item.cond == 'today'" class="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-body-bg text-themewhite text-[0.625rem] leading-none whitespace-nowrap">Depósito{{ item.cond_num }}</div>
                                         <p class="h-[1.125rem] text-[0.8125rem]  leading-[1.25rem] text-center" :class="index!=7?'pt-[0.3rem]':'pt-[-1rem]'">
-                                            <span class="text-nine text-[0.8rem] font-bold">R$ {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
+                                            <span class="text-nine text-[0.8rem] font-bold">{{ currentUnit.value }} {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
                                         </p>
                                     </div>
                                 </li>
@@ -90,8 +93,8 @@ function close() {
                         <div v-if="signSuccessRef" class="w-full h-[22.125rem] bg-rgbablack50 absolute left-0 top-12">
                             <img :src=SignImg.bg_light class="w-full h-full opacity-15 sign-day-light">
                             <div class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center">
-                                <img :src="`/imgs/sign-day-1.png`" class="w-auto h-[6.1875rem]">
-                                <p class="text-themewhite">R${{ signBonusRef }}</p>
+                                <img :src="SignImg[`icon_coin${currentIndex}`]" class="w-auto h-[6.1875rem]">
+                                <p class="text-themewhite">{{ currentUnit.value }}{{ signBonusRef }}</p>
                             </div>
                         </div>
                     </div>
@@ -168,7 +171,7 @@ function close() {
                                     <div class="relative h-[1.125rem] text-center mt-0.5">
                                         <div v-if="item.cond == 'today'" class="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-rgbablack50 text-white text-[0.625rem] leading-none whitespace-nowrap">Depósito{{ item.cond_num }}</div>
                                         <p class="h-[1.125rem] text-[0.8125rem]  leading-[1.25rem] text-center" :class="index==7?'pt-0.5':'pt-2.5'">
-                                            <span class="text-[#914d16] text-[0.8rem] font-bold">R$ {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
+                                            <span class="text-[#914d16] text-[0.8rem] font-bold">{{ currentUnit.value }} {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
                                         </p>
                                     </div>
                                 </li>
@@ -177,8 +180,8 @@ function close() {
                         <div v-if="signSuccessRef" class="w-full h-[22.125rem] bg-black/55 absolute left-0 top-12">
                             <img :src=SignImg.bg_light class="w-full h-full opacity-15 sign-day-light">
                             <div class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center">
-                                <img :src="`/imgs/sign/sign-day-1.png`" class="w-auto h-[6.1875rem]">
-                                <p class=" text-three ">R${{ signBonusRef }}</p>
+                                <img :src="SignImg[`icon_coin${currentIndex}`]" class="w-auto h-[6.1875rem]">
+                                <p class=" text-three ">{{ currentUnit.value }}{{ signBonusRef }}</p>
                             </div>
                         </div>
                     </div>
@@ -218,12 +221,12 @@ function close() {
                                             index < 7 && item.status == 1 ? `url(${SignImg.bg_daysign2})` :
                                             index == 7 && item.status == 1 ? `url(${SignImg.bg_day7sign2})` : ''
                                     }"
-                                    @click="onclickData(item)" class="h-[6.5rem] bg-no-repeat bg-fill relative block">
+                                    @click="onclickData(item,index)" class="h-[6.5rem] bg-no-repeat bg-fill relative block">
                                         <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
                                             <img :src=SignImg.bg_light  class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
                                         </em>
                                         <p class="h-[1.525rem] text-[0.8125rem] leading-[1.55rem]  text-three  text-center">
-                                                <span :class="item.status == 1?'text-themetext4':''">Dia{{ index }}</span>
+                                                <span :class="item.status == 1?'text-themetext4':''">{{ t('Day') }}{{ index }}</span>
                                         </p>
                                         <div class="w-full h-[2.825rem] flex flex-col items-center justify-center mt-[0.25rem]">
                                             <div v-if="index != 7" class="w-full h-[7rem]  flex justify-center">
@@ -242,26 +245,28 @@ function close() {
                                             </em>
                                         </div>
                                         <div class="relative h-[1.125rem] text-center mt-0.5">
-                                            <div v-if="item.cond == 'today'&&item.status != 2" class="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-tablergba text-white text-[0.625rem] leading-none whitespace-nowrap">Depósito {{ item.cond_num }}</div>
+                                            <div v-if="item.cond == 'today'&&item.status != 2" class="absolute -top-3 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded-full bg-tablergba text-white text-[0.625rem] leading-none whitespace-nowrap">{{ t('deposit') }} {{ item.cond_num }}</div>
                                             <p class="h-[1.125rem] text-[0.8125rem] pt-0.5 leading-[1.25rem] text-center">
-                                                <span class="text-[#914d16] text-[0.8rem] font-bold">R$ {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
+                                                <span class="text-[#914d16] text-[0.8rem] font-bold mr-2">Max </span>
+                                                <span class="text-[#914d16] text-[0.8rem] font-bold">{{ currentUnit.value }} {{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span>
                                             </p>
                                         </div>
                                     </li>
                                 </template>
                             </ul>
+                            <!-- signSuccessRef -->
                             <div v-if="signSuccessRef" class="w-full h-[22.125rem] bg-black/55 absolute left-0 top-12">
                                 <img :src=SignImg.bg_light class="w-full h-full opacity-15 sign-day-light">
                                 <div class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center">
-                                    <img :src="`/imgs/sign/sign-day-1.png`" class="w-auto h-[6.1875rem]">
-                                    <p class=" text-three ">R${{ signBonusRef }}</p>
+                                    <img :src="SignImg[`icon_coin${currentIndex}`]" class="w-auto h-[6.1875rem]">
+                                    <p class=" text-three ">{{ currentUnit.value }} {{ signBonusRef }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="w-full mt-6 flex justify-center">
                         <button @click="starSignInFunc()" :class="signConfigRef.todayStatus?'m3-theme-btn1':'m3-theme-btn3'" class="w-36 h-12 !px-3 !text-base rounded-[2rem]">
-                            <span class="text-[1.25rem]">Receber</span>
+                            <span class="text-[1.25rem]">{{ t('Receive') }}</span>
                         </button>
                     </div>
                 </div>
@@ -327,7 +332,7 @@ function close() {
                                     </div>
                                     <p class="h-[1.125rem] text-[0.7rem] pt-0.5 leading-[1.25rem] text-center " :class="index == 7 ? 'mt-[0.15rem]' : 'mt-[0.25rem]'">
                                         <span class="text-white ">Max </span> 
-                                        <span class="m4-text font-bold">R$ <span class="text-themetext0 text-[1rem] ">{{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span> </span>
+                                        <span class="m4-text font-bold">{{ currentUnit.value }} <span class="text-themetext0 text-[1rem] ">{{ item.cond == 'today'? ((Number(item.money)||0)+(Number(item.cond_num)||0)):item.money }} </span> </span>
                                     </p>
                                     
                                     <img :src="CommonImg.btn_close" alt="" class="w-[1rem] h-[1rem] m-auto mt-2" v-if="item.status==4"/>
@@ -341,8 +346,8 @@ function close() {
                         <div v-if="signSuccessRef" class="w-full h-[22.125rem] bg-black/55 absolute left-0 top-12">
                             <img :src=SignImg.bg_light class="w-full h-full opacity-15 sign-day-light">
                             <div class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center">
-                                <img :src="`/imgs/sign/sign-day-1.png`" class="w-auto h-[6.1875rem]">
-                                <p class=" text-three ">R${{ signBonusRef }}</p>
+                                <img :src="SignImg[`icon_coin${currentIndex}`]" class="w-auto h-[6.1875rem]">
+                                <p class=" text-three ">{{ currentUnit.value }}{{ signBonusRef }}</p>
                             </div>
                         </div>
                     </div>
@@ -390,7 +395,7 @@ function close() {
                             : index < 7 && item.status == 1
                             ? `url(${SignImg.bg_daysign2})`
                             : index == 7 && item.status == 1
-                            ? `url(${SignImg.bg_day7sign2})`
+                            ? `url(${SignImg.bg_day7sign1})`
                             : '',
                       }"
                       class="bg-no-repeat bg-fill relative block"
@@ -440,7 +445,7 @@ function close() {
                         </div>
                         <p class="h-[1.125rem] text-[0.8125rem] leading-[1.25rem] text-center pt-[0.1rem]">
                         <span class="text-themewhite text-[0.7rem]">MAX </span>
-                          <span class="text-themetext0 text-[0.7rem]">R$ </span>
+                          <span class="text-themetext0 text-[0.7rem]">{{ currentUnit.value }} </span>
                           <span class="text-themetext0 text-[1rem] font-bold">
                             {{
                               item.cond == "today"
@@ -454,7 +459,7 @@ function close() {
                       <div class="absolute w-1/2 h-full right-0 top-7 flex flex-col items-center inline-block" v-else>
                         <p class="h-[1.125rem] text-[0.8125rem] leading-[1.25rem] pt-[0.1rem]">
                             <span class="text-themewhite text-[1rem]">MAX &nbsp;</span>
-                          <span class="text-themetext0 text-[1rem]">R$ &nbsp;</span>
+                          <span class="text-themetext0 text-[1rem]">{{ currentUnit.value }} &nbsp;</span>
                           <span class="text-themetext0 text-[1.6rem] font-bold">
                             {{
                               item.cond == "today"
@@ -464,7 +469,9 @@ function close() {
                             }}
                           </span>
                         </p>
-                        <div class="w-[7rem] h-[2rem] px-1.5 rounded-full bg-rgbablack30 text-themewhite text-[0.825rem] font-bold text-center leading-[2rem] mt-[1.2rem]">
+                        <div class="w-[7rem] h-[2rem] px-1.5 rounded-full  text-themewhite text-[0.825rem] font-bold text-center leading-[2rem] mt-[1.2rem]"
+                            :class="index == 7 && item.status == 1?'m5-theme-btn1':'bg-rgbablack30'"
+                        >
                           Get
                         </div>
                       </div>
@@ -483,10 +490,10 @@ function close() {
                     class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center"
                   >
                     <img
-                      :src="`/imgs/sign-day-1.png`"
+                      :src="SignImg.icon_coin1"
                       class="w-auto h-[6.1875rem]"
                     />
-                    <p class="text-themewhite">R${{ signBonusRef }}</p>
+                    <p class="text-themewhite">{{ currentUnit.value }}{{ signBonusRef }}</p>
                   </div>
                 </div>
               </div>

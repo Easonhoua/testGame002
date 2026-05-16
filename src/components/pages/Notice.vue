@@ -1,4 +1,5 @@
 <script setup>
+import { t } from '@/i18n'
 import { NoticeShowRef } from '@/utils/config'
 import { marqueeRef } from '@/model/common'
 
@@ -19,7 +20,7 @@ const closeNotice = () => {
             teleport="body"
         >
         <div class="text-center px-8 py-4">
-            <h2 class="text-xl font-bold mb-4" :class="currentTemplate.value =='template_four' ? 'm4-text' : 'text-themewhite'">Últimas Notícias</h2>
+            <h2 class="text-xl font-bold mb-4" :class="currentTemplate.value =='template_four' ? 'm4-text' : 'text-themewhite'">{{ t("modelPage.LatestNews") }}</h2>
             <div class="text-sm leading-relaxed">
                 {{marqueeRef}}
             </div>
@@ -29,7 +30,7 @@ const closeNotice = () => {
                 <span>Compreendi</span>
             </a>
             <a @click="closeNotice()" v-else class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center m4-ten-btn" >
-                <span>Compreendi</span>
+                <span>{{ t('modelPage.understood') }}</span>
             </a>
         </div>
     </van-popup>

@@ -24,7 +24,7 @@ async function copyInviteCode(_val) {
     playBtnAudioFunc()
     await toClipboard(_val)
     showToast({
-        message: 'foi copiado',
+        message: t('commCenter.copied'),
         type: 'success',
         wordBreak: 'break-word',
     });
@@ -40,11 +40,11 @@ async function copyInviteCode(_val) {
                     <input type="text" :value="invite_link" readonly class="w-full px-4 bg-transparent outline-none ">
                 </dt>
                 <dd @click="copyInviteCode(invite_link)" class="h-9 px-3 unified-button ctx-theme rounded-lg cursor-pointer flex items-center shrink-0">
-                    <span>Cópia</span>
+                    <span>{{ t('activityCenter.Copy') }}</span>
                 </dd>
             </dl>
         </div>
-        <p class="text-center">Compartilhamento Rápido</p>
+        <p class="text-center">{{ t('userCenter.QuickShare') }}</p>
         <div class="w-full px-2">
             <share-list  :showName="true"></share-list>
         </div>
@@ -68,17 +68,17 @@ async function copyInviteCode(_val) {
     </div>
     <div class="w-full text-sm pb-3  rounded-2xl" :style="{background: `url(${CommonBgImg.bg_share})  no-repeat` }" style="background-size: 100% 100%;" v-if="currentTemplate.value  =='template_three'">
         <div class="px-3 pt-3 pb-1">
-            <h5 class="text-base font-medium">Meu link:</h5>
+            <h5 class="text-base font-medium">{{ t('commCenter.Mylink') }}:</h5>
             <dl class="w-full h-12  flex items-center">
                 <dt class="flex-1 overflow-hidden bg-rgbablack50 rounded-[0.5rem] h-[2rem] text-center text-theme mr-2" style="line-height: 2rem;">
                     <input type="text" :value="invite_link" readonly class="w-full px-4 bg-transparent outline-none text-themetext1">
                 </dt>
                 <dd @click="copyInviteCode(invite_link)" class=" h-[2rem] px-5 m3-theme-btn1 rounded cursor-pointer flex items-center shrink-0">
-                    <span>Cópia</span>
+                    <span>{{ t('commCenter.copy') }}</span>
                 </dd>
             </dl>
         </div>
-        <p class="text-left ml-3">Compartilhamento Rápido</p>
+        <p class="text-left ml-3">{{ t('userCenter.QuickShare') }}</p>
         <div class="w-[94%] mx-auto  bg-rgbablack50 rounded-[0.5rem]  text-themefont h-[5rem]">
             <share-list :showName="true"></share-list>
         </div>

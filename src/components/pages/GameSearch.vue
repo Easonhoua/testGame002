@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, h } from 'vue'
+import { t } from '@/i18n'
 import { gameModel } from '@/model/game'
 import { playBtnAudioFunc, isPwaFunc } from '@/utils/core'
 import { pwaIndexModel } from '@/model/pwa'
@@ -31,7 +32,7 @@ watch(localShow, (newVal) => {
 const sortedGames = computed(() => {
   if (!searchQuery.value) {
     // 默认展示热门分类 Quente，从第7个开始
-    const hotCategory = gameListRef.value.find(cat => cat.title && cat.title.toLowerCase() === 'quente')
+    const hotCategory = gameListRef.value.find(cat => cat.title && cat.title.toLowerCase() === t('hot'))
     if (hotCategory && hotCategory.games) {
       return hotCategory.games.slice(6).map((game, eqIdx) => ({ ...game, _catIdx: gameListRef.value.findIndex(cat => cat.title && cat.title.toLowerCase() === 'quente'), _eqIdx: eqIdx + 6 }))
     }
@@ -123,7 +124,7 @@ const close = () => {
       position="center"
       teleport="body"
     >
-      <div class="content-wrapper bg-three" v-if="currentTemplate.value =='template_one' || currentTemplate.value == 'template_five'">
+      <div class="content-wrapper bg-three" v-if="currentTemplate.value =='template_one'">
         <div class="bg-layer">
           <img :src=CommonBgImg.bg_gamesearch />
         </div>
@@ -134,7 +135,7 @@ const close = () => {
           </svg>  -->
         </button>
         <div class="content-layer w-warp">
-          <h1 class="title text-themewhite">Todos Os Jogos</h1>
+          <h1 class="title text-themewhite">{{ t('modelPage.AllGames') }}</h1>
           <div>
             <van-search
               v-model="searchQuery"
@@ -252,11 +253,11 @@ const close = () => {
         </div>
         <img  @click="close()" :src=CommonImg.btn_close class="w-5 h-5 absolute top-3 right-2 z-10">
         <div class="content-layer w-warp">
-          <h1 class="title text-themetext1">Todos Os Jogos</h1>
+          <h1 class="title text-themetext1">{{ t('modelPage.AllGames') }}</h1>
           <div>
             <van-search
               v-model="searchQuery"
-              placeholder="Procurar jogos"
+              :placeholder="t('Searchgames')"
               class="custom-search-v2"
               shape="round"
               :style="{
@@ -298,7 +299,7 @@ const close = () => {
               </template>
               <template v-else>
                 <div class="col-span-3 text-center py-8  text-three ">
-                  {{ searchQuery ? 'Nenhum jogo encontrado' : 'Digite para pesquisar' }}
+                  {{ searchQuery ? t('modelPage.Nogamesfound') : t("modelPage.Typesearch") }}
                 </div>
               </template>
             </div>

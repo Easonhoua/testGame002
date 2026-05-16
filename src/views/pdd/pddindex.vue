@@ -22,6 +22,7 @@ const {
     penListRef, spinRotateAngleRef, spinLoadingRef, spinResShowRef, spinIndexRef, pinShowRef, bonusRef,spinSuccessRef,needBonusRef
 } = pddModel()  // 注意这里需要调用 pddModel
 
+
 const VITE_APP_NAME = import.meta.env.VITE_APP_NAME
 let share_show = ref(false)
 //闪灯
@@ -123,7 +124,6 @@ let scroll_list = computed(() => {
     }
 })
 
-console.log(scroll_list.value,'scroll_list.value')
 
 function openRule() {
     if (!totalBonusRef.value || totalBonusRef.value <= 0) {
@@ -155,7 +155,7 @@ function drawFunc(){
 </script>
 
 <template>
-    <pu-page :title="'Receba R$'+ needBonusRef+' de graça'" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.Receive') + ' '+   currentUnit.value +' ' + needBonusRef + ' '+ t('pageTitle.forfree')" class="z-[999]" hideService>
         <div v-if="currentTemplate.value=='template_one'">
         <pu-card theme="3" class="pt-4">
             <div @click="openRule">
@@ -164,7 +164,7 @@ function drawFunc(){
                 <div class="w-full px-4 relative z-10 flex items-center justify-between">
                     <div class="flex items-center">
                         <img :src=CommonImg.img_money class="w-9 h-8 mr-2">
-                        <b class="text-sm opacity-45">R$</b>
+                        <b class="text-sm opacity-45">{{ currentUnit.value }}</b>
                     </div>
                     <b class="text-3xl text-four">{{ totalBonusRef }}</b>
                     <button @click="openRule()" :class="totalBonusRef >=needBonusRef ? '' : 'opacity-30'"
@@ -172,7 +172,7 @@ function drawFunc(){
                         <div class="h-full px-2 rounded-xl flex items-center">
                             <em
                                 class="w-4 h-4 mr-1 bg-themewhite text-themetext rounded-full not-italic flex items-center justify-center">
-                                <span class="text-[0.625rem]">R$</span>
+                                <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                             </em>
                             <span class="text-xs">SACAR</span>
                         </div>
@@ -301,7 +301,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 bg-three text-themewhite rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-one">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -319,7 +319,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 bg-three text-themewhite rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-one">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -433,7 +433,7 @@ function drawFunc(){
                 <div class="w-full px-4 relative z-10 flex items-center justify-between">
                     <div class="flex items-center">
                         <img :src=CommonImg.img_money class="w-9 h-8 mr-2">
-                        <span class="text-sm " style="font-weight: none ;" >R$</span>
+                        <span class="text-sm " style="font-weight: none ;" >{{ currentUnit.value }}</span>
                     </div>
                     <b class="text-3xl text-four">{{ totalBonusRef }}</b>
                     <button @click="openRule()" :class="totalBonusRef >=needBonusRef ? 'm2-btn-nine' : 'm2-btn-nine-false'"
@@ -495,7 +495,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 bg-[#ff9b00] text-white  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-four">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -513,7 +513,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 ctx-box-bg6  text-three  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-four">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -550,7 +550,7 @@ function drawFunc(){
         </pu-card>
         </div>
         <div v-if="currentTemplate.value=='template_three'">
-            <pu-card theme="4" class=" flex justify-center overflow-visible">
+            <pu-card theme="4" class="flex justify-center overflow-visible">
             <img :src=PddImg.img_pddbg  class="w-full h-auto">
             <section class="w-full h-full absolute flex items-center justify-center overflow-visible">
                 <section class="w-[17rem] h-[17rem] absolute top-[6.75rem] overflow-visible">
@@ -607,7 +607,7 @@ function drawFunc(){
                     <section class="w-full flex justify-center mt-[3rem] z-10 relative">
                         <div class="px-2.5 py-1.5 text-xs bg-black/25 rounded-full flex items-center justify-center">
                             <img :src="PddImg.icon_clock" class="w-4 h-4 mr-1.5"/>
-                            <span class="text-themetext1 ">Expira em&nbsp;</span>
+                            <span class="text-themetext1 ">{{ t('activityCenter.Expiresin') }}&nbsp;</span>
                             <span><span v-if="day > 0">{{ day }}d </span>{{ hours }}:{{ minutes }}:{{ seconds }}</span>
                         </div>
                     </section>
@@ -629,7 +629,7 @@ function drawFunc(){
                     <div class="w-full px-4 relative z-10 flex items-center justify-between">
                         <div class="flex items-center">
                             <img :src=CommonImg.img_money class="w-9 h-8 mr-2">
-                            <b class="text-sm text-themetext0">R$</b>
+                            <b class="text-sm text-themetext0">{{ currentUnit.value }}</b>
                         </div>
                         <b class="text-3xl text-themetext0">{{ totalBonusRef }}</b>
                         <button @click="openRule()" :class="totalBonusRef >=needBonusRef ? 'm3-theme-btn1' : 'm3-theme-btn3'"
@@ -647,9 +647,9 @@ function drawFunc(){
                             </em>
                         </div>
                         <p class="mt-2 text-xs text-center">
-                            <span class="text-themetext2 ">Ainda é necessário&nbsp;</span>
+                            <span class="text-themetext1">{{ t('activityCenter.necessary') }}&nbsp;</span>
                             <b class="text-themetext0">{{totalBonusRef<=needBonusRef? Number(needBonusRef - totalBonusRef).toFixed(2):0.00 }}</b>
-                            <span class="text-themetext2 ">&nbsp;para realizar do saque</span>
+                            <span class="text-themetext1 ">&nbsp;{{ t('activityCenter.makewithdrawal') }}</span>
                         </p>
                     </div>
                     
@@ -664,7 +664,7 @@ function drawFunc(){
                     <!-- 文字和图标 -->
                     <div class="absolute inset-0 flex items-center justify-center text-themetext2 text-sm ">
                         <span class="flex items-center">
-                            Convide amigos para ajudar com saques
+                            {{ t('activityCenter.invitedetail') }}
                         <img :src="PddImg.img_sharebg" alt="icon" class="w-5 h-5 ml-2">
                         </span>
                     </div>
@@ -675,12 +675,12 @@ function drawFunc(){
                         <button @click="scroll_type = 0"
                             class="w-1/2 h-full rounded-tr-[1.2rem] rounded-tl-3xl relative bg-transparent border-0"
                             :style="scroll_type == 0 ? { backgroundImage: `url(${PddImg.bg_card1})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' } : {}">
-                            <span class="relative z-[1]" :class="scroll_type == 0 ? ' text-themewhtie  ': 'text-themetext2'" >Relatório</span>
+                            <span class="relative z-[1]" :class="scroll_type == 0 ? ' text-themewhtie  ': 'text-themetext2'" >{{ t('activityCenter.Report') }}</span>
                         </button>
                         <button @click="scroll_type = 1"
                             class="w-1/2 h-full rounded-tl-[1rem] rounded-tr-3xl relative bg-transparent border-0"
                             :style="scroll_type == 1 ? { backgroundImage: `url(${PddImg.bg_card1})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' } : {}">
-                            <span class="relative z-[1]" :class="scroll_type == 1 ? 'text-themewhtie': 'text-themetext2'" >Minha Referência</span>
+                            <span class="relative z-[1]" :class="scroll_type == 1 ? 'text-themewhtie': 'text-themetext2'" >{{  t('activityCenter.MyReference')  }}</span>
                         </button>
                     </div>
                     <div class="px-1 py-2">
@@ -690,11 +690,11 @@ function drawFunc(){
                                 <template v-for="item, index in scroll_list" :key="index">
                                     <li class="w-full h-8 px-4 flex items-center justify-between">
                                         <span >{{ item.mobile }}</span>
-                                        <span >Acabou de sacar</span>
+                                        <span >{{ t("activityCenter.Hejustwithdrew") }}</span>
                                         <div class="flex items-center">
                                             <em
                                                 class="w-4 h-4 bg-[#ff9b00] text-white  rounded-full not-italic flex items-center justify-center">
-                                                <span class="text-[0.625rem]">R$</span>
+                                                <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                             </em>
                                             <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                         </div>
@@ -708,11 +708,11 @@ function drawFunc(){
                                 <template v-for="item, index in scroll_list" :key="index">
                                     <li class="w-full h-8 px-4 flex items-center justify-between">
                                         <span class="opacity-65">{{ item.mobile }}</span>
-                                        <span class="opacity-45">Acabou de sacar</span>
+                                        <span class="opacity-45"> {{ t("activityCenter.Hejustwithdrew") }}</span>
                                         <div class="flex items-center">
                                             <em
                                                 class="w-4 h-4 ctx-box-bg6  text-three  rounded-full not-italic flex items-center justify-center">
-                                                <span class="text-[0.625rem]">R$</span>
+                                                <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                             </em>
                                             <span class="text-four">&nbsp;{{ item.bonus }}</span>
                                         </div>
@@ -727,11 +727,11 @@ function drawFunc(){
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
-                <article class="ctx-article p-mb text-sm text-themetext3" v-html="pddContentRef" v-if="pddContentRef!=''"></article>
+                <article class="ctx-article p-mb text-sm text-themetext3" v-html="pddContentRef" v-if="pddContentRef"></article>
                 <article class="ctx-article p-mb text-sm text-themetext3 " v-else> 
                     <p>1.Você pode iniciar um saque quando o valor acumulado atingir 100 BRL.</p>
                     <p>2.Convidar amigos para se registrarem no {{documentTitle}} irá ajudá- lo a sacar dinheiro
@@ -823,7 +823,7 @@ function drawFunc(){
                 <div class="w-full px-4 relative z-10 flex items-center justify-between">
                     <div class="flex items-center">
                         <img :src="VipImg.icon_vip" alt="" class="w-[1.5rem] h-[1.5rem] mr-1" />
-                        <b class="text-sm m4-text mr-1">R$</b>
+                        <b class="text-sm m4-text mr-1">{{ currentUnit.value }}</b>
                         <b class="text-3xl text-themetext0 mr-1">{{ totalBonusRef }}</b>
                     </div>
                     <button @click="openRule()" :class="totalBonusRef >=needBonusRef ? 'm4-nine-btn font-bold' : 'bg-theme'"
@@ -846,7 +846,7 @@ function drawFunc(){
                     <img :src="CommonImg.icon_rich_warn" alt="" class="w-[1rem] h-[1rem] mr-1"/>
                     <p class=" text-xs text-center">
                         <span class="text-white ">Ainda é necessário&nbsp;</span>
-                        <b class="text-themetext0">R${{totalBonusRef<=needBonusRef? Number(needBonusRef - totalBonusRef).toFixed(2):0.00 }}</b>
+                        <b class="text-themetext0">{{ currentUnit.value }}{{totalBonusRef<=needBonusRef? Number(needBonusRef - totalBonusRef).toFixed(2):0.00 }}</b>
                         <span class="text-white ">&nbsp;para realizar do saque</span>
                     </p>
                 </div>
@@ -906,7 +906,7 @@ function drawFunc(){
                                    
                                     <div class="flex items-center ">
                                         <span >Acabou de sacar &nbsp;</span>
-                                        <span class="text-themetext0">R$ &nbsp;{{ item.bonus }}</span>
+                                        <span class="text-themetext0">{{ currentUnit.value }} &nbsp;{{ item.bonus }}</span>
                                     </div>
                                 </li>
                             </template>
@@ -922,7 +922,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 ctx-box-bg6  text-three  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                     </div>
@@ -1031,7 +1031,7 @@ function drawFunc(){
                 <div class="w-full px-4 relative z-10 flex items-center justify-between">
                     <div class="flex items-center">
                         <img :src="VipImg.icon_vip" alt="" class="w-[1.5rem] h-[1.5rem] mr-2" />
-                        <b class="text-sm text-themetext0 mr-2">R$ </b>
+                        <b class="text-sm text-themetext0 mr-2">{{ currentUnit.value }} </b>
                         <b class="text-4xl text-themetext0 mr-1">{{ totalBonusRef }}</b>
                     </div>
                     <button @click="openRule()" :class="totalBonusRef >=needBonusRef ? 'm5-theme-btn1 font-bold' : 'bg-rgbablack50'"
@@ -1054,7 +1054,7 @@ function drawFunc(){
                     <img :src="CommonImg.icon_rich_warn" alt="" class="w-[1rem] h-[1rem] mr-1"/>
                     <p class=" text-xs text-center">
                         <span class="text-white ">Ainda é necessário&nbsp;</span>
-                        <b class="text-themetext0">R${{totalBonusRef<=needBonusRef? Number(needBonusRef - totalBonusRef).toFixed(2):0.00 }}</b>
+                        <b class="text-themetext0">{{ currentUnit.value }}{{totalBonusRef<=needBonusRef? Number(needBonusRef - totalBonusRef).toFixed(2):0.00 }}</b>
                         <span class="text-white ">&nbsp;para realizar do saque</span>
                     </p>
                 </div>
@@ -1114,7 +1114,7 @@ function drawFunc(){
                                    
                                     <div class="flex items-center ">
                                         <span >Acabou de sacar &nbsp;</span>
-                                        <span class="text-themetext0">R$ &nbsp;{{ item.bonus }}</span>
+                                        <span class="text-themetext0">{{ currentUnit.value }} &nbsp;{{ item.bonus }}</span>
                                     </div>
                                 </li>
                             </template>
@@ -1130,7 +1130,7 @@ function drawFunc(){
                                     <div class="flex items-center">
                                         <em
                                             class="w-4 h-4 ctx-box-bg6  text-three  rounded-full not-italic flex items-center justify-center">
-                                            <span class="text-[0.625rem]">R$</span>
+                                            <span class="text-[0.625rem]">{{ currentUnit.value }}</span>
                                         </em>
                                         <span class="text-themetext0">&nbsp;{{ item.bonus }}</span>
                                     </div>

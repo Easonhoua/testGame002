@@ -70,7 +70,7 @@ const redirectSms = () => {
 </script>
 
 <template>
-    <pu-page title="Baú do Tesouro" class="z-[999]" v-if="currentTemplate.value == 'template_one'|| currentTemplate.value == 'template_two'|| currentTemplate.value == 'template_three'">
+    <pu-page :title="t('pageTitle.TreasureChest')" class="z-[999]" v-if="currentTemplate.value == 'template_one'|| currentTemplate.value == 'template_two'|| currentTemplate.value == 'template_three'">
         <!-- <img :src="boxBannerRef!=''? boxBannerRef : TreasureImg.img_treasure" class="w-full h-auto block"> -->
         <div class=" w-full h-auto mt-4 mb-4 m-auto">
             <img 
@@ -94,7 +94,7 @@ const redirectSms = () => {
             <div class="rounded-2xl px-3 mt-3" v-if="phoneNumbers.length > 0"
                 :class="currentTemplate.value =='template_one' ? 'bg-rgbawhite10' : 'm3-theme-bg1'">   
                 <h3 class="pt-2 mb-1 text-sm ">
-                    <span class="text-themewhite ">Enviar convite para jogador aleatório ajudar</span>
+                    <span class="text-themewhite ">{{ t('commCenter.details1') }}</span>
                 </h3>
                 
                 <div v-if="phoneNumbers.length" class="relative">
@@ -181,10 +181,10 @@ const redirectSms = () => {
             <dl @click="$router.push('/treasure/subordinate')" class="w-full h-11 px-1.5 text-sm  rounded-full cursor-pointer flex items-center"
             :class="currentTemplate.value =='template_one' ? ' bg-rgbawhite10' : 'm3-theme-bg1'"
             >
-                <dt class="pl-2 flex-1 overflow-hidden">Meus subordinados diretos</dt>
+                <dt class="pl-2 flex-1 overflow-hidden">{{ t('activityCenter.directSubordinates') }}</dt>
                 <dd class="px-1.5 shrink-0">
                     <span class="text-base text-yellow-400">{{childNum}}</span>
-                    <span class="text-xs">&nbsp;Pessoas</span>
+                    <span class="text-xs">&nbsp;{{ t('activityCenter.People') }}</span>
                 </dd>
                 <dd class="w-6 h-6 ctx-theme__linear rounded-full flex items-center justify-center shrink-0" v-if="currentTemplate.value =='template_one'">
                     <icon-arrow-right class="w-4 h-4"></icon-arrow-right>
@@ -258,7 +258,7 @@ const redirectSms = () => {
                             <img v-else :src="TreasureImg.img_item1" class="w-full h-full">
                         </div>
                         <p class="w-full text-[0.625rem]  text-three /85 text-center ">
-                                <span>{{ child.active_users }} Pessoas</span>
+                                <span>{{ child.active_users }} {{ t('activityCenter.People') }}</span>
                             </p>
                         <p class="text-[0.78rem]  text-four text-center" style="font-weight: 600;">{{ child.bonus }}</p>
                         
@@ -303,18 +303,18 @@ const redirectSms = () => {
                 <p>1. Convide amigos com depósitos acumulados ≥ 30,00. O valor efetivo cumulativo da aposta é ≥300,00. O bônus deste evento só pode ser sacado após apostar o mesmo valor do bônus.</p>
                 <p>2. Desenvolver amigos para abrir a caixa do tesouro. Ao completar as tarefas de diferentes números de pessoas, você pode obter a recompensa da caixa do tesouro correspondente, o valor mais alto de 300000, quanto maior o desenvolvimento de amigos, mais generosa será a recompensa; apostas subordinadas apenas em nossas apostas de plataforma de apostas são consideradas válidas.</p>
                 <p>3.Esta atividade é limitada à operação manual normal do titular da conta. É estritamente proibido alugar, usar trapaças, robôs, usar contas diferentes para jogar, escovação mútua, arbitragem, interfaces, acordos, golpes, controle de grupo ou outros meios técnicos. Caso contrário, há o risco de cancelamento ou dedução de bônus, congelamento de bônus ou até mesmo inclusão na lista negra.</p>
-                <p>4.Se seus convidados apostarem R$1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
+                <p>4.Se seus convidados apostarem {{ currentUnit.value }}1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
                 <p>5.Por exemplo: Você tem 100 membros offline e o valor total real das apostas diárias é estimado em 1 milhão de reais. A comissão que você recebe naquele dia é: 1.000.000×2.5%=25.000 reais É simples assim ganhar 1 milhão de comissões todo mês.</p>
             </article> -->
             <div class="ctx-article p-mb text-sm " :class="currentTemplate.value =='template_one' ? 'text-rgbawhite50' : ' text-theme'" v-html="boxRuleRef" style="line-height: 1.5;">
             </div>
         </pu-card>
 
-        <pu-card theme="3" class="py-10" v-else="currentTemplate.value =='template_three'">
+        <pu-card theme="3" class="py-10" v-else-if="currentTemplate.value =='template_three'">
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2" ></em>
                 <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                    <span>Descrição da Atividade</span>
+                    <span>{{  t('ActivityDescription')  }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
             </div>
@@ -505,7 +505,7 @@ const redirectSms = () => {
                 <p>1. Convide amigos com depósitos acumulados ≥ 30,00. O valor efetivo cumulativo da aposta é ≥300,00. O bônus deste evento só pode ser sacado após apostar o mesmo valor do bônus.</p>
                 <p>2. Desenvolver amigos para abrir a caixa do tesouro. Ao completar as tarefas de diferentes números de pessoas, você pode obter a recompensa da caixa do tesouro correspondente, o valor mais alto de 300000, quanto maior o desenvolvimento de amigos, mais generosa será a recompensa; apostas subordinadas apenas em nossas apostas de plataforma de apostas são consideradas válidas.</p>
                 <p>3.Esta atividade é limitada à operação manual normal do titular da conta. É estritamente proibido alugar, usar trapaças, robôs, usar contas diferentes para jogar, escovação mútua, arbitragem, interfaces, acordos, golpes, controle de grupo ou outros meios técnicos. Caso contrário, há o risco de cancelamento ou dedução de bônus, congelamento de bônus ou até mesmo inclusão na lista negra.</p>
-                <p>4.Se seus convidados apostarem R$1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
+                <p>4.Se seus convidados apostarem {{ currentUnit.value }}1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
                 <p>5.Por exemplo: Você tem 100 membros offline e o valor total real das apostas diárias é estimado em 1 milhão de reais. A comissão que você recebe naquele dia é: 1.000.000×2.5%=25.000 reais É simples assim ganhar 1 milhão de comissões todo mês.</p>
             </article> -->
             <div class="p-mb text-sm text-themetext3" v-html="boxRuleRef" style="line-height: 1.5;">
@@ -701,7 +701,7 @@ const redirectSms = () => {
                 <p>1. Convide amigos com depósitos acumulados ≥ 30,00. O valor efetivo cumulativo da aposta é ≥300,00. O bônus deste evento só pode ser sacado após apostar o mesmo valor do bônus.</p>
                 <p>2. Desenvolver amigos para abrir a caixa do tesouro. Ao completar as tarefas de diferentes números de pessoas, você pode obter a recompensa da caixa do tesouro correspondente, o valor mais alto de 300000, quanto maior o desenvolvimento de amigos, mais generosa será a recompensa; apostas subordinadas apenas em nossas apostas de plataforma de apostas são consideradas válidas.</p>
                 <p>3.Esta atividade é limitada à operação manual normal do titular da conta. É estritamente proibido alugar, usar trapaças, robôs, usar contas diferentes para jogar, escovação mútua, arbitragem, interfaces, acordos, golpes, controle de grupo ou outros meios técnicos. Caso contrário, há o risco de cancelamento ou dedução de bônus, congelamento de bônus ou até mesmo inclusão na lista negra.</p>
-                <p>4.Se seus convidados apostarem R$1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
+                <p>4.Se seus convidados apostarem {{ currentUnit.value }}1 ou mais, você já pode desfrutar de alta comissão! Você pode ganhar até 5% de comissão vitalícia, é um convite para toda a vida! O sistema liquidará a comissão do dia anterior às 21h00 do dia seguinte.</p>
                 <p>5.Por exemplo: Você tem 100 membros offline e o valor total real das apostas diárias é estimado em 1 milhão de reais. A comissão que você recebe naquele dia é: 1.000.000×2.5%=25.000 reais É simples assim ganhar 1 milhão de comissões todo mês.</p>
             </article> -->
             <div class="p-mb text-sm text-themetext4" v-html="boxRuleRef" style="line-height: 1.5;">

@@ -20,19 +20,19 @@ const {
 
 // message_type ==> 1:系统消息 2:活动消息 3:奖金消息 4:充值消息 5:提现消息
 const type_list = ref([
-  { label: "Todos", value: 0 },
-  { label: "Sistema", value: 1 },
-  { label: "Atividade", value: 2 },
-  { label: "Bônus", value: 3 },
-  { label: "Depósito", value: 4 },
-  { label: "Saque", value: 5 },
+  { label: t('All'), value: 0 },
+  { label: t('System'), value: 1 },
+  { label: t('Activity'), value: 2 },
+  { label: t('Bonus'), value: 3 },
+  { label: t('deposit'), value: 4 },
+  { label: t('Sack'), value: 5 },
 ]);
 const type_obj = reactive({
-  1: "Sistema",
-  2: "Atividade",
-  3: "Bônus",
-  4: "Depósito",
-  5: "Saque",
+  1: t('System'),
+  2: t('Activity'),
+  3: t('Bonus'),
+  4: t('deposit'),
+  5: t('Sack')
 });
 let view_index = ref(-1);
 let autoplay = ref(true);
@@ -64,7 +64,7 @@ onUnmounted(() => {
 
 <template>
   <pu-page
-    title="Mensagem"
+    :title="t('pageTitle.Message')"
     class="z-[999]"
     v-if="
       currentTemplate.value == 'template_one' ||
