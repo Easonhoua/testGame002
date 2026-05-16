@@ -11,7 +11,6 @@ import ContactService from './components/pages/ContactService.vue'
 import LoginRegister from './components/pages/LoginRegister.vue'
 import PuFooter from './components/public/PuFooter.vue'  // 添加导入
 import { $post } from './request'
-import { initializePushNotifications, onForegroundMessage, showNotification} from '@/model/firebase'
 import {getStorage } from '@/utils/config'
 
 const route = useRoute()
@@ -114,6 +113,7 @@ const fcmToken = ref(null)
 //初始化firebase
 async function initFirebase() {
     try {
+        const { initializePushNotifications, onForegroundMessage } = await import('@/model/firebase')
         // 初始化推送
         const token = await initializePushNotifications()
         fcmToken.value = token
