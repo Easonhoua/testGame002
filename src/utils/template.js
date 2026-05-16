@@ -11,9 +11,11 @@ export const TEMPLATE_CONFIG = {
 export const useTemplate = () => {
   // 可以从环境变量或其他配置获取
   const currentTemplate = ref(import.meta.env.VITE_TEMPLATE || TEMPLATE_CONFIG.DEFAULT)
+  const currentUnit = ref(import.meta.env.VITE_UNIT || 'R$')
   
   return {
     currentTemplate,
+    currentUnit,
     isDefault: computed(() => currentTemplate.value === TEMPLATE_CONFIG.DEFAULT),
     isTemplateA: computed(() => currentTemplate.value === TEMPLATE_CONFIG.TEMPLATE_A),
     isTemplateB: computed(() => currentTemplate.value === TEMPLATE_CONFIG.TEMPLATE_B),

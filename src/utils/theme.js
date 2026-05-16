@@ -757,7 +757,7 @@ const themeConfig = {
         faqcolor1: ' #07793a',
         faqcolor2: ' #2bb05d',
         btncolor: ' #f8fe01',
-        card1: ' #79db74 ',
+        card1: ' #79db74',
         card2: ' #2e9c6f',
         pwa: ' #01875f',
         two: ' #FF0000',
@@ -1219,6 +1219,114 @@ const themeConfig = {
       },
       images: {
         folder: 'gold',
+      }
+    },
+    // 黑金主题(菲律宾)
+    'goldPhilip': {
+      name: 'goldPhilip',
+      colors: {
+        themewhite: '#ffffff',
+        themeblack: '#000000',
+        rgbawhite10: 'rgba(255,255,255,0.1)',
+        rgbawhite30: 'rgba(255,255,255,0.3)',
+        rgbawhite50: 'rgba(255,255,255,0.5)',
+        rgbawhite80: 'rgba(255,255,255,0.8)',
+        rgbablack15: 'rgba(0,0,0,0.15)',
+        rgbablack30: 'rgba(0,0,0,0.3)',
+        rgbablack50: 'rgba(0,0,0,0.5)',
+        rgbablack80: 'rgba(0,0,0,0.8)',
+        //字体颜色
+        themetext0: ' #fff000',
+        themetext1: ' #fffbb8',
+        themetext2: ' #8f7945',
+        themetext3: ' #645432',
+        themetext4: ' #281b12',
+        //背景
+        defaultBg: '#1e0f00',
+        tablebg: '#1e0f00',
+        defaultborder: '#644c33',
+        theme: '#644c33',
+
+        bodyBg: '#251406',
+        searchbg: '#251406',
+        // searchborder:' #8e560c',
+
+        //表格背景
+        tablergba: '#8D7444',
+        tablergba40: 'rgba(141,116,68,0.4)',
+        tablergba20: 'rgba(141,116,68,0.2)',
+        tablergba10: 'rgba(141,116,68,0.1)',
+
+        //登录按钮 色卡10
+        loginlinear3: ' #4d3d35',
+        loginlinear4: ' #2a2017',
+        border1: ' #f2cc8a',
+
+        //其他按钮
+        // allbtn:' #804227',
+        minecardbg: 'rgba(141,116,68,0.2)',
+
+        btnlinar3: ' #ca9134 ',
+        btnlinar4: ' #ffe67b ',
+
+        downloadlinear1: ' #ca9134',
+        downloadlinear2: ' #ffe67b',
+
+        downloadlinear3: ' #f70fff',
+        downloadlinear4: ' #fd9e22',
+
+        btnlinar1: ' #ca9134 ',
+        btnlinar2: ' #ffe67b ',
+        //卡色13
+        richlinar1: ' #f8fe01',
+        richlinar2: ' #f8fe01',
+
+        mysteriousgoldlinear1: ' #f8fe01',
+        mysteriousgoldlinear2: ' #f8fe01',
+        gold100: ' #f8fe01',
+        gold500: ' #f8fe01',
+        //卡色 14
+        mysteriousgoldlinear5: ' #ECD3AE',
+        mysteriousgoldlinear6: ' #D1A277',
+        minelinear1: ' #a28036',
+        minelinear2: ' #6b5022',
+
+        nine: ' #655635',
+        homeranktext: ' #663409',
+        //卡色 15
+        themecardlinear1: ' #a28036 ',
+        themecardlinear2: ' #6b5022 ',
+        //卡色 14 
+        morelinear1: ' #a28036',
+        morelinear2: ' #6b5022',
+
+        faqcolor1: ' #6b5022',
+        faqcolor2: ' #a28036',
+        faqcolor3: 'rgba(141,116,68,0.4)',
+        faqcolor4: ' #a28036',
+
+        btncolor: ' #d9ff00',
+        //卡色 15
+        card1: ' #a28036',
+        card2: ' #6b5022',
+
+        pwa: ' #01875f',
+        //红点
+        two: ' #FF0000',
+
+        vanprimary: ' #251406',
+        vanplabg: ' rgba(255,255,255,0.15) ',
+        vanlodingicon: 'rgba(255,255,255,0.25) ',
+        vanerricon: 'rgba(255,255,255,0.25) ',
+        vantabfontsize: ' inherit ',
+        vantabnavbg: 'transparent ',
+        vantabtext: 'inherit',
+        vantabactive: ' #251406',
+        vantabbottombar: ' #251406'
+
+      },
+      images: {
+        folder: 'goldPhilip',
       }
     },
 
@@ -1776,6 +1884,8 @@ const themeConfig = {
         rgbablack30: 'rgba(0,0,0,0.3)',
         rgbablack50: 'rgba(0,0,0,0.5)',
         rgbablack80: 'rgba(0,0,0,0.8)',
+        m4tentext:'#ffffff',
+        m4ninetext:'#ffffff',
         theme: '#10121d',
         //字体颜色
         themetext0: ' #ffd100',
@@ -1792,6 +1902,10 @@ const themeConfig = {
         inputborder: '#258cff',
 
 
+        logininputcolor1: '#0a0b12',
+        logininputborder: '#242b42',
+        loginBtncolor: '#183b5f',
+        loginBg: '#141825',
 
         bodyBg: ' #10121d',
         defaultBg: ' #10121d',
@@ -1840,6 +1954,87 @@ const themeConfig = {
       },
       images: {
         folder: 'deepblue',
+      }
+    },
+     'blackgold': {
+      name: 'blackgold',
+      colors: {
+        themewhite: '#ffffff',
+        themeblack: '#000000',
+        rgbawhite10: 'rgba(255,255,255,0.1)',
+        rgbawhite30: 'rgba(255,255,255,0.3)',
+        rgbawhite50: 'rgba(255,255,255,0.5)',
+        rgbawhite80: 'rgba(255,255,255,0.8)',
+        rgbablack15: 'rgba(0,0,0,0.15)',
+        rgbablack30: 'rgba(0,0,0,0.3)',
+        rgbablack50: 'rgba(0,0,0,0.5)',
+        rgbablack80: 'rgba(0,0,0,0.8)',
+        m4tentext:'#1d1507',
+        m4ninetext:'#1d1507',
+        theme: '#1d1507',
+        //字体颜色
+        themetext0: ' #ffd100',
+        themetext1: ' #e6d18a',
+        themetext2: ' #f9df94',
+        themetext3: ' #cdaf95',
+        themetext4: ' #b9b4a5',
+
+        btncolor: ' #1d1507',
+
+        //0b1127-102e53输入框/内容框边258cff
+        inputcolor1: '#271b0f',
+        inputcolor2: '#a5763d',
+        inputborder: '#d7bc76',
+
+
+
+        bodyBg: ' #1d1507',
+        defaultBg: ' #1d1507',
+
+        tablebg1: '#6f4e29',
+        tablebg2: '#553c20',
+        
+        //内容底
+        btn1_bg: '#3c3735',
+        btn_border:'#4f433f',
+
+        //登录按钮 色卡247ee3-eb4487
+        gold100: ' #faf46e',
+        gold500: ' #f5ae56',
+
+        //按钮2
+        themecardlinear1: ' #edd594',
+        themecardlinear2: ' #fffdd4',
+
+        //二级底
+        btnlinar3: ' #594009',
+        btnlinar4: ' #a27028',
+
+
+         //三级窗/底框
+        thirsmodel1:'#2c2015',
+        thirsmodel2:'#5b3d16',
+        thirsmodelboder: '#d7bc76',
+
+        //横条&活动奖励
+        activitymodel1: '#1e150c',
+        activitymodel2: '#5b3d16',
+        texterror:' #ff0000',
+        homeranktext: ' #1c0308',
+        pwa: ' #01875f',
+        two: ' #FF0000',
+        vanprimary: ' #1d1507',
+        vanplabg: ' rgba(255,255,255,0.15) ',
+        vanlodingicon: 'rgba(36, 33, 33, 0.25) ',
+        vanerricon: 'rgba(255,255,255,0.25) ',
+        vantabfontsize: ' inherit ',
+        vantabnavbg: 'transparent ',
+        vantabtext: 'inherit',
+        vantabactive: ' #1d1507',
+        vantabbottombar: ' #1d1507 ',
+      },
+      images: {
+        folder: 'blackgold',
       }
     },
   },

@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { t } from '@/i18n'
 import { useRouter } from 'vue-router'
 import { useWheelModel, WHEEL_TYPES, wheelConfig} from '@/model/wheel'
 import { playBtnAudioFunc } from '@/utils/core'
@@ -56,9 +57,9 @@ function closeReward() {
 
 // 转盘类型配置
 const wheelTypes = [
-    { key: 'silver', name: 'Roda de Prêmios de Prata' },
-    { key: 'gold', name: 'Roda de Prêmios de Ouro' },
-    { key: 'diamond', name: 'Roda de Prêmios de Diamante' }
+    { key: 'silver', name: t('activityCenter.silverdet') },
+    { key: 'gold', name: t('activityCenter.golddet')},
+    { key: 'diamond', name: t('activityCenter.diamond') }
 ]
 
 onMounted(() => {
@@ -68,7 +69,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pu-page title="Roleta da Sorte" class="z-[999] bg-theme" hideService>
+    <pu-page :title="t('pageTitle.LuckyRoulette')" class="z-[999] bg-theme" hideService>
         <img v-if="currentTemplate.value === 'template_five'" :src="LuckyWheelImg.m5_page_bg" class="absolute left-0 top-0 w-full h-auto  -z-10" />
         <!-- 顶部按钮 -->
         <pu-card theme="3" class="mt-3">
@@ -214,7 +215,7 @@ onMounted(() => {
                 <img :src=LuckyWheelImg.text_roda class="absolute left-1/2 -translate-x-1/2 -top-9 w-64 h-auto"/>
                 <div class="flex items-center mb-2 pt-3">
                     <img :src=LuckyWheelImg.icon_jifen class="w-5 h-5 mr-2" />
-                    <span class= "font-bold">Meus Pontos:</span>
+                    <span class= "font-bold">{{ t('activityCenter.MyPoints') }}:</span>
                     <span class="ml-2 text-four text-xl font-bold">{{ userPoints }}</span>
                     <div class="relative flex-1 flex justify-end">
                         <button
@@ -243,24 +244,24 @@ onMounted(() => {
                 </div>
                 <div class="text-xs text-rgbawhite80 mt-1 rounded-xl bg-rgbablack15 p-2">
                     <div class="grid grid-cols-[minmax(0,_1fr)_130px] gap-y-2">
-                        <div class="whitespace-nowrap"  :class="[currentTemplate.value=='template_one'?'':'text-three']">Roda de Prêmios de Prata:</div>
-                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.SILVER].cost}} por vez</div>
+                        <div class="whitespace-nowrap"  :class="[currentTemplate.value=='template_one'?'':'text-three']">{{ t('activityCenter.silverdet') }}:</div>
+                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.SILVER].cost}} {{ t('activityCenter.pertime') }}</div>
                         
-                        <div class="whitespace-nowrap" :class="[currentTemplate.value=='template_one'?'':'text-three']">Roda de Prêmios de Ouro:</div>
-                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.GOLD].cost}} por vez</div>
+                        <div class="whitespace-nowrap" :class="[currentTemplate.value=='template_one'?'':'text-three']">{{ t('activityCenter.golddet') }}:</div>
+                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.GOLD].cost}} {{ t('activityCenter.pertime') }}</div>
                         
-                        <div class="whitespace-nowrap" :class="[currentTemplate.value=='template_one'?'':'text-three']">Roda de Prêmios de Diamante:</div>
-                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.DIAMOND].cost}} por vez</div>
+                        <div class="whitespace-nowrap" :class="[currentTemplate.value=='template_one'?'':'text-three']">{{ t('activityCenter.diamond') }}:</div>
+                        <div class="text-four text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.DIAMOND].cost}} {{ t('activityCenter.pertime') }}</div>
                     </div>
                 </div>
             </div>
         </pu-card>
-        <pu-card theme="3" class="mt-1" v-else-if="currentTemplate.value=='template_three'">
+        <pu-card theme="3" class="mt-[-2rem]" v-else-if="currentTemplate.value=='template_three'">
             <div class="relative mx-auto w-full rounded-2xl bg-gradient-to-b from-themecardlinear1 to-themecardlinear2 p-3 mb-2 shadow-lg">
                 <img :src=LuckyWheelImg.text_roda class="absolute left-1/2 -translate-x-1/2 -top-9 w-64 h-auto"/>
                 <div class="flex items-center mb-2 pt-3">
                     <img :src=LuckyWheelImg.icon_jifen class="w-5 h-5 mr-2" />
-                    <span class= "font-bold ">Meus Pontos:</span>
+                    <span class= "font-bold ">{{ t('activityCenter.MyPoints') }}:</span>
                     <span class="ml-2 text-themetext0 text-xl font-bold">{{ userPoints }}</span>
                     <div class="relative flex-1 flex justify-end">
                         <button
@@ -285,14 +286,14 @@ onMounted(() => {
                 </div>
                 <div class="text-xs text-rgbawhite80 mt-1 rounded-xl bg-rgbablack15 p-2">
                     <div class="grid grid-cols-[minmax(0,_1fr)_130px] gap-y-2">
-                        <div class="whitespace-nowrap text-themetext2">Roda de Prêmios de Prata:</div>
-                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.SILVER].cost}} por vez</div>
+                        <div class="whitespace-nowrap text-themetext2">{{ t('activityCenter.silverdet') }}:</div>
+                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.SILVER].cost}} {{ t('activityCenter.pertime') }}</div>
                         
-                        <div class="whitespace-nowrap text-themetext2" >Roda de Prêmios de Ouro:</div>
-                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.GOLD].cost}} por vez</div>
+                        <div class="whitespace-nowrap text-themetext2" >{{ t('activityCenter.golddet') }}:</div>
+                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.GOLD].cost}} {{ t('activityCenter.pertime') }}</div>
                         
-                        <div class="whitespace-nowrap text-themetext2" >Roda de Prêmios de Diamante:</div>
-                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.DIAMOND].cost}} por vez</div>
+                        <div class="whitespace-nowrap text-themetext2" >{{ t('activityCenter.diamond') }}:</div>
+                        <div class="text-themetext0 text-right whitespace-nowrap">{{wheelConfig[WHEEL_TYPES.DIAMOND].cost}} {{ t('activityCenter.pertime') }}</div>
                     </div>
                 </div>
             </div>
@@ -425,11 +426,10 @@ onMounted(() => {
         </pu-card>
 
         <pu-card theme="3" class="mt-4" v-if="currentTemplate.value=='template_three'"> 
-            <img :src=LuckyWheelImg.img_title v-if="currentTemplate.value=='template_one'"/>
             <!-- no-repeat center -->
             <!-- bg_tableheader -->
-            <div  :style="{background: `url(${CommonImg.bg_tableheader}) no-repeat center`}" style="background-repeat: no-repeat; background-size: 100% 100%;width: 100%;height: 100%;" class="text-center text-white text-1xl font-bold py-2" v-else>
-                Registro de Prêmios
+            <div  :style="{background: `url(${CommonImg.bg_tableheader}) no-repeat center`}" style="background-repeat: no-repeat; background-size: 100% 100%;width: 100%;height: 100%;" class="text-center text-white text-1xl font-bold py-2" >
+                {{ t('activityCenter.AwardsRegistration') }}
             </div>
             <div class="scroll-list">
                 <ul>
@@ -543,16 +543,16 @@ onMounted(() => {
                      <img :src=CommonImg.img_success >
                      <div v-if="currentTemplate.value!='template_five'" class="flex items-center justify-center -mt-2 text-center"  :style="{background: `url(${CommonImg.img_successbg})`,backgroundSize: '100% 100%',width:'17rem',height:'5rem'}">
                        <img :src=CommonImg.img_gold  class="w-[3rem] h-auto mr-2 "/>
-                       <h1 style="font-size: 1.9rem;font-weight: 500;">R${{currentReward}}</h1>
+                       <h1 style="font-size: 1.9rem;font-weight: 500;">{{ currentUnit.value }}{{currentReward}}</h1>
                     </div>
                     <div v-else class="w-[90%] flex items-center justify-center -mt-2 text-center"  :style="{background: `url(${CommonImg.img_successbg})`,backgroundSize: '100% 100%',height:'5rem'}">
                        <img :src=CommonImg.img_money  class="w-[3rem] h-auto mr-2 "/>
-                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-themetext0">R${{currentReward}}</h1>
+                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-themetext0">{{ currentUnit.value }}{{currentReward}}</h1>
                     </div>
                 </pu-card>
             </section>
         </div>
-<Panddingbottom></Panddingbottom>
+        <Panddingbottom></Panddingbottom>
     </pu-page>
 </template>
 

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { washcodeModel } from '@/model/activity'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
@@ -44,7 +44,7 @@ function receberBtn() {
 }
 </script>
 <template>
-    <pu-page title="Rebate do site" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.Rebatesite')" class="z-[999]" hideService>
         <img :src=WashcodeImg.img_washcodebg class="w-full h-auto"
             :class="currentTemplate.value == 'template_four' ? 'absolute left-0 ' : ''">
         <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value == 'template_four'">
@@ -62,7 +62,7 @@ function receberBtn() {
                         :class="currentTemplate.value == 'template_one' ? 'bg-three' : 'bg-rgbablack80'">
                         <div class="left ">
                             <img :src=WashcodeImg.icon_wcmoney class="w-[2.5rem] h-[2.5rem] mr-3" />
-                            R$ <h1 class="ml-3 text-four">{{ sendamountRef.toFixed(2) }}</h1>
+                            {{ currentUnit.value }} <h1 class="ml-3 text-four">{{ sendamountRef.toFixed(2) }}</h1>
                         </div>
                         <div v-if="currentTemplate.value == 'template_one'" class="btn "
                             :class="sendamountRef >= 0.01 ? 'ctx-theme__linear text-themewhite' : ' border border-rgbawhite50 text-rgbawhite50'"
@@ -103,26 +103,26 @@ function receberBtn() {
             <section class="w-full">
                 <div class="w-full progressCard">
                     <div class="title">
-                        <h1 class="mr-3">Aposta <span class="text-themetext0">{{ Number(consumeMoneyRef) -
+                        <h1 class="mr-3">{{ t('commCenter.Bet') }} <span class="text-themetext0">{{ Number(consumeMoneyRef) -
                             Number(lastprizeRef) > 0 ? (Number(consumeMoneyRef) -
                                 Number(lastprizeRef)).toFixed(2):0}}</span></h1>
-                        <h1 class="ml-3">Retorno <span
+                        <h1 class="ml-3">{{ t("Return") }} <span
                                 class="text-themetext0">{{ backRate(Number(consumeMoneyRef)).current }}%</span></h1>
                     </div>
                     <div class="recebercard flex  items-center justify-between mt-4 bg-default-bg">
                         <div class="left ">
                             <img :src=WashcodeImg.icon_wcmoney class="w-[2.5rem] h-[2.5rem] mr-3" />
-                            R$ <h1 class="ml-3 text-themetext0">{{ sendamountRef.toFixed(2) }}</h1>
+                            {{ currentUnit.value }} <h1 class="ml-3 text-themetext0">{{ sendamountRef.toFixed(2) }}</h1>
                         </div>
                         <div class="btn " :class="sendamountRef >= 0.01 ? 'm3-theme-btn1' : 'm3-theme-btn3'"
                             @click="receberBtn()">
-                            Receber
+                            {{ t('Receive') }}
                         </div>
                     </div>
                     <div class="progress w-full mt-2">
                         <div class="text flex justify-between align-center !text-themetext1">
-                            <span>Progresso da promoção</span>
-                            <span>Próximo retorno <span
+                            <span>{{ t('activityCenter.Promotionprogress') }}</span>
+                            <span>{{ t('activityCenter.Nextreturn') }} <span
                                     class="text-themetext0">{{ backRate(Number(consumeMoneyRef)).next }}%</span></span>
                         </div>
                         <dd class="w-full h-2  rounded-full overflow-hidden flex bg-rgbablack80">
@@ -158,7 +158,7 @@ function receberBtn() {
                     <div class="recebercard !rounded-none   flex  items-center justify-between ">
                         <div class="left m4-text ">
                             <img :src=WashcodeImg.icon_wcmoney class="w-[1.5rem] h-[1.5rem] mr-3" />
-                            R$ <h1 class="ml-3 text-themetext0 !text-[2rem]">{{ sendamountRef.toFixed(2) }}</h1>
+                            {{ currentUnit.value }} <h1 class="ml-3 text-themetext0 !text-[2rem]">{{ sendamountRef.toFixed(2) }}</h1>
                         </div>
                         <div class=" p-1  px-4 rounded-3xl font-bold text-[0.68rem]"
                             :class="sendamountRef >= 0.01 ? 'm4-nine-btn text-theme' : 'bg-tablebg text-white/20'"
@@ -204,7 +204,7 @@ function receberBtn() {
                     <div class="recebercard !rounded-none  flex  items-center justify-between !mt-2">
                         <div class="left text-themetext0">
                             <img :src=WashcodeImg.icon_wcmoney class="w-[1.5rem] h-[1.5rem] mr-3" />
-                            R$ <h1 class="ml-3  !text-[2rem]">{{ sendamountRef.toFixed(2) }}</h1>
+                            {{ currentUnit.value }} <h1 class="ml-3  !text-[2rem]">{{ sendamountRef.toFixed(2) }}</h1>
                         </div>
                         <div class="py-1.5 px-4 rounded-3xl font-bold text-[0.68rem]"
                             :class="sendamountRef >= 0.01 ? 'm5-theme-btn1 text-themewhite' : 'bg-rgbablack30 text-themewhite'"
@@ -309,15 +309,15 @@ function receberBtn() {
             <div :style="{ backgroundImage: `url(${CommonImg.bg_tableheader})` }"
                 style="background-size: 100% 100%;width: 100%;height: 100%;"
                 class="text-center text-white text-[0.72rem] font-bold py-2">
-                Tabela de Referência de Rebate
+                {{ t('activityCenter.RebateReferenceTable') }}
             </div>
             <table class="w-full text-xs text-center text-rgbawhite50 table-fixed overflow-hidden">
                 <thead>
                     <tr class="bg-tablergba40 text-themetext1">
-                        <td class="border-r-[0.05rem]  w-[4rem] border-tablebg" style="padding: 0.6rem 0;">Nível</td>
-                        <td class="border-r-[0.05rem] border-tablebg" style="padding: 0.6rem 0;">Volume de transação
+                        <td class="border-r-[0.05rem]  w-[4rem] border-tablebg" style="padding: 0.6rem 0;">{{ t('userCenter.Level') }}</td>
+                        <td class="border-r-[0.05rem] border-tablebg" style="padding: 0.6rem 0;">{{ t("activityCenter.Transactionvolume") }}
                         </td>
-                        <td>Taxa de retorno</td>
+                        <td>{{ t('activityCenter.Returnrate') }}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -414,7 +414,7 @@ function receberBtn() {
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                 <h5 class="ma-w-[60%] px-2 text-sm  text-themetext2">
-                    <span>Descrição da Atividade</span>
+                    <span>{{ t('ActivityDescription')  }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
             </div>
@@ -424,7 +424,7 @@ function receberBtn() {
         </pu-card>
         <pu-card theme="3" class="pt-8" v-if="currentTemplate.value == 'template_four'">
             <h5 class=" px-2 text-l font-bold mb-3 text-start m4-text">
-                <span>Descrição da Atividade:</span>
+                <span>{{ t('ActivityDescription')  }}:</span>
             </h5>
             <div class="p-mb text-sm text-themetext4" v-html="washcodeInfoRef.code_wash_content"
                 style="line-height: 1.5;">

@@ -9,7 +9,7 @@ import { playBtnAudioFunc } from '@/utils/core'
 import { socialRedeemListRef } from '@/model/common'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
-const BettingCheckIn = useThemeImages().bettingCheckIn
+const worldCup = useThemeImages().worldCup
 const CommonImg = useThemeImages().common
 
 const { levelsRef, moneyRef, claim_levelRef, contentRef, receiveFunc, streak_daysRef, lastmoneyRef, listRef, current_levelRef,receberChecInFunc } = bettingCheckInModel()
@@ -93,538 +93,68 @@ const getLevelLeft = (index) => {
 </script>
 
 <template>
-    <pu-page title="Check-in de Nível" class="z-[999]">
-        <img :src=BettingCheckIn.img_bg class="w-full absolute left-0 top-0">
+    <pu-page title="Copa do Mundo" class="z-[999]" :style="{background: `url(${worldCup.img_bg1}) no-repeat`, backgroundSize: '100% 100%' }">
+        <img :src=worldCup.img_mainbg class="w-full ">
         <!-- <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value == 'template_four'">
         <em class="w-full h-44 block" v-else></em> -->
-        <div v-if="currentTemplate.value == 'template_one'">
-            <pu-card theme="3" class="relative">
-                <div class="sharebox w-full mx-auto bg-rgbawhite10 rounded-[1rem] mt-2 px-4">
-                    <p class="text-[0.68rem] text-themetext pt-2">Convide amigos para se divertir</p>
-                    <share-list :showName="false"></share-list>
-                </div>
-            </pu-card>
-            <em class="w-full h-[12rem] block"> </em>
-            <pu-card theme="3" class="mb-3 pt-3 relative ">
-                <div class="w-full mb-4 h-auto  px-2 pb-3" :style="{
-                    background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
+        <div class="w-full mb-4 h-[10rem]  px-4 pb-3 mt-[-3rem]" :style="{
+                    background: `url(${worldCup.img_time1}) no-repeat`,
                     backgroundSize: '100% 100%'
                 }">
-                    <div class="h-[2.5rem] w-[10rem] absolute top-[-0.5rem] left-[30%] flex items-center justify-center font-bold "
-                        :style="{
-                            background: `url(${BettingCheckIn.img_dj}) no-repeat`,
-                            backgroundSize: '100% 100%',
-                        }">
-                        <span class="text-[1.5rem] mt-1" style="transform: skewX(-15deg);">V{{ current_levelRef
-                        }}  </span>
+               <img :src="worldCup.group0text" class=" h-5 m-auto relative top-[2.85rem]"/>
+               <div class="w-full flex items-center justify-center mt-5">
+                <div class="rounded-[1rem] flex-1 h-[4rem] bg-rgbablack30 px-4 py-1 flex items-center justify-center relative top-[2.85rem] flex-col">
+                    <div class="flex w-full  items-center">
+                        <img :src="worldCup.img_time" alt="" class="w-[1.25rem]"/>
+                        <p class="text-[0.8rem] ml-1">Tempo de participação</p>
                     </div>
-                    
-                    <div class="flex flex-col items-center justify-center  ">
-                      
-                        <dd
-                            class="w-[96%] h-[0.4rem] bg-rgbablack50 rounded-full overflow-hidden flex relative top-[2.5rem]">
-                            <em :style="{ width: progressWidth }"
-                                class="h-full bg-four rounded-full flex justify-end overflow-hidden">
-                                <!-- <i class="w-2 h-2 bg-themewhite rounded-full"></i> -->
-                            </em>
-                        </dd>
-                        <div class="absolute top-[1.8rem] left-[15.5%] w-[75%] h-[2.5rem]">
-                            <div v-for="(item, index) in levelsRef" :key="item.level"
-                                class="itme absolute flex flex-col items-center justify-center -translate-x-1/2"
-                                :style="{ left: getLevelLeft(index) }">
-                                <span class="text-[0.8rem] text-themeblack">{{ item.min_bet }}</span>
-                                <!-- 1黑2亮 -->
-                                <img :src="index === 0 || Number(moneyRef || 0) >= Number(item.min_bet || 0) ? BettingCheckIn.icon_pontos2 : BettingCheckIn.icon_pontos1"
-                                    alt="" class="w-[1rem] h-[1rem] mb-[0.1rem]" />
-                                <img :src="BettingCheckIn[`icon_lv${Math.min(item.level, 6)}`] || BettingCheckIn.icon_lv1"
-                                    alt="" class="w-[1.75rem] h-[1.75rem]" />
-                            </div>
-                        </div>
+                    <p class="text-[0.68rem] mt-2">5.1-00:00——6.10-24:00</p>
 
-                    </div>
-                    <div class="bg-rgbablack30 text-xs text-themeblack px-3 py-1 rounded-lg mt-[5rem] ">
-                        <p>Apostar durante <span class="text-four">{{ streak_daysRef }}</span> dias consecutivos</p>
-                        <p class="mt-1">Você pode resgatar sua recompensa em até <span class="text-themetext0">{{ 7 -
-                                streak_daysRef }}</span> dias.
-                        </p>
-                        <p class="flex justify-left text-left mt-1 ">
-                            <img :src="BettingCheckIn.icon_tibi" alt="" class="w-[0.88rem] h-[0.88rem] mr-1" />
-                            <span>(É necessário apostar durante <span class="text-four">7</span> dias consecutivos.)</span>
-                        </p>
-                    </div>
                 </div>
-                <div class=" mt-2 px-3 py-2" :style="{
-                    backgroundImage: `url(${BettingCheckIn.img_checkinbg})`,
-                    backgroundSize: '100% 100%',
-                    backgroundPosition: 'center'
-                }">
-                    <div class="flex items-center justify-between mt-7">
-                        <div class="flex flex-col">
-                            <p class="font-bold text-four ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
-                            <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
-                        </div>
-                        <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
-                            class="mr-2 w-[2rem] h-[2rem]" />
-
+                <div class="rounded-[1rem] h-[4rem] bg-rgbablack30 px-4 py-1 flex items-center justify-center relative top-[2.85rem] flex-col ml-1">
+                    <div class="flex w-full  items-center">
+                        <img :src="worldCup.img_coin1" alt="" class="w-[1.25rem]"/>
+                        <p class="text-[0.8rem] ml-2">Valor da aposta</p>
                     </div>
+                    <p class="text-[0.68rem] mt-2" :class="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'? 'text-four':'text-themetext0'">1500/2000</p>
 
-                    <ul class=" flex flex-wrap justify-between mt-2">
-                        <!-- item,index in signConfigRef.configList||[] -->
-                        <template v-for="(item, index) in listRef" :key="index">
-                            <!-- @click="onclickData(item)" -->
-                            
-                            <li :style="{
-                                backgroundImage:
-                                    index < 6 && item.status == 'locked'|| index < 6 && item.status == 'expired' ? `url(${BettingCheckIn.item_bg1})` :
-                                        index == 6 && item.status == 'locked' || index == 6 && item.status == 'expired'? `url(${BettingCheckIn.item_bg3})` :
-                                            index < 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg2})` :
-                                                index == 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg4})` : ''
-                            }" class="bg-no-repeat bg-fill relative block mb-2"
-                            @click="onclickData(item)"
-                                :class="index == 6 ? 'w-[9.8rem]' : 'w-[4.7rem]  h-[5.8rem]'">
-                                <!-- <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
-                                        <img :src=SignImg.bg_light class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
-                                    </em> -->
-                                <p class="text-[0.64rem] leading-[1.25rem]  text-center"
-                                :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext1'"
-                                >
-                                    <span>Dia {{ index + 1 }}</span>
-                                </p>
-                                <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
-                                    <div v-if="index != 6" class=" flex justify-center">
-                                        <div class="relative flex justify-cente">
-                                            <img :src="BettingCheckIn[`coin${index + 1}`]" class="w-auto h-[2.3rem] ">
-                                        </div>
-                                    </div>
-                                    <!-- <em v-if="item.status==4 " class="w-full h-full rounded-[0.5625rem] bg-rgbablack50 text-rgbawhite80 not-italic absolute top-0 left-0 flex items-center justify-center">
-                                            <p class="px-2 text-[0.6875rem] text-center">SUBSCRIPTION INTERRUPTED</p>
-                                        </em> -->
-                                    <!-- v-if="item.status == 2" -->
-                                    <!-- item.status == 'claimed' -->
-                                    <em v-if="item.status == 'claimed'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_gou" alt="" class="w-[1.2rem] h-[1.2rem]">
-                                    </em>
-                                    <em v-if="item.status == 'expired'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_expirado" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                </div>
-                                <div class="relative h-[1.3rem] text-center ">
-                                    <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
-                                        <span class=" text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">R$
-                                            {{ Number(item.bonus) }} </span>
-                                    </p>
-                                </div>
-                            </li>
-                        </template>
-                    </ul>
                 </div>
-            </pu-card>
-            <pu-card theme="3" class="mb-3 pt-3">
+               </div>
+        </div>
+        <div class="w-[98%] pb-6 rounded-[1rem] bg-rgbablack30 flex flex-wrap items-center justify-between mt-4 m-auto border border-rgbawhite50 py-2">
+           <div class="w-[48%] relative flex items-center justify-center">
+                <img v-if="true" :src="worldCup.img_light" class="absolute  w-full h-full object-contain z-[0] animate-pulse" />
+                <img :src="worldCup.img_group0_1" class="relative z-[1] w-full" />
+                <img v-if="true" :src="worldCup.img_terminou" class="w-[7rem] absolute top-[4.75rem] left-[2rem] z-[2]"/>
+            </div>
+            <div class="w-[48%] relative flex items-center justify-center">
+                <img v-if="true" :src="worldCup.img_light" class="absolute w-full h-full object-contain z-[0] animate-pulse" />
+                <img :src="worldCup.img_group32_1" class="relative z-[1] w-full" />
+                <img v-if="true" :src="worldCup.img_terminou" class="w-[7rem] absolute top-[4.75rem] left-[2rem] z-[2]"/>
+            </div>
+            <div class="w-[48%] relative flex items-center justify-center">
+                <img v-if="true" :src="worldCup.img_light" class="absolute w-full h-full object-contain z-[0] animate-pulse" />
+                <img :src="worldCup.img_group16_1" class="relative z-[1] w-full" />
+                <img v-if="true" :src="worldCup.img_terminou" class="w-[7rem] absolute top-[4.75rem] left-[2rem] z-[2]"/>
+            </div>
+            <div class="w-[48%] relative flex items-center justify-center">
+                <img v-if="true" :src="worldCup.img_light" class="absolute w-full h-full object-contain z-[0] animate-pulse" />
+                <img :src="worldCup.img_group8_1" class="relative z-[1] w-full" />
+                <img v-if="true" :src="worldCup.img_terminou" class="w-[7rem] absolute top-[4.75rem] left-[2rem] z-[2]"/>
+            </div>
+           
+        </div>
+         <pu-card theme="3" class="mb-3 pt-3 bg-rgbawhite10 w-[98%] m-auto rounded-[1rem]">
                 <div class="w-full mb-4 flex items-center">
-                    <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themewhite"></em>
-                    <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
+                    <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent "  :class="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'? 'to-four':'to-themetext0'"></em>
+                    <h5 class="ma-w-[60%] px-2 text-sm text-center "  :class="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'? 'text-four':'text-themetext0'">
                         <span>Descrição da Atividade</span>
                     </h5>
-                    <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themewhite"></em>
+                    <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent"  :class="currentTemplate.value == 'template_one'||currentTemplate.value == 'template_two'? 'to-four':'to-themetext0'"></em>
                 </div>
-                <article class="ctx-article p-mb text-sm text-rgbawhite50" v-html="contentRef"></article>
-            </pu-card>
-        </div>
-        <div v-if="currentTemplate.value == 'template_two'">
-            <pu-card theme="3" class="relative">
-                <div class="sharebox w-full mx-auto bg-rgbablack50 rounded-[1rem] mt-2">
-                    <p class="text-sm text-textcolorsix px-4 pt-2">Convide amigos para se divertir</p>
-                    <share-list class=" !py-1" :showName="false"></share-list>
-                </div>
-            </pu-card>
-            <em class="w-full h-[13rem] block"> </em>
-            <pu-card theme="3" class="mb-3 pt-3 relative !px-2">
-                <div class="w-full mb-4 h-auto pb-3 px-4" :style="{
-                    background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
-                    backgroundSize: '100% 100%'
-                }">
-                    <div class="h-[2.5rem] w-[10rem] absolute top-[-0.5rem] left-[30%] flex items-center justify-center font-bold "
-                        :style="{
-                            background: `url(${BettingCheckIn.img_dj}) no-repeat`,
-                            backgroundSize: '100% 100%',
-                        }">
-                        <span class="text-[1.5rem] mt-1" style="transform: skewX(-15deg);">V{{ current_levelRef
-                        }}</span>
-                    </div>
-                    <div class="flex flex-col items-center justify-center  ">
-                        <dd
-                            class="w-[96%] h-[0.4rem] bg-rgbablack50 rounded-full overflow-hidden flex relative top-[2.5rem]">
-                            <em :style="{ width: progressWidth }"
-                                class="h-full bg-four rounded-full flex justify-end overflow-hidden">
-                                <!-- <i class="w-2 h-2 bg-themewhite rounded-full"></i> -->
-                            </em>
-                        </dd>
-                        <div class="absolute top-[1.8rem] left-[15.5%] w-[75%] h-[2.5rem]">
-                            <div v-for="(item, index) in levelsRef" :key="item.level"
-                                class="itme absolute flex flex-col items-center justify-center -translate-x-1/2"
-                                :style="{ left: getLevelLeft(index) }">
-                                <span class="text-[0.8rem] text-themewhite">{{ item.min_bet }}</span>
-                                <!-- 1黑2亮 -->
-                                <img :src="index === 0 || Number(moneyRef || 0) >= Number(item.min_bet || 0) ? BettingCheckIn.icon_pontos2 : BettingCheckIn.icon_pontos1"
-                                    alt="" class="w-[1rem] h-[1rem] mb-[0.1rem]" />
-                                <img :src="BettingCheckIn[`icon_lv${Math.min(item.level, 6)}`] || BettingCheckIn.icon_lv1"
-                                    alt="" class="w-[1.75rem] h-[1.75rem]" />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="bg-rgbablack30 text-xs text-themewhite px-3 py-1 rounded-lg mt-[5rem] ">
-                        <p>Apostar durante <span class="text-four">{{ streak_daysRef }}</span> dias consecutivos</p>
-                        <p class="mt-1">Você pode resgatar sua recompensa em até <span class="text-themetext0">{{ 7 -
-                                streak_daysRef }}</span> dias.
-                        </p>
-                        <p class="flex justify-left text-left mt-1 ">
-                            <img :src="BettingCheckIn.icon_tibi" alt="" class="w-[0.88rem] h-[0.88rem] mr-1" />
-                            <span>(É necessário apostar durante <span class="text-four">7</span> dias consecutivos.)</span>
-                        </p>
-                    </div>
-                </div>
-                <div class=" px-2 py-2 h-[18rem] m-1" :style="{
-                    backgroundImage: `url(${BettingCheckIn.img_checkinbg})`,
-                    backgroundSize: '100% 100%',
-                    backgroundPosition: 'center'
-                }">
-                    <div class="flex items-center justify-between mt-7 px-2">
-                        <div class="flex flex-col">
-                            <p class="font-bold text-four ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
-                            <p class="text-[0.58rem] text-textcolorsix">Por favor, resgate a sua recompensa.</p>
-                        </div>
-                        <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
-                            class="mr-2 w-[2rem] h-[2rem]" />
-
-                    </div>
-                    <ul class=" flex flex-wrap justify-between mt-2 w-full">
-                        <!-- item,index in signConfigRef.configList||[] -->
-                        <template v-for="(item, index) in listRef" :key="index">
-                            <!-- @click="onclickData(item)" -->
-                            <li :style="{
-                                backgroundImage:
-                                index < 6 && item.status == 'locked'|| index < 6 && item.status == 'expired' ? `url(${BettingCheckIn.item_bg1})` :
-                                index == 6 && item.status == 'locked' || index == 6 && item.status == 'expired'? `url(${BettingCheckIn.item_bg3})` :
-                                            index < 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg2})` :
-                                                index == 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg4})` : ''
-                            }" class="bg-no-repeat bg-fill relative block mb-2"
-                             @click="onclickData(item)"
-                                :class="index == 6 ? 'w-[10.1rem]' : 'w-[4.9rem]  h-[5.8rem]'">
-                                <!-- <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
-                                        <img :src=SignImg.bg_light class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
-                                    </em> -->
-                                <p class="text-[0.64rem] leading-[1.25rem]  text-center "
-                                :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext1'">
-                                    <span>Dia {{ index + 1 }}</span>
-                                </p>
-                                <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
-                                    <div v-if="index != 6" class=" flex justify-center">
-                                        <div class="relative flex justify-cente">
-                                            <img :src="BettingCheckIn[`coin${index + 1}`]" class="w-auto h-[2.3rem] ">
-                                        </div>
-                                    </div>
-                                    <!-- <em v-if="item.status==4 " class="w-full h-full rounded-[0.5625rem] bg-rgbablack50 text-rgbawhite80 not-italic absolute top-0 left-0 flex items-center justify-center">
-                                            <p class="px-2 text-[0.6875rem] text-center">SUBSCRIPTION INTERRUPTED</p>
-                                        </em> -->
-                                    <!-- v-if="item.status == 2" -->
-                                    <em v-if="item.status == 'claimed'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_gou" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                    <em v-if="item.status == 'expired'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_expirado" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                </div>
-                                <div class="relative h-[1.3rem] text-center ">
-                                    <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
-                                        <span class="text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">R$ {{
-                                            Number(item.bonus) }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-            </pu-card>
-            <pu-card theme="3" class="mb-3 pt-3">
-                <div class="w-full mb-4 flex items-center">
-                    <em class="h-0.5 flex-1  bg-gradient-to-r from-transparent to-four"></em>
-                    <h5 class="ma-w-[60%] px-2 text-sm text-center text-four">
-                        <span>Descrição da Atividade</span>
-                    </h5>
-                    <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-four"></em>
-                </div>
-                <article class="ctx-article p-mb text-sm text-theme" v-html="contentRef"></article>
-            </pu-card>
-        </div>
-        <div v-if="currentTemplate.value == 'template_three'">
-            <pu-card theme="3" class="relative">
-                <div class="sharebox w-full mx-auto bg-rgbablack50 rounded-[1rem] mt-2">
-                    <p class="text-sm text-themetext1 px-4 pt-2">Convide amigos para se divertir</p>
-                    <share-list class=" !py-1" :showName="false"></share-list>
-                </div>
-            </pu-card>
-            <em class="w-full h-[12rem] block"> </em>
-            <pu-card theme="3" class="mb-3 pt-3 relative ">
-                <div class="w-full mb-4 h-auto pb-3 px-2" :style="{
-                    background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
-                    backgroundSize: '100% 100%'
-                }">
-                    <div class="h-[2.5rem] w-[10rem] absolute top-[-0.5rem] left-[30%] flex items-center justify-center font-bold "
-                        :style="{
-                            background: `url(${BettingCheckIn.img_dj}) no-repeat`,
-                            backgroundSize: '100% 100%',
-                        }">
-                        <span class="text-[1.5rem] mt-1" style="transform: skewX(-15deg);">V{{ current_levelRef
-                        }}</span>
-                    </div>
-                    <div class="flex flex-col items-center justify-center  ">
-                        <dd
-                            class="w-[96%] h-[0.4rem] bg-rgbablack50 rounded-full overflow-hidden flex relative top-[2.5rem]">
-                            <em :style="{ width: progressWidth }"
-                                class="h-full bg-themetext0 rounded-full flex justify-end overflow-hidden">
-                                <!-- <i class="w-2 h-2 bg-themewhite rounded-full"></i> -->
-                            </em>
-                        </dd>
-                        <div class="absolute top-[1.8rem] left-[15.5%] w-[75%] h-[2.5rem]">
-                            <div v-for="(item, index) in levelsRef" :key="item.level"
-                                class="itme absolute flex flex-col items-center justify-center -translate-x-1/2"
-                                :style="{ left: getLevelLeft(index) }">
-                                <span class="text-[0.8rem] text-themeblack">{{ item.min_bet }}</span>
-                                <!-- 1黑2亮 -->
-                                <img :src="index === 0 || Number(moneyRef || 0) >= Number(item.min_bet || 0) ? BettingCheckIn.icon_pontos2 : BettingCheckIn.icon_pontos1"
-                                    alt="" class="w-[1rem] h-[1rem] mb-[0.1rem]" />
-                                <img :src="BettingCheckIn[`icon_lv${Math.min(item.level, 6)}`] || BettingCheckIn.icon_lv1"
-                                    alt="" class="w-[1.75rem] h-[1.75rem]" />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="bg-rgbablack30 text-xs text-themeblack px-3 py-1 rounded-lg mt-[5rem] ">
-                        <p>Apostar durante <span class="text-themetext0">{{ streak_daysRef }}</span> dias consecutivos
-                        </p>
-                        <p class="mt-1">Você pode resgatar sua recompensa em até <span class="text-themetext0">{{ 7 -
-                                streak_daysRef }}</span> dias.
-                        </p>
-                        <p class="flex justify-left text-left mt-1 ">
-                            <img :src="BettingCheckIn.icon_tibi" alt="" class="w-[0.88rem] h-[0.88rem] mr-1" />
-                            <span>(É necessário apostar durante <span class="text-themetext0">7</span> dias consecutivos.)</span>
-                        </p>
-                    </div>
-                </div>
-                <div class=" mt-2 px-3 py-2" :style="{
-                    backgroundImage: `url(${BettingCheckIn.img_checkinbg})`,
-                    backgroundSize: '100% 100%',
-                    backgroundPosition: 'center'
-                }">
-                    <div class="flex items-center justify-between mt-7">
-                        <div class="flex flex-col">
-                            <p class="font-bold text-themetext0 ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
-                            <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
-                        </div>
-                        <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
-                            class="mr-2 w-[2rem] h-[2rem]" />
-
-                    </div>
-
-                    <ul class=" flex flex-wrap justify-between mt-2">
-                        <!-- item,index in signConfigRef.configList||[] -->
-                        <template v-for="(item, index) in listRef" :key="index">
-                            <!-- @click="onclickData(item)" -->
-                            <li :style="{
-                                backgroundImage:
-                                index < 6 && item.status == 'locked'|| index < 6 && item.status == 'expired' ? `url(${BettingCheckIn.item_bg1})` :
-                                index == 6 && item.status == 'locked' || index == 6 && item.status == 'expired'? `url(${BettingCheckIn.item_bg3})` :
-                                            index < 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg2})` :
-                                                index == 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg4})` : ''
-                            }" class="bg-no-repeat bg-fill relative block mb-2"
-                            @click="onclickData(item)"
-                                :class="index == 6 ? 'w-[9.8rem]' : 'w-[4.7rem]  h-[5.8rem]'">
-                                <!-- <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
-                                        <img :src=SignImg.bg_light class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
-                                    </em> -->
-                                <p class="text-[0.64rem] leading-[1.25rem]  text-center "
-                                :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext1'">
-                                    <span>Dia {{ index + 1 }}</span>
-                                </p>
-                                <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
-                                    <div v-if="index != 6" class=" flex justify-center">
-                                        <div class="relative flex justify-cente">
-                                            <img :src="BettingCheckIn[`coin${index + 1}`]" class="w-auto h-[2.3rem] ">
-                                        </div>
-                                    </div>
-                                    <!-- <em v-if="item.status==4 " class="w-full h-full rounded-[0.5625rem] bg-rgbablack50 text-rgbawhite80 not-italic absolute top-0 left-0 flex items-center justify-center">
-                                            <p class="px-2 text-[0.6875rem] text-center">SUBSCRIPTION INTERRUPTED</p>
-                                        </em> -->
-                                    <!-- v-if="item.status == 2" -->
-                                    <em v-if="item.status == 'claimed'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_gou" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                    <em v-if="item.status == 'expired'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_expirado" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                </div>
-                                <div class="relative h-[1.3rem] text-center ">
-                                    <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
-                                        <span class="text-[0.8rem] font-bold "
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">R$
-                                            {{ Number(item.bonus) }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-            </pu-card>
-            <pu-card theme="3" class="mb-3 pt-3">
-                <div class="w-full mb-4 flex items-center">
-                    <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
-                    <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
-                    </h5>
-                    <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
-                </div>
-                <article class="ctx-article p-mb text-sm text-themetext3" v-html="contentRef"></article>
-            </pu-card>
-        </div>
-        <div v-if="currentTemplate.value == 'template_four'">
-            <pu-card theme="3" class="relative">
-                <div class="sharebox w-full mx-auto bg-rgbawhite10 rounded-[1rem] mt-2 px-2">
-                    <p class="text-sm text-themetext1 px-4 pt-2">Convide amigos para se divertir</p>
-                    <share-list class=" !py-1" :showName="false"></share-list>
-                </div>
-            </pu-card>
-            <em class="w-full h-[12rem] block"> </em>
-            <pu-card theme="3" class="mb-3 pt-3 relative ">
-                <div class="w-full mb-4 h-auto  px-2 pb-3" :style="{
-                    background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
-                    backgroundSize: '100% 100%'
-                }">
-                    <div class="h-[2.5rem] w-[10rem] absolute top-[-0.5rem] left-[30%] flex items-center justify-center font-bold "
-                        :style="{
-                            background: `url(${BettingCheckIn.img_dj}) no-repeat`,
-                            backgroundSize: '100% 100%',
-                        }">
-                        <span class="text-[1.5rem] mt-1" style="transform: skewX(-15deg);">V{{ current_levelRef
-                        }}</span>
-                    </div>
-                    <div class="flex flex-col items-center justify-center  ">
-                        <dd
-                            class="w-[96%] h-[0.4rem] bg-rgbablack50 rounded-full overflow-hidden flex relative top-[2.5rem]">
-                            <em :style="{ width: progressWidth }"
-                                class="h-full bg-[#ffe400] rounded-full flex justify-end overflow-hidden">
-                                <!-- <i class="w-2 h-2 bg-themewhite rounded-full"></i> -->
-                            </em>
-                        </dd>
-                        <div class="absolute top-[1.8rem] left-[15.5%] w-[75%] h-[2.5rem]">
-                            <div v-for="(item, index) in levelsRef" :key="item.level"
-                                class="itme absolute flex flex-col items-center justify-center -translate-x-1/2"
-                                :style="{ left: getLevelLeft(index) }">
-                                <span class="text-[0.8rem] text-themeblack">{{ item.min_bet }}</span>
-                                <!-- 1黑2亮 -->
-                                <img :src="index === 0 || Number(moneyRef || 0) >= Number(item.min_bet || 0) ? BettingCheckIn.icon_pontos2 : BettingCheckIn.icon_pontos1"
-                                    alt="" class="w-[1rem] h-[1rem] mb-[0.1rem]" />
-                                <img :src="BettingCheckIn[`icon_lv${Math.min(item.level, 6)}`] || BettingCheckIn.icon_lv1"
-                                    alt="" class="w-[1.75rem] h-[1.75rem]" />
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="bg-rgbablack30 text-xs text-themeblack px-3 py-1 rounded-lg mt-[5rem] ">
-                        <p>Apostar durante <span class="text-themetext0">{{ streak_daysRef }}</span> dias consecutivos
-                        </p>
-                        <p class="mt-1">Você pode resgatar sua recompensa em até <span class="text-themetext0">{{ 7 -
-                                streak_daysRef }}</span> dias.
-                        </p>
-                        <p class="flex justify-left text-left mt-1 ">
-                            <img :src="BettingCheckIn.icon_tibi" alt="" class="w-[0.88rem] h-[0.88rem] mr-1" />
-                            <span>(É necessário apostar durante <span class="text-themetext0">7</span> dias consecutivos.)</span>
-                        </p>
-                    </div>
-                </div>
-                <div class=" mt-2 px-3 py-2" :style="{
-                    backgroundImage: `url(${BettingCheckIn.img_checkinbg})`,
-                    backgroundSize: '100% 100%',
-                    backgroundPosition: 'center'
-                }">
-                    <div class="flex items-center justify-between mt-8">
-                        <div class="flex flex-col">
-                            <p class="font-bold text-themetext0 ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
-                            <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
-                        </div>
-                        <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
-                            class="mr-2 w-[2.5rem] h-[2.5rem]" />
-
-                    </div>
-
-                    <ul class=" flex flex-wrap justify-between mt-5">
-                        <!-- item,index in signConfigRef.configList||[] -->
-                        <template v-for="(item, index) in listRef" :key="index">
-                            <!--  -->
-                            <li :style="{
-                                backgroundImage:
-                                index < 6 && item.status == 'locked'|| index < 6 && item.status == 'expired' ? `url(${BettingCheckIn.item_bg1})` :
-                                index == 6 && item.status == 'locked' || index == 6 && item.status == 'expired'? `url(${BettingCheckIn.item_bg3})` :
-                                            index < 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg2})` :
-                                                index == 6 && item.status == 'available' ? `url(${BettingCheckIn.item_bg4})` : ''
-                            }" class="bg-no-repeat bg-fill relative block mb-2"
-                            @click="onclickData(item)"
-                                :class="index == 6 ? 'w-[9.8rem]' : 'w-[4.7rem]  h-[5.8rem]'">
-                                <!-- <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
-                                        <img :src=SignImg.bg_light class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
-                                    </em> -->
-                                <p class="text-[0.64rem] leading-[1.25rem]  text-center text-themewhite">
-                                    <span>Dia {{ index + 1 }}</span>
-                                </p>
-                                <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
-                                    <div v-if="index != 6" class=" flex justify-center">
-                                        <div class="relative flex justify-cente">
-                                            <img :src="BettingCheckIn[`coin${index + 1}`]" class="w-auto h-[2.3rem] ">
-                                        </div>
-                                    </div>
-                                    <!-- <em v-if="item.status==4 " class="w-full h-full rounded-[0.5625rem] bg-rgbablack50 text-rgbawhite80 not-italic absolute top-0 left-0 flex items-center justify-center">
-                                            <p class="px-2 text-[0.6875rem] text-center">SUBSCRIPTION INTERRUPTED</p>
-                                        </em> -->
-                                    <!-- v-if="item.status == 2" -->
-                                    <em v-if="item.status == 'claimed'"
-                                        class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_gou" alt="" class="w-[1.25rem] h-[1.25rem]">
-                                    </em>
-                                    <em v-if="item.status == 'expired'"
-                                        class="w-full h-[5.9rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
-                                        <img :src="BettingCheckIn.icon_expirado" alt="" class="w-[2rem] h-[2rem]">
-                                    </em>
-                                </div>
-                                <div class="relative h-[1.3rem] text-center ">
-                                    <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
-                                        <span class=" text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">R$
-                                            {{ Number(item.bonus) }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-            </pu-card>
-            <pu-card theme="3" class="mb-3 pt-3">
-                <h5 class=" px-2 text-l font-bold mb-3 text-start m4-text">
-                    <span>Descrição da Atividade:</span>
-                </h5>
-                <article class="ctx-article p-mb text-sm text-themetext3" v-html="contentRef"></article>
-            </pu-card>
-        </div>
+                <article class="ctx-article p-mb text-sm text-rgbawhite80" v-html="contentRef"></article>
+        </pu-card>
+      
 
         <Panddingbottom></Panddingbottom>
     </pu-page>

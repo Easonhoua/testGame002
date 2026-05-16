@@ -106,7 +106,7 @@ const {
                             <div class="h-full px-2  rounded-lg flex items-center  bg-default-bg rounded-lg border border-defaultborder" >
                                 <img src="/imgs/icon-wallet-g.svg" class="w-5 h-5 mr-2 -mt-0.5">
                                 <p>
-                                    <span class="text-four" >R$&nbsp;{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
+                                    <span class="text-four" >{{ currentUnit.value }}&nbsp;{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
                                 </p>
                                
                             </div>
@@ -345,12 +345,11 @@ const {
             </template>
             <!-- 首页活动弹窗 -->
              <!-- 签到活动开启时，仅当签到完成才显示弹窗  -->
-            <template v-if="isOpenEnterRef&&isSignInRef">
+            <template v-if="isOpenEnterRef && signConfigRef?.todayStatus === false">
                 <pdd-index-pop 
                     v-for="(item, idx) in activityListRef" 
                     :key="idx" 
-                    :data="item" 
-                    v-if="showActivityPop"
+                    :data="item"
                 />
             </template>
             <!-- 签到活动关闭时，直接显示弹窗 -->

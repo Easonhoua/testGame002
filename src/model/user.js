@@ -17,6 +17,59 @@ const accountLocal = computed(()=> {
     return memberLocal.value&&memberLocal.value.account||{}
 })
 
+let userInfoPollingTimer = null
+const userInfoPollingSources = new Set()
+let userInfoRequesting = false
+
+async function syncUserInfoFunc() {
+    if(userInfoRequesting) return
+    userInfoRequesting = true
+    try {
+        let res = await $get({url: '/v1/member/member/balance'}, {loading: false})
+        if(res.code != 200) return
+        memberLocal.value.level = res.data.level
+        memberLocal.value.current_level = res.data.level
+        if(memberLocal.value.account) {
+            memberLocal.value.account.user_money = res.data.user_money
+            memberLocal.value.account.bet_amount = res.data.bet_amount
+            memberLocal.value.account.consume_money = res.data.consume_money
+        }
+        msgUnReadCountRef.value = res.data.un_read_count||0
+        if(res.data.order&&res.data.order!= null) {
+            window.jsBridge?.postMessage("recharge", JSON.stringify({cid: window.ch, uid:memberLocal.value.id, phone: memberLocal.value.username, amount: res.data.order.pay_amount, currency:"BRL"}))
+        }
+    } finally {
+        userInfoRequesting = false
+    }
+}
+
+export function startUserInfoPolling(source = 'default', interval = 5000, immediate = true) {
+    if(!isAuthRef.value) return
+    userInfoPollingSources.add(source)
+    if(immediate) {
+        syncUserInfoFunc()
+    }
+    if(userInfoPollingTimer) return
+    userInfoPollingTimer = setInterval(() => {
+        if(!isAuthRef.value) {
+            clearInterval(userInfoPollingTimer)
+            userInfoPollingTimer = null
+            userInfoPollingSources.clear()
+            return
+        }
+        syncUserInfoFunc()
+    }, interval)
+}
+
+export function stopUserInfoPolling(source = 'default') {
+    userInfoPollingSources.delete(source)
+    if(userInfoPollingSources.size > 0) return
+    if(userInfoPollingTimer) {
+        clearInterval(userInfoPollingTimer)
+        userInfoPollingTimer = null
+    }
+}
+
 export var noRechargeDataRef = useStorage('no_recharge', {time: '', count: 0})
 export var noRechargeShowRef = ref(false)
 
@@ -25,22 +78,7 @@ export function userModel(init = false) {
     const accountRef = computed(()=> { return accountLocal.value||{} })
     
     async function userInfoFunc() {
-        let res = await $get({url: '/v1/member/member/balance'}, {loading: false})
-        if(res.code != 200) return
-        memberLocal.value.level = res.data.level
-        // memberLocal.value.agent_bonus = res.data.agent_bonus
-        memberLocal.value.current_level = res.data.level
-        //判断 memberLocal.value.account是否存在
-        if(memberLocal.value.account) {
-            memberLocal.value.account.user_money = res.data.user_money
-            memberLocal.value.account.bet_amount = res.data.bet_amount
-            memberLocal.value.account.consume_money = res.data.consume_money
-        }
-        msgUnReadCountRef.value = res.data.un_read_count||0
-        //如果有订单信息 打点复充
-        if(res.data.order&&res.data.order!= null) {
-            window.jsBridge?.postMessage("recharge", JSON.stringify({cid: window.ch, uid:memberLocal.value.id, phone: memberLocal.value.username, amount: res.data.order.pay_amount, currency:"BRL"}))
-        }
+        await syncUserInfoFunc()
     }
     async function userUpdateFunc(key, value) {
         let data = {}

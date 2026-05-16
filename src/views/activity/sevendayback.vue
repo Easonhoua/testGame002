@@ -2,7 +2,7 @@
 import { onMounted } from 'vue'
 import { isAuthRef } from '@/model/user'
 import { sevendaybackModel } from '@/model/activity'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const CommonImg = useThemeImages().common
@@ -17,7 +17,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pu-page title="CashBack em 7 dias" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.Cashback')" class="z-[999]" hideService>
         <div v-if="currentTemplate.value == 'template_one'">
             <div class="banner relative">
                 <img :src="SevenBackImg.img_sevendayback" alt="Grande Retorno de Depósito" class="w-full" />
@@ -29,11 +29,11 @@ onMounted(() => {
                     backgroundRepeat: 'no-repeat',
                 }">
                     <div class="text-themewhite w-[56%] text-[0.68rem]">
-                        Depósito único <span class="text-four">≥ R${{ sevendaybackInfoRef.start_min }}</span> ativa a
+                        Depósito único <span class="text-four">≥ {{ currentUnit.value }}{{ sevendaybackInfoRef.start_min }}</span> ativa a
                         atividade de cashback. Quanto maior o depósito, maior o prêmio.
                     </div>
                     <div class="right text-four">
-                        R$ {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
+                        {{ currentUnit.value }} {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
                     </div>
                 </div>
             </div>
@@ -92,11 +92,11 @@ onMounted(() => {
                     backgroundPosition: 'center'
                 }">
                     <div class="left text-themewhite ">
-                        Depósito único <span class="text-four">≥ R${{ sevendaybackInfoRef.start_min }}</span> ativa a
+                        Depósito único <span class="text-four">≥ {{ currentUnit.value }}{{ sevendaybackInfoRef.start_min }}</span> ativa a
                         atividade de cashback. Quanto maior o depósito, maior o prêmio.
                     </div>
                     <div class="right text-four">
-                        R$ {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
+                        {{ currentUnit.value }} {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
                     </div>
                 </div>
             </div>
@@ -156,16 +156,15 @@ onMounted(() => {
                 backgroundPosition: 'center'
             }">
                 <div class="left text-themewhite ">
-                    Depósito único <span class="text-themetext0">≥ R${{ sevendaybackInfoRef.start_min }}</span> ativa a
-                    atividade de cashback. Quanto maior o depósito, maior o prêmio.
+                    {{t('activityCenter.Singledeposit')}} <span class="text-themetext0">≥ {{ currentUnit.value }}{{ sevendaybackInfoRef.start_min }}</span> {{t('activityCenter.SingledepositDetail')}}
                 </div>
                 <div class="right text-themetext0">
-                    R$ {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
+                    {{ currentUnit.value }} {{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}
                 </div>
             </div>
             <div class="list flex flex-col items-center">
                 <div v-for="(item, index) in sevendaybackInfoRef.config" :key="index"
-                    class=" item w-full h-full flex items-center justify-between align-center" :style="{
+                    class=" item w-full h-full flex items-center justify-between align-center !px-4" :style="{
                         background: `url(${SevenBackImg.img_itembg}) no-repeat`,
                         backgroundSize: '100% 100%',
                         backgroundPosition: 'center'
@@ -199,7 +198,7 @@ onMounted(() => {
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription')  }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
@@ -223,12 +222,12 @@ onMounted(() => {
                     backgroundRepeat: 'no-repeat',
                 }">
                     <div class="left text-white  ">
-                        Depósito único <span class="text-themetext0">≥ R${{ sevendaybackInfoRef.start_min }}</span> ativa
+                        Depósito único <span class="text-themetext0">≥ {{ currentUnit.value }}{{ sevendaybackInfoRef.start_min }}</span> ativa
                         a atividade de cashback. Quanto maior o depósito, maior o prêmio.
                     </div>
                     <div class="m4-text border-l text-[0.8rem] px-2 border-white/10 flex items-center justify-center flex-col">
                         <p class=" font-bold ">Deposito atual</p>
-                        <span class="flex items-center justify-center">R$ <span
+                        <span class="flex items-center justify-center">{{ currentUnit.value }} <span
                             class="text-themetext0 text-[1.6rem]">{{ sevendaybackInfoRef.day1_pay_num > 0 ? (Number(sevendaybackInfoRef.day1_pay_num)).toFixed(2) : 0 }}</span></span> 
                     </div>
                 </div>
@@ -280,12 +279,12 @@ onMounted(() => {
                     backgroundRepeat: 'no-repeat',
                 }">
                     <div class="text-themewhite w-[56%] text-[0.68rem] mr-8 mt-2">
-                        Depósito único <span class="text-four">≥ R${{ sevendaybackInfoRef.start_min }}</span> ativa a
+                        Depósito único <span class="text-four">≥ {{ currentUnit.value }}{{ sevendaybackInfoRef.start_min }}</span> ativa a
                         atividade de cashback. Quanto maior o depósito, maior o prêmio.
                     </div>
                     <div class="text-center">
                         <p class="text-[0.8rem] font-bold my-1">Current Deposit</p>
-                        <p class="text-[0.8rem]">R$ <span class="text-themetext0 text-[1.6rem] font-bold">{{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}</span> </p>
+                        <p class="text-[0.8rem]">{{ currentUnit.value }} <span class="text-themetext0 text-[1.6rem] font-bold">{{ sevendaybackInfoRef.day1_pay_num > 0 ? fn(sevendaybackInfoRef.day1_pay_num, 2) : 0 }}</span> </p>
                     </div>
                 </div>
             </div> 
@@ -308,15 +307,15 @@ onMounted(() => {
                         <div class="flex  items-center justify-center" v-if="item.status == 1">
                             <img :src=CommonImg.icon_gou class="w-4 h-4 yes" />Recebido
                         </div>
-                        <div v-if="!isAuthRef || item.status == 2 || !item.status">
+                        <div v-else-if="!isAuthRef || item.status == 2 || !item.status">
                             <img :src=SevenBackImg.icon_gold1 alt="" class="w-12 h-8">
                         </div>
                         <!-- -->
-                        <div v-if="item.status == 0" @click="getRewardsBtnFunc(index + 1)"
+                        <div v-else-if="item.status == 0" @click="getRewardsBtnFunc(index + 1)"
                             class=" text-themewhite px-4  py-[0.4rem] flex items-center justify-center m5-theme-btn1  rounded-full text-sm  text-center font-bold">
                             Receber
                         </div>
-                        <div v-if="item.status == 3">
+                        <div v-else-if="item.status == 3">
                             <img :src=SevenBackImg.icon_gold2 alt="" class="w-13 h-10">
                         </div>
 

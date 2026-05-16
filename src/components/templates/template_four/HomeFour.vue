@@ -104,7 +104,7 @@ const {
                             <div class="h-full px-2  rounded-lg flex items-center bg-theme" >
                                 <img src="/imgs/icon-wallet-g.svg" class="w-5 h-5 mr-2 -mt-0.5">
                                 <p>
-                                    <span class="text-m m4-text" >R$&nbsp; <span class="text-theme-three">{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}</span>&nbsp;</span>
+                                    <span class="text-m m4-text" >{{ currentUnit.value }}&nbsp; <span class="text-theme-three">{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}</span>&nbsp;</span>
                                 </p>
                                
                             </div>
@@ -166,22 +166,12 @@ const {
                     </dd>
                 </dl>
             </div>
-           
-            <!-- 紫色版规则样式 -->
-            <!-- <pu-card theme="3">
-                <div class="flex justify-between flex-wrap">
-                    <template v-for="item,index in bannerListRef&&bannerListRef[2]||[]" :key="index">
-                        <van-image @click="onclickBanner(item)" :src="item.img" width="6.75rem" height="4.125rem" radius="0.5rem" fit="cover" class="mt-2"></van-image>
-                    </template>
-                </div>
-            </pu-card> -->
-            <!-- 小banner-->
             <pu-card theme="3" class="mt-3">
                 <div class="flex justify-between flex-wrap mt-0.5"  v-if="bannerListRef&&bannerListRef[2]">
                     <template class="flex justify-between items-center">
-                        <div class="item rounded-[0.625rem] overflow-hidden h-[9rem]  w-[31.5%]  flex items-center flex-col" v-for="(item,index) in bannerListRef[2]" :key="index"  @click="onclickBanner(item)">
+                        <div class="item rounded-[0.625rem] overflow-hidden aspect-[110/144]  w-[31.5%]  flex items-center flex-col" v-for="(item,index) in bannerListRef[2]" :key="index"  @click="onclickBanner(item)">
                             <!-- <img :src="item.img" class="flex-1 w-full h-full  " /> -->
-                            <van-image :src="item.img" lazy-load fit="cover" class="flex-1 w-full h-full  ">
+                            <van-image :src="item.img" lazy-load fit="contain" class="flex-1 w-full h-full  ">
                                 <template #loading>
                                     <van-loading type="spinner" color="#25bfac" />
                                 </template>
@@ -346,12 +336,11 @@ const {
             </template>
             <!-- 首页活动弹窗 -->
              <!-- 签到活动开启时，仅当签到完成才显示弹窗  -->
-            <template v-if="isOpenEnterRef&&isSignInRef">
+            <template v-if="isOpenEnterRef && signConfigRef?.todayStatus === false">
                 <pdd-index-pop 
                     v-for="(item, idx) in activityListRef" 
                     :key="idx" 
-                    :data="item" 
-                    v-if="showActivityPop"
+                    :data="item"
                 />
             </template>
             <!-- 签到活动关闭时，直接显示弹窗 -->

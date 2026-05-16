@@ -58,7 +58,7 @@ function openrank (){
 </script>
 
 <template>
-    <pu-page title="Dia Do Super Membro" class="z-[999] ">
+    <pu-page :title="t('pageTitle.MemberDay')" class="z-[999] ">
         <img :src=MemberDayImg.img_bg class="w-[94%] m-auto mt-4">
         <div v-if="currentTemplate.value == 'template_one'">
             <pu-card theme="3">
@@ -74,20 +74,20 @@ function openrank (){
                     <div class="mt-[2rem] ml-2 mr-6 ">
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MemberDayImg.img_down" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Depósito</span>
+                            <span class="text-xs flex-1">{{ t('deposit') }}</span>
                             <span class="text-four text-xs font-bold w-[2.5rem]">{{needRecharge }}</span>
                         </div>
 
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MemberDayImg.img_game" alt="" class="w-[1.25rem] h-[1.0rem] mr-2" />
-                            <span class="text-xs flex-1">Volume de apostas</span>
+                            <span class="text-xs flex-1">{{ t('activityCenter.Bettingvolume') }}</span>
                             <span class="text-four text-xs font-bold w-[2.5rem]">{{needBetRef}}</span>
                         </div>
                         <div class="flex justify-between items-center ">
                             <img :src="MemberDayImg.img_time" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Dias de apostas</span>
+                            <span class="text-xs flex-1">{{ t("activityCenter.Bettingdays") }}</span>
                             <span class="text-four text-xs font-bold w-[2.5rem]">{{needBetdays}}<span
-                                    class="text-themewhite  text-[0.6rem] ml-1">Dias</span></span>
+                                    class="text-themewhite  text-[0.6rem] ml-1">{{ t('account.days') }}</span></span>
                         </div>
 
                     </div>
@@ -133,7 +133,7 @@ function openrank (){
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themewhite"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themewhite"></em>
                 </div>
@@ -149,7 +149,7 @@ function openrank (){
                 <div class="h-[35rem]  w-full"
                     :style="{ backgroundImage: `url(${MemberDayImg.img_tcbg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }">
                     <div class="flex items-center justify-center w-full mt-[5.9rem] font-bold text-white ">
-                        <p class="mr-4">Data de Desenho</p>
+                        <p class="mr-4">{{ t(' activityCenter.DrawingDate') }}</p>
                         <p>{{rankdateRef}}</p>
                     </div>
 
@@ -161,8 +161,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_2})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop3Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -173,8 +173,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_1})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -184,8 +184,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_3})` }">
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop2Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-themewhite text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +200,7 @@ function openrank (){
                                     <img src="/imgs/common/m2.png" class="w-[1.2rem] h-[1.2rem] rounded-full mr-2" />
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-four text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-four text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -311,7 +311,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop3Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -323,7 +323,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -334,7 +334,7 @@ function openrank (){
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop2Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -349,7 +349,7 @@ function openrank (){
                                     <img src="/imgs/common/m2.png" class="w-[1.2rem] h-[1.2rem] rounded-full mr-2" />
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-four text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-four text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -372,20 +372,20 @@ function openrank (){
                     <div class="mt-[2rem] ml-2 mr-6 ">
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MemberDayImg.img_down" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Depósito</span>
+                            <span class="text-xs flex-1">{{ t('deposit') }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needRecharge }}</span>
                         </div>
 
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MemberDayImg.img_game" alt="" class="w-[1.25rem] h-[1.0rem] mr-2" />
-                            <span class="text-xs flex-1">Volume de apostas</span>
+                            <span class="text-xs flex-1">{{ t('activityCenter.Bettingvolume') }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needBetRef}}</span>
                         </div>
                         <div class="flex justify-between items-center ">
                             <img :src="MemberDayImg.img_time" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Dias de apostas</span>
+                            <span class="text-xs flex-1">{{ t("activityCenter.Bettingdays") }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needBetdays}}<span
-                                    class="text-themewhite  text-[0.6rem] ml-1">Dias</span></span>
+                                    class="text-themewhite  text-[0.6rem] ml-1">{{ t('account.days') }}</span></span>
                         </div>
 
                     </div>
@@ -431,7 +431,7 @@ function openrank (){
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
@@ -447,7 +447,7 @@ function openrank (){
                 <div class="h-[35rem]  w-full"
                     :style="{ backgroundImage: `url(${MemberDayImg.img_tcbg})`, backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%' }">
                     <div class="flex items-center justify-center w-full mt-[5.9rem] font-bold text-white ">
-                        <p class="mr-4">Data de Desenho</p>
+                        <p class="mr-4">{{ t(' activityCenter.DrawingDate') }}</p>
                         <p>{{rankdateRef}}</p>
                     </div>
 
@@ -459,8 +459,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_2})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop3Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -471,8 +471,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_1})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -482,8 +482,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MemberDayImg.phb_3})` }">
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop2Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-themewhite text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -498,7 +498,7 @@ function openrank (){
                                     <img src="/imgs/common/m2.png" class="w-[1.2rem] h-[1.2rem] rounded-full mr-2" />
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-themetext0 text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-themetext0 text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -537,7 +537,7 @@ function openrank (){
             <img :src=MemberDayImg.img_money  class="w-[1.75rem] mr-3"/> 
             <span class="font-bold">Hora de Coleta</span>
            </div>
-            <p class="text-center w-full h-full bg-rgbawhite30 font-bold text-[0.88rem] rounded-[0.25rem] py-2  mt-2">R$ <span class="text-themetext0 font-bold text-[0.88rem] ">77777.00</span></p>
+            <p class="text-center w-full h-full bg-rgbawhite30 font-bold text-[0.88rem] rounded-[0.25rem] py-2  mt-2">{{ currentUnit.value }} <span class="text-themetext0 font-bold text-[0.88rem] ">77777.00</span></p>
            </div>
            <div class="m4-nine-btn w-full text-center rounded-full font-[600] py-2 mt-[3rem]">Receber</div>
             <pu-card theme="3" class="mb-3 pt-3">

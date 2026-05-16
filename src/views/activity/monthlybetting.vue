@@ -41,12 +41,7 @@ async function onClickDraw() {
         slotSpinningRef.value = false
     }
 }
-const getLevelLeft = (index) => {
-    if (levelsRef.value.length <= 1) return '0%'
-    return `${(index / (levelsRef.value.length - 1)) * 100}%`
-}
 function openrank (){
-    // showRanklist.value = true
     if (rankalllistRef.value.length>0) {
         showRanklist.value = true
     }else{
@@ -57,7 +52,7 @@ function openrank (){
 </script>
 
 <template>
-    <pu-page title="Dia Do Super Membro" class="z-[999]">
+    <pu-page :title="t('pageTitle.MemberDay')" class="z-[999]">
         <img :src=MonthlybettingImg.img_bg class="w-full absolute left-0 top-0 z-[-1]">
         <div v-if="currentTemplate.value == 'template_one'">
             <pu-card theme="3">
@@ -161,7 +156,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop2Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +168,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +179,7 @@ function openrank (){
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop3Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +194,7 @@ function openrank (){
                                    
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-four text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-four text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -310,7 +305,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop2Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -322,7 +317,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -333,7 +328,7 @@ function openrank (){
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop3Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-four text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-four text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -347,7 +342,7 @@ function openrank (){
                                     <span class="text-themewhite text-[0.64rem] w-6">{{ index+4 }}</span>
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-four text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-four text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -369,20 +364,20 @@ function openrank (){
                     <div class="mt-[2rem] ml-2 mr-6 ">
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MonthlybettingImg.img_down" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Depósito</span>
+                            <span class="text-xs flex-1">{{ t('deposit') }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needRecharge }}</span>
                         </div>
 
                         <div class="flex justify-between items-center mb-[0.65rem]">
                             <img :src="MonthlybettingImg.img_game" alt="" class="w-[1.25rem] h-[1.0rem] mr-2" />
-                            <span class="text-xs flex-1">Volume de apostas</span>
+                            <span class="text-xs flex-1">{{ t('activityCenter.Bettingvolume') }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needBetRef}}</span>
                         </div>
                         <div class="flex justify-between items-center ">
                             <img :src="MonthlybettingImg.img_time" alt="" class="w-[1.25rem] h-[1.25rem] mr-2" />
-                            <span class="text-xs flex-1">Dias de apostas</span>
+                            <span class="text-xs flex-1">{{ t("activityCenter.Bettingdays") }}</span>
                             <span class="text-themetext0 text-xs font-bold w-[2.5rem]">{{needBetdays}}<span
-                                    class="text-themewhite  text-[0.6rem] ml-1">Dias</span></span>
+                                    class="text-themewhite  text-[0.6rem] ml-1">{{ t('account.days') }}</span></span>
                         </div>
 
                     </div>
@@ -428,7 +423,7 @@ function openrank (){
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
@@ -444,7 +439,7 @@ function openrank (){
                     <img :src="CommonImg.btn_close" class="w-[1.5rem] h-[1.5rem]" />
                 </button>
                     <div class="flex items-center justify-center w-full mt-[5.9rem] font-bold text-white ">
-                        <p class="mr-4">Data de Desenho</p>
+                        <p class="mr-4">{{ t(' activityCenter.DrawingDate') }}</p>
                         <p>{{rankdateRef}}</p>
                     </div>
 
@@ -456,8 +451,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MonthlybettingImg.phb_2})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop2Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -468,8 +463,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MonthlybettingImg.phb_1})` }">
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-white text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -479,8 +474,8 @@ function openrank (){
                                 :style="{ backgroundImage: `url(${MonthlybettingImg.phb_3})` }">
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop3Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
-                                    <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-themewhite text-[0.7rem]">{{ t('Bonus') }}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -495,7 +490,7 @@ function openrank (){
                                     
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-themetext0 text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-themetext0 text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -617,7 +612,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop2Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -629,7 +624,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -640,7 +635,7 @@ function openrank (){
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop3Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -655,7 +650,7 @@ function openrank (){
                                     
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-themetext0 text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-themetext0 text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 
@@ -770,7 +765,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ ranktop3Ref.username }}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop3Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop3Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -782,7 +777,7 @@ function openrank (){
                                 <p class="text-white text-[0.7rem] mt-[4rem]">{{ranktop1Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-white text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop1Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop1Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -793,7 +788,7 @@ function openrank (){
                                 <p class="text-themewhite text-[0.7rem] mt-[4rem]">{{ranktop2Ref.username}}</p>
                                 <div class="bg-rgbablack30 rounded px-1 -mt-[0.05rem] flex flex-col items-center">
                                     <span class="text-themewhite text-[0.7rem]">Bônus</span>
-                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">R${{ranktop2Ref.bonus}}</span>
+                                    <span class="text-themetext0 text-[0.6rem] font-bold -mt-1">{{ currentUnit.value }}{{ranktop2Ref.bonus}}</span>
                                 </div>
                             </div>
                         </div>
@@ -808,7 +803,7 @@ function openrank (){
                                     <img src="/imgs/common/m2.png" class="w-[1.2rem] h-[1.2rem] rounded-full mr-2" />
                                     <span class="text-themewhite text-[0.7rem]">{{item.username}}</span>
                                 </div>
-                                <span class="text-themetext0 text-[0.8rem] font-bold">R${{ item.bonus }}</span>
+                                <span class="text-themetext0 text-[0.8rem] font-bold">{{ currentUnit.value }}{{ item.bonus }}</span>
                             </div>
                         </div>
 

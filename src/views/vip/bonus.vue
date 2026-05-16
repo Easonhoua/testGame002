@@ -30,13 +30,13 @@ onMounted(()=> {
                                     <path d="M4 20C4 22.7614 10.7157 25 19 25C21.7563 25 24.339 24.7522 26.5585 24.3198" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M39 31L35 27M39 31L35 35M39 31L29 31" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span class="opacity-65 align-middle">Registro da Coleção</span>
+                                <span class="opacity-65 align-middle">{{  t('userCenter.CollectionRegistration')  }}</span>
                             </td>
                         </tr>
                         <tr class="bg-tablebg">
-                            <td>Tempo de recolha</td>
-                            <td>Evento</td>
-                            <td>Dinheiro</td>
+                            <td>{{  t('userCenter.Timecollection')  }}</td>
+                            <td>{{  t('userCenter.Events')  }}</td>
+                            <td>{{  t('userCenter.Money')  }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,7 +107,7 @@ onMounted(()=> {
             </van-list>
         </pu-card>
     </pu-page>
-    <pu-page title="Registro de Envio de Bônus" class="z-[999]" v-else>
+    <pu-page :title="t('pageTitle.ShipmentLog')" class="z-[999]" v-else>
         <pu-card theme="3" class="py-4">
             <van-list v-model:loading="hashLoadingRef" :finished="finishedRef" @load="bonusLogsFunc(false)" loading-text="loading..." finished-text="">
                 <table class="w-full text-sm text-center rounded-xl overflow-hidden">
@@ -122,13 +122,13 @@ onMounted(()=> {
                                     <path d="M4 20C4 22.7614 10.7157 25 19 25C21.7563 25 24.339 24.7522 26.5585 24.3198" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M39 31L35 27M39 31L35 35M39 31L29 31" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                <span class="opacity-65 align-middle">Registro da Coleção</span>
+                                <span class="opacity-65 align-middle">{{  t('userCenter.CollectionRegistration')  }}</span>
                             </td>
                         </tr>
                         <tr class="bg-rgbawhite10">
-                            <td>Tempo de recolha</td>
-                            <td>Evento</td>
-                            <td>Dinheiro</td>
+                            <td>{{  t('userCenter.Timecollection')  }}</td>
+                            <td>{{  t('userCenter.Events')  }}</td>
+                            <td>{{  t('userCenter.Money')  }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -136,9 +136,9 @@ onMounted(()=> {
                             <tr class="bg-rgbawhite10">
                                 <td>{{ resetTimeFunc(item.updated_at) }}</td>
                                 <td>
-                                    <span v-if="item.bonus_type==0">Upgrade</span>
-                                    <span v-if="item.bonus_type==1">Week</span>
-                                    <span v-if="item.bonus_type==2">Mês</span>
+                                    <span v-if="item.bonus_type==0">{{ t("userCenter.Upgrade") }}</span>
+                                    <span v-if="item.bonus_type==1">{{ t('userCenter.week') }}</span>
+                                    <span v-if="item.bonus_type==2">{{ t('userCenter.Month') }}</span>
                                 </td>
                                 <td>{{ fn(item.bonus) }}</td>
                             </tr>

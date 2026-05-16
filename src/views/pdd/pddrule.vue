@@ -1,6 +1,6 @@
 <script setup>
 import {  ref } from 'vue'
-import {  $unit, fn } from '@/i18n'
+import {  fn,t } from '@/i18n'
 import { useScreenSafeArea } from '@vueuse/core'
 import { playBtnAudioFunc } from '@/utils/core'
 import { isAuthRef,  } from '@/model/user'
@@ -12,6 +12,7 @@ import { useThemeImages } from '@/utils/themeimg'
 const CommonImg = useThemeImages().common 
 
 const { top, bottom } = useScreenSafeArea()
+
 
 
 const props = defineProps({
@@ -68,7 +69,7 @@ async function withdrawCashAndClose() {
                         <p class="text-center">
                             <img :src=CommonImg.img_money class="w-6 h-5 mr-2 inline-block">
                             <b class="text-themetext text-[2.125rem]">{{ fn(totalBonusRef) }}</b>
-                            <b class="ml-2 text-base opacity-45">{{ $unit }}</b>
+                            <b class="ml-2 text-base opacity-45">{{ currentUnit.value }}</b>
                         </p>
                         <h6 class="mb-2 text-[0.625rem] opacity-65">Formas de Pagamentos</h6>
                         <ul class="w-full px-4 py-3 text-[0.5rem] text-rgbablack80 border border-rgbablack30 rounded-2xl" >
@@ -90,7 +91,7 @@ async function withdrawCashAndClose() {
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-pwa text-themewhite text-center rounded-full inline-block align-middle" v-else>
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">{{needBonusRef}} R$ serão pagos na sua conta Pix</span>
+                                <span class="align-middle">{{needBonusRef}} {{ currentUnit.value }} serão pagos na sua conta Pix</span>
                             </li>
                         </ul>
                        
@@ -124,7 +125,7 @@ async function withdrawCashAndClose() {
                         <p class="text-center">
                             <img :src=CommonImg.img_money class="w-6 h-5 mr-2 inline-block">
                             <b class="text-four text-[2.125rem]">{{ fn(totalBonusRef) }}</b>
-                            <b class="ml-2 text-base ">{{ $unit }}</b>
+                            <b class="ml-2 text-base ">{{ currentUnit.value }}</b>
                         </p>
                         <h6 class="mb-2 text-[0.625rem] ">Formas de Pagamentos</h6>
                    
@@ -147,7 +148,7 @@ async function withdrawCashAndClose() {
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-four text-themeblack text-center rounded-full inline-block align-middle" v-else>
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle text-[0.64rem]">{{needBonusRef}} R$ serão pagos na sua conta Pix</span>
+                                <span class="align-middle text-[0.64rem]">{{needBonusRef}} {{ currentUnit.value }} serão pagos na sua conta Pix</span>
                             </li>
                         </ul>
                         <div class="w-full pt-3 px-6">
@@ -166,7 +167,7 @@ async function withdrawCashAndClose() {
                 <div class="w-[18.75rem] max-w-full mx-auto rounded-3xl relative m3-theme-bg1">
                     <div class="w-full h-12 relative flex items-center justify-center">
                         <h5 class="text-sm text-center text-themetext1">
-                            <span>Em breve poderá sacar</span>
+                            <span>{{ t('activityCenter.withdrawsoon')  }}</span>
                         </h5>
                         <div class="h-full px-3 absolute right-0 top-0 flex items-center">
                             <a href="javascript:;" @click="close()" class="w-6 h-6 flex items-center justify-center">
@@ -176,26 +177,26 @@ async function withdrawCashAndClose() {
                     </div>
                     <div class="w-full p-4 rounded-3xl bg-gradient-to-b from-card1 to-card2 ">
                         <p class="text-xs text-center">
-                            <span>Total de dinheiro a ser pago em breve</span>
+                            <span>{{ t("activityCenter.paidsoon") }}</span>
                         </p>
                         <p class="text-center">
                             <img :src=CommonImg.img_money class="w-6 h-5 mr-2 inline-block">
                             <b class="text-themetext0 text-[2.125rem]">{{ fn(totalBonusRef) }}</b>
-                            <b class="ml-2 text-base">{{ $unit }}</b>
+                            <b class="ml-2 text-base">{{ currentUnit.value }}</b>
                         </p>
-                        <h6 class="mb-2 text-[0.625rem]">Formas de Pagamentos</h6>
+                        <h6 class="mb-2 text-[0.625rem]">{{ t('activityCenter.PaymentMethods') }}</h6>
                         <ul class="w-full px-4 py-3 text-[0.6rem] border border-rgbablack30 rounded-2xl">
                             <li class="mb-2 block">
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-default-bg text-themewhite text-center rounded-full inline-block align-middle">
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">O pedido de pagamento foi submetido</span>
+                                <span class="align-middle">{{ t("activityCenter.paymentsubmitted") }}</span>
                             </li>
                             <li class="mb-2 block">
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-default-bg text-themewhite text-center rounded-full inline-block align-middle">
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">Ainda é necessário{{ Math.max(0, Number(needBonusRef - totalBonusRef)).toFixed(2) }} para realizar</span>
+                                <span class="align-middle">{{ t("activityCenter.necessary") }}{{ Math.max(0, Number(needBonusRef - totalBonusRef)).toFixed(2) }} {{t("activityCenter.perform")}}</span>
                             </li>
                             <li class="mb-2 block">
                                 <i class="w-1.5 h-1.5 mr-2.5 ml-0.5 bg-rgbablack30 rounded-full inline-block align-middle" v-if="totalBonusRef<needBonusRef">
@@ -203,15 +204,15 @@ async function withdrawCashAndClose() {
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-four text-themewhite text-center rounded-full inline-block align-middle" v-else>
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">{{needBonusRef}} R$ serão pagos na sua conta Pix</span>
+                                <span class="align-middle">{{needBonusRef}} {{ currentUnit.value }} {{ t("activityCenter.Pixaccount") }}</span>
                             </li>
                         </ul>
                         <div class="w-full pt-3 px-6">
                             <button @click="openShare()" class="w-full h-[3.125rem] px-2 !text-[0.8rem] m3-theme-btn1 rounded-full" v-if="isCash==0">
-                                <span>Convide amigos para ajudar com</span>
+                                <span>{{ t('activityCenter.inviteshort') }}</span>
                             </button>
                             <button @click="withdrawCashAndClose()" class="w-full h-[3.125rem] px-2 !text-[0.8rem] m3-theme-btn1 rounded-full" v-else>
-                                <span>Vários locais</span>
+                                <span>{{ t("activityCenter.Multiplelocations") }}</span>
                             </button>
                         </div>
                     </div>
@@ -240,7 +241,7 @@ async function withdrawCashAndClose() {
                         <p class="text-center">
                             <img :src=CommonImg.img_money class="w-6 h-5 mr-2 inline-block">
                             <b class="text-themetext0 text-[2.125rem]">{{ fn(totalBonusRef) }}</b>
-                            <b class="ml-2 text-base ">{{ $unit }}</b>
+                            <b class="ml-2 text-base ">{{ currentUnit.value }}</b>
                         </p>
                         <h6 class="mb-2 text-[0.625rem] ">Formas de Pagamentos</h6>
                         <ul class="w-full px-4 py-3 text-[0.5rem] text-white border-2 border-black/25 rounded-2xl">
@@ -262,7 +263,7 @@ async function withdrawCashAndClose() {
                                 <i class="w-3 h-3 leading-3 mr-1.5 bg-pwa  text-theme text-center rounded-full inline-block align-middle" v-else>
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">{{needBonusRef}} R$ serão pagos na sua conta Pix</span>
+                                <span class="align-middle">{{needBonusRef}} {{ currentUnit.value }} serão pagos na sua conta Pix</span>
                             </li>
                         </ul>
                         <div class="w-full pt-3 px-6">
@@ -301,7 +302,7 @@ async function withdrawCashAndClose() {
                         <p class="text-center">
                             <img :src=CommonImg.img_money class="w-6 h-5 mr-2 inline-block">
                             <b class="text-themetext0 text-[2.125rem]">{{ fn(totalBonusRef) }}</b>
-                            <b class="ml-2 text-base ">{{ $unit }}</b>
+                            <b class="ml-2 text-base ">{{ currentUnit.value }}</b>
                         </p>
                         <h6 class="mb-2 text-[0.625rem] ">Formas de Pagamentos</h6>
                         <ul class="w-full px-4 py-3 text-[0.5rem] text-white border-2 border-black/25 rounded-2xl">
@@ -320,10 +321,10 @@ async function withdrawCashAndClose() {
                             <li class="mb-2 block">
                                 <i class="w-1.5 h-1.5 mr-2.5 ml-0.5 bg-rgbawhite50 rounded-full inline-block align-middle" v-if="totalBonusRef<needBonusRef">
                                 </i>
-                                <i class="w-3 h-3 leading-3 mr-1.5 bg-rgbawhite50  text-theme text-center rounded-full inline-block align-middle" v-else>
+                                <i class="w-3 h-3 leading-3 mr-1.5 bg-pwa  text-theme text-center rounded-full inline-block align-middle" v-else>
                                     <icon-check class="w-2 h-2 inline-block"></icon-check>
                                 </i>
-                                <span class="align-middle">{{needBonusRef}} R$ serão pagos na sua conta Pix</span>
+                                <span class="align-middle">{{needBonusRef}} {{ currentUnit.value }} serão pagos na sua conta Pix</span>
                             </li>
                         </ul>
                         <div class="w-full pt-3 px-6">

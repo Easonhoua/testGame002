@@ -54,7 +54,7 @@ async function close() {
                         :style="{backgroundImage: `url(${CommonImg.img_successbg})`,backgroundSize: '100% 100%',width:'18rem',height:'3rem'}">
                        <img :src=CommonImg.img_money  class="w-[3rem] h-[3rem] mr-2" v-if="!claimRef"/>
                        <img :src=CommonImg.img_gold  class="w-[3rem] h-[3rem] mr-2" v-else style="margin-top: -0.5rem;"/>
-                       <h1 style="font-size: 1.9rem;font-weight: 500;">R${{!claimRef?gameCurrencyRef:totalBonusRef}}</h1>
+                       <h1 style="font-size: 1.9rem;font-weight: 500;">{{ currentUnit.value }}{{!claimRef?gameCurrencyRef:totalBonusRef}}</h1>
                     </div>
                 </pu-card>
                 <pu-card theme="5" class="flex items-center justify-center flex-col" v-else>
@@ -63,8 +63,8 @@ async function close() {
                      <div class="flex items-center justify-center -mt-[3.4rem] text-center" v-if="props.typeName!='mysteriousgold'" >
                        <img :src=CommonImg.img_money  class="w-[3rem] h-[3rem] mr-2 -mt-[0.5rem]" v-if="!claimRef&&props.typeName!='luckywheel'"/>
                        <img :src=CommonImg.img_gold   class="w-[3rem] h-[3rem] mr-2 " v-else style="margin-top: -0.5rem;"/>
-                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-four" v-if="props.mony>0">R${{props.mony}}</h1>
-                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-four" v-else>R${{!claimRef?gameCurrencyRef:totalBonusRef}}</h1>
+                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-four" v-if="props.mony>0">{{ currentUnit.value }}{{props.mony}}</h1>
+                       <h1 style="font-size: 1.9rem;font-weight: 500;" class="text-four" v-else>{{ currentUnit.value }}{{!claimRef?gameCurrencyRef:totalBonusRef}}</h1>
                     </div>
                    
                 </pu-card>

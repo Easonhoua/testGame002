@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, watch,computed } from 'vue'
-import {  fn } from '@/i18n'
+import {  t,fn } from '@/i18n'
 import { useRouter } from 'vue-router'
 import { mysteriousModel } from '@/model/activity'
 const { mysteriousInfoRef, daysListRef,timeMothDisplay,timeDayDisplay,spinSuccessRef,accumulateMoneyRef,bonusArrRef,mysteriousSuccessFunc } = mysteriousModel()
@@ -123,7 +123,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pu-page title="Bônus Minsterioso" class="z-[999]">
+    <pu-page :title="t('pageTitle.MysteriousBonus')" class="z-[999]">
         <img :src=MystDImg.img_mystd class="w-full absolute left-0 ">
         <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value=='template_four'">
         <em class="w-full h-[17rem] block" v-else-if="currentTemplate.value=='template_five'"></em>
@@ -150,7 +150,7 @@ onMounted(() => {
                     </div>
                     <div class="flex flex-col items-center  dateItem"  :class="idx === clickindex ? 'm3-theme-btn1' : 'bg-tablergba40'" v-if="currentTemplate.value  =='template_three'">
                         <img :src="MystDImg[`icon_day${idx+1}`]" class="w-12 h-8"  />
-                        <span class="text-[0.68rem]" :class="idx === clickindex ? '!text-themetext4' : '!text-themetext1'">Dia 
+                        <span class="text-[0.68rem]" :class="idx === clickindex ? '!text-themetext4' : '!text-themetext1'">{{ t('Day') }} 
                             <span class="text-[1rem]" :class="idx === clickindex ? '!text-themetext4' : '!text-themetext1'"> {{item}}</span>
                         </span>
                         <img :src=MystDImg.icon_yes  class="w-5 h-5 mt-1" v-if="!isAuthRef||item<=mysteriousInfoRef.diff_day"/>
@@ -160,7 +160,7 @@ onMounted(() => {
                     </div>
                     <div class="flex flex-col items-center py-2 px-1 rounded-[0.5rem] "  :class="idx === clickindex ? 'm4-ten-btn' : 'bg-gradient-to-b from-activitybox2 to-activitybox1'" v-if="currentTemplate.value  =='template_four'">
                         <img :src="MystDImg[`icon_day${idx+1}`]" class="w-12 h-8"  />
-                        <span class="text-[0.68rem]" :class="idx === clickindex ? '!text-theme' : '!text-themewhite'">Dia 
+                        <span class="text-[0.68rem]" :class="idx === clickindex ? '!text-theme' : '!text-themewhite'">{{ t('Day') }}
                             <span class="text-[1rem]" :class="idx === clickindex ? '!text-theme' : '!text-themewhite'"> {{item}}</span>
                         </span>
                         <img :src=MystDImg.icon_yes  class="w-5 h-5 mt-1" v-if="!isAuthRef||item<=mysteriousInfoRef.diff_day"/>
@@ -170,7 +170,7 @@ onMounted(() => {
                     </div>
                     <div class="h-[7.2rem] flex flex-col items-center justify-around py-2  px-1 rounded-[0.5rem] relative z-10"  :class="idx === clickindex ? 'bg-gradient-to-b from-themecardlinear1 to-themecardlinear2' : 'bg-btn1_bg'" v-if="currentTemplate.value  =='template_five'">
                         <img :src="MystDImg[`icon_day${idx+1}`]" class="w-12 h-8"  />
-                        <span class="text-[0.68rem] text-themewhite">Dia 
+                        <span class="text-[0.68rem] text-themewhite">{{ t('Day') }}
                             <span class="text-[1rem]"> {{item}}</span>
                         </span>
                         <img :src=MystDImg.icon_yes  class="w-5 h-5 mt-1" v-if="!isAuthRef||item<=mysteriousInfoRef.diff_day"/>
@@ -197,7 +197,7 @@ onMounted(() => {
                     <span v-if="currentTemplate.value  =='template_two'">Depósito total de <span class="!text-four">{{tabindex}}</span> Dias:</span>
                     <span v-else>Depósito total de <span class="!text-one">{{tabindex}}</span> Dias:</span>
                 </div>
-                <span class="text-themewhite">R$ {{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span>
+                <span class="text-themewhite">{{ currentUnit.value }} {{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span>
                 </div>
                 <!-- 未登录 -->
                 <!-- !isAuthRef -->
@@ -217,7 +217,7 @@ onMounted(() => {
                             <span class="text-nine font-bold">Bônus misterioso</span>
                             </div>
                             <div class="flex items-center gap-2 mb-1">
-                                <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">R$ </span>
+                                <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">{{ currentUnit.value }} </span>
                             <span class="text-nine font-bold text-lg"
                             v-if="currentTemplate.value  =='template_one'"
                             :class="sendPayNum>0?'text-nine':'text-rgbawhite50'" >  {{ fn(sendPayNum,0) }}
@@ -254,7 +254,7 @@ onMounted(() => {
                                 <span class="text-nine font-bold">Bônus misterioso</span>
                                 </div>
                                 <div class="flex items-center gap-2 mb-1" >
-                                    <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">R$ </span>
+                                    <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">{{ currentUnit.value }} </span>
                                 <span class="font-bold text-lg " :class="currentTemplate.value  =='template_one'?'!text-nine':'text-homeranktext'">
                                     0
                                 </span>
@@ -288,13 +288,13 @@ onMounted(() => {
                                 <span class="text-nine font-bold">Bônus misterioso</span>
                                 </div>
                                 <div class="flex items-center gap-2 mb-1" v-if="currentTemplate.value  =='template_one'">
-                                    <span class=" text-s text-four" >R$ </span>
+                                    <span class=" text-s text-four" >{{ currentUnit.value }} </span>
                                 <span class="text-nine font-bold text-lg" :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-nine':'text-rgbawhite50'">
                                     {{bonusArrRef[`mystery_config_day${tabindex}`]==null ? 0 : bonusArrRef[`mystery_config_day${tabindex}`].status==0? findSendNumMinForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config)+'~ '+findSendNumMaxForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) :fn(bonusArrRef[`mystery_config_day${tabindex}`].bonus,2) }}
                                 </span>
                                 </div>
                                 <div class="flex items-center gap-2 mb-1" v-else>
-                                    <span class=" text-s text-nine" >R$ </span>
+                                    <span class=" text-s text-nine" >{{ currentUnit.value }} </span>
                                 <span class="text-homeranktext font-bold text-lg" :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-nine':'text-rgbawhite50'">
                                     {{bonusArrRef[`mystery_config_day${tabindex}`]==null ? 0 : bonusArrRef[`mystery_config_day${tabindex}`].status==0? findSendNumMinForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config)+'~ '+findSendNumMaxForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) :fn(bonusArrRef[`mystery_config_day${tabindex}`].bonus,2) }}
                                 </span>
@@ -342,23 +342,23 @@ onMounted(() => {
                 <div class="flex justify-between items-center topinfo" >
                 <div class="icontext flex align-center items-center">
                     <img :src=MystDImg.icon_user class="mr-2 "/>
-                    <span class="!text-themetext1">Hora de registro:</span>
+                    <span class="!text-themetext1">{{ t('activityCenter.Registrationtime') }}:</span>
                 </div>
                 <span class="text-themewhite">{{timeMothDisplay}}</span>
                 </div>
                 <div class="flex justify-between items-center topinfo mt-3" >
                 <div class="icontext flex align-center items-center ">
                     <img :src=MystDImg.icon_card class="mr-2 "/>
-                    <span class="!text-themetext1">Depósito total de <span class="!text-themetext0">{{tabindex}}</span> Dias:</span>
+                    <span class="!text-themetext1">{{ t('activityCenter.Totaldeposit') }} <span class="!text-themetext0">{{tabindex}}</span> {{ t('account.days') }}:</span>
                 </div>
-                <span >R$ <span class="text-themetext0">{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
+                <span >{{ currentUnit.value }} <span class="text-themetext0">{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
                 </div>
                 <!-- 未登录 -->
                 <!-- !isAuthRef -->
                 <div v-if="!isAuthRef " class="flex flex-col">
                     <div class="mt-3 flex flex-col justify-center items-center align-center centercard p-3" >
-                        <p class="mb-1">O momento em que os bônus podem ser</p>
-                        <p> reclamados:</p>
+                        <p class="mb-1">{{ t('activityCenter.Themomentbonusescanbe') }}</p>
+                        <p> {{ t('activityCenter.claimed') }}:</p>
                         <div class="flex items-center gap-2 mb-2 mt-2">
                         <img :src=MystDImg.icon_time class="w-3.5 h-3.5"/>
                         <span class=" font-bold text-black"
@@ -367,10 +367,10 @@ onMounted(() => {
                         <div class="flex flex-col items-center">
                             <div class="flex items-center gap-2 mb-1" >
                                 <img :src=MystDImg.icon_gold class="w-3.5 h-3.5"/>
-                            <span class="text-nine font-bold">Bônus misterioso</span>
+                            <span class="text-nine font-bold">{{ t('activityCenter.Mysteriousbonus') }}</span>
                             </div>
                             <div class="flex items-center gap-2 mb-1">
-                                <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">R$ </span>
+                                <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">{{ currentUnit.value }} </span>
                             <span class="text-homeranktext font-bold text-lg text-nine" >  {{ fn(sendPayNum,0) }}
                             </span>
                             </div>
@@ -379,7 +379,7 @@ onMounted(() => {
                     <button @click="cashBtnFunc()"
                     :class="currentTemplate.value  =='template_one'?'ctx-theme__linear':'m2-btn-ten'"
                     class=" rounded-xl h-10 px-3 rounded-xl  w-[7rem] " style="margin: 0 auto; margin-top: 1.25rem; font-weight: 600;">
-                Receber
+                {{ t('Receive') }}
                 </button>
                 </div>
                 <!-- 已登录 -->
@@ -388,8 +388,8 @@ onMounted(() => {
                     <!--  -->
                     <div v-if="tabindex<=mysteriousInfoRef.diff_day&&bonusArrRef.length==0">
                         <div class="mt-3 flex flex-col justify-center items-center align-center centercard p-3">
-                            <p class="mb-1">O momento em que os bônus podem ser</p>
-                            <p> reclamados:</p>
+                            <p class="mb-1">{{ t('activityCenter.Themomentbonusescanbe') }}</p>
+                            <p> {{ t('activityCenter.claimed') }}:</p>
                             <div class="flex items-center gap-2 mb-2 mt-2">
                             <img :src=MystDImg.icon_time class="w-3.5 h-3.5"/>
                             <span class="text-homeranktext font-bold" v-if="timeDayDisplay.length">{{timeDayDisplay[clickindex].slice(0,11)}}{{ mysteriousInfoRef.send_time }}</span>
@@ -398,10 +398,10 @@ onMounted(() => {
                             <div class="flex flex-col items-center"  v-else>
                                 <div class="flex items-center gap-2 mb-1" >
                                     <img :src=MystDImg.icon_gold class="w-3.5 h-3.5"/>
-                                <span class="text-nine font-bold">Bônus misterioso</span>
+                                <span class="text-nine font-bold">{{ t('activityCenter.Mysteriousbonus') }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 mb-1" >
-                                    <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">R$ </span>
+                                    <span class=" text-s" :class="currentTemplate.value  =='template_one'?'text-four':'text-nine'">{{ currentUnit.value }} </span>
                                 <span class="font-bold text-lg " :class="currentTemplate.value  =='template_one'?'!text-nine':'text-homeranktext'">
                                     0
                                 </span>
@@ -410,18 +410,18 @@ onMounted(() => {
                         </div>
                         <div class="status w-full h-full  text-themewhite" :class="currentTemplate.value  =='template_one'?'btn':'btn-m2'"  v-if="tabindex>=mysteriousInfoRef.diff_day">
                             <img :src=MystDImg.img_laba  class="w-8 h-8 mr-2"/>
-                                Comece Agora
+                                {{ t('activityCenter.StartNow') }}
                         </div>
                         <div class="status " v-else>
                             <img :src=MystDImg.icon_yes  class="w-5 h-5 mr-2"/>
-                            <span class="text-themewhite ">A atividade expirou</span>
+                            <span class="text-themewhite ">{{ t("activityCenter.activityexpired") }}</span>
                         </div>
                     </div>
                     <!-- 充值了 -->
                     <div v-else class="flex flex-col">
                         <div class="mt-3 flex flex-col justify-center items-center align-center centercard p-3">
-                            <p class="mb-1">O momento em que os bônus podem ser</p>
-                            <p> reclamados:</p>
+                            <p class="mb-1">{{ t('activityCenter.Themomentbonusescanbe') }}</p>
+                            <p> {{ t('activityCenter.claimed') }}:</p>
                             <div class="flex items-center gap-2 mb-2 mt-2">
                             <img :src=MystDImg.icon_time class="w-3.5 h-3.5"/>
                             <span class="text-homeranktext font-bold" v-if="timeDayDisplay.length">{{timeDayDisplay[clickindex].slice(0,11)}}{{ mysteriousInfoRef.send_time }}</span>
@@ -432,10 +432,10 @@ onMounted(() => {
                             <div class="flex flex-col items-center"  v-else>
                                 <div class="flex items-center gap-2 mb-1" >
                                     <img :src=MystDImg.icon_gold class="w-3.5 h-3.5"/>
-                                <span class="text-nine font-bold">Bônus misterioso</span>
+                                <span class="text-nine font-bold">{{ t('activityCenter.Mysteriousbonus') }}</span>
                                 </div>
                                 <div class="flex items-center gap-2 mb-1" >
-                                    <span class=" text-s text-nine" >R$ </span>
+                                    <span class=" text-s text-nine" >{{ currentUnit.value }} </span>
                                 <span class="text-homeranktext font-bold text-lg" :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-nine':'text-rgbawhite50'">
                                     {{bonusArrRef[`mystery_config_day${tabindex}`]==null ? 0 : bonusArrRef[`mystery_config_day${tabindex}`].status==0?findSendNumMinForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config)+'~ '+findSendNumMaxForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) :fn(bonusArrRef[`mystery_config_day${tabindex}`].bonus,2) }}
                                 </span>
@@ -448,7 +448,7 @@ onMounted(() => {
                         <template v-if="tabindex>=mysteriousInfoRef.diff_day&&!bonusArrRef[`mystery_config_day${tabindex}`]?.id">
                             <div class="status w-full h-full  text-themewhite"  :class="currentTemplate.value  =='template_one'?'btn':'btn-m2'">
                             <img :src=MystDImg.img_laba  class="w-8 h-8 mr-2"/>
-                                Comece Agora
+                                {{ t('activityCenter.StartNow') }}
                             </div>
                         </template>
                         <template v-else>
@@ -456,23 +456,23 @@ onMounted(() => {
                             :class="currentTemplate.value  =='template_one'?'btn':'btn-m2'"
                             v-if="(!bonusArrRef[`mystery_config_day${tabindex}`]?.id&&bonusArrRef[`mystery_config_day${tabindex}`]!=null)">
                             <img :src=MystDImg.img_laba class="w-8 h-8 mr-2"/>
-                                Comece Agora
+                                {{ t('activityCenter.StartNow') }}
                             </div>
                         </template>
                         <!-- 已注册 已过期 -->
                         <div class="status " v-if="bonusArrRef[`mystery_config_day${tabindex}`]==null&&bonusArrRef.length!=0&&tabindex<mysteriousInfoRef.diff_day">
                             <img :src=MystDImg.icon_yes  class="w-5 h-5 mr-2"/>
-                            <span class="text-themewhite ">A atividade expirou</span>
+                            <span class="text-themewhite ">{{ t("activityCenter.activityexpired") }}</span>
                         </div>
                         
                         <!-- 可以领取 -->
                         <button  @click="claimBtnFunc()" v-if="bonusArrRef[`mystery_config_day${tabindex}`]?.id&&bonusArrRef[`mystery_config_day${tabindex}`]?.status==0" class="m3-theme-btn1 rounded-xl h-10 px-3 rounded-xl  w-[7rem] " style="margin: 0 auto; margin-top: 1.25rem; font-weight: 600;">
-                        Receber
+                        {{ t('Receive') }}
                         </button>
                         <!-- -->
                         <div class="status "  v-if="bonusArrRef[`mystery_config_day${tabindex}`]?.id&&bonusArrRef[`mystery_config_day${tabindex}`]?.status==1">
                             <img :src=MystDImg.icon_yes  class="w-5 h-5 mr-3"/>
-                            <span class="text-themewhite ">Recebido</span>
+                            <span class="text-themewhite ">{{ t('Received') }}</span>
                         </div>
                     </div>   
                 </div>
@@ -498,7 +498,7 @@ onMounted(() => {
                         <img :src=MystDImg.icon_card class="mr-2 "/>
                         <span class="!m4-text">Depósito total de <span class="!text-themetext0">{{tabindex}}</span> Dias:</span>
                     </div>
-                    <span class="m4-text">R$ <span  class="text-themetext0">{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
+                    <span class="m4-text">{{ currentUnit.value }} <span  class="text-themetext0">{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
                     </div>
                 </div>
                 <!-- 未登录 -->
@@ -513,7 +513,7 @@ onMounted(() => {
                             </div>
                             <div class="flex items-center justify-between align-center gap-2 mb-4 mt-2">
                                 <div>
-                                    <span class="m4-text text-s"> R$ </span>
+                                    <span class="m4-text text-s"> {{ currentUnit.value }} </span>
                                     <span class="text-themetext0 font-bold text-[2rem]" :class="sendPayNum>0?'text-themetext0':'m4-text'">  {{ fn(sendPayNum,0) }}
                                     </span>
                                 </div>
@@ -542,7 +542,7 @@ onMounted(() => {
                                     </div>
                                     <div class="flex items-center justify-between align-center gap-2 mb-4 mt-2">
                                         <div>
-                                            <span class="m4-text text-s">  R$ </span>
+                                            <span class="m4-text text-s">  {{ currentUnit.value }} </span>
                                             <span class="text-themetext0 font-bold text-[2rem]" >0</span>
                                         </div>
                                     </div>
@@ -581,13 +581,13 @@ onMounted(() => {
                                         <span class="text-themetext0 font-bold "
                                         v-if="bonusArrRef[`mystery_config_day${tabindex}`]==null"
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
-                                        <span class="m4-text text-s"> R$ </span>
+                                        <span class="m4-text text-s"> {{ currentUnit.value }} </span>
                                         <span class="text-[2rem]">0</span> 
                                         </span>
                                         <span class="text-themetext0 font-bold "
                                         v-else-if="bonusArrRef[`mystery_config_day${tabindex}`].status==0"
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
-                                        <span class="m4-text text-s"> R$ </span>
+                                        <span class="m4-text text-s"> {{ currentUnit.value }} </span>
                                         <span class="text-[2rem]">{{ findSendNumMinForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) }}~{{ findSendNumMaxForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) }}
                                         </span>
                                         </span>
@@ -595,7 +595,7 @@ onMounted(() => {
                                         v-else
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
                                         <span class="m4-text text-s" v-if="bonusArrRef[`mystery_config_day${tabindex}`].status!=1"> Max  </span>
-                                        <span class="m4-text text-s">R$</span>
+                                        <span class="m4-text text-s">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem]">{{ fn(bonusArrRef[`mystery_config_day${tabindex}`].bonus,2 )}}</span>
                                         </span>
                                         <!-- -->
@@ -631,7 +631,7 @@ onMounted(() => {
                             <img :src=MystDImg.icon_card class="w-5 mr-2 "/>
                             <span class="text-themewhite">Depósito total de <span class="!text-themetext0">{{tabindex}}</span> Dias:</span>
                         </div>
-                        <span class="text-themetext0 font-bold">R$ <span  >{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
+                        <span class="text-themetext0 font-bold">{{ currentUnit.value }} <span  >{{!isAuthRef? fn(maxPayNum,0) : fn(accumulateMoneyRef,0)}}</span></span>
                     </div>
                 </div>
                 <!-- 未登录 -->
@@ -646,7 +646,7 @@ onMounted(() => {
                             </div>
                             <div class="flex items-center justify-between align-center gap-2 mb-4 mt-2">
                                 <div>
-                                    <span class="m4-text text-s"> R$ </span>
+                                    <span class="m4-text text-s"> {{ currentUnit.value }} </span>
                                     <span class="text-themetext0 font-bold text-[2rem]" :class="sendPayNum>0?'text-themetext0':'m4-text'">  {{ fn(sendPayNum,0) }}
                                     </span>
                                 </div>
@@ -675,7 +675,7 @@ onMounted(() => {
                                     </div>
                                     <div class="flex items-center justify-between align-center gap-2 mb-4 mt-2">
                                         <div>
-                                            <span class="m4-text text-s">  R$ </span>
+                                            <span class="m4-text text-s">  {{ currentUnit.value }} </span>
                                             <span class="text-themetext0 font-bold text-[2rem]" >0</span>
                                         </div>
                                     </div>
@@ -714,13 +714,13 @@ onMounted(() => {
                                         <span class="text-themetext0 font-bold "
                                         v-if="bonusArrRef[`mystery_config_day${tabindex}`]==null"
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
-                                        <span class=" text-s"> R$ </span>
+                                        <span class=" text-s"> {{ currentUnit.value }} </span>
                                         <span class="text-[2rem]">0</span> 
                                         </span>
                                         <span class="text-themetext0 font-bold "
                                         v-else-if="bonusArrRef[`mystery_config_day${tabindex}`].status==0"
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
-                                        <span class=" text-s"> R$ </span>
+                                        <span class=" text-s"> {{ currentUnit.value }} </span>
                                         <span class="text-[2rem]">{{ findSendNumMinForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) }}~{{ findSendNumMaxForAmount(tabindex,accumulateMoneyRef, mysteriousInfoRef.config) }}
                                         </span>
                                         </span>
@@ -728,7 +728,7 @@ onMounted(() => {
                                         v-else
                                         :class="sendPayNum>0&&bonusArrRef[`mystery_config_day${tabindex}`]!=null?'text-[#40006d]':'text-[#655736]/50'">
                                         <span class=" text-s" v-if="bonusArrRef[`mystery_config_day${tabindex}`].status!=1"> Max  </span>
-                                        <span class=" text-s">R$</span>
+                                        <span class=" text-s">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem]">{{ fn(bonusArrRef[`mystery_config_day${tabindex}`].bonus,2 )}}</span>
                                         </span>
                                         <!-- -->
@@ -762,11 +762,11 @@ onMounted(() => {
                             <template v-for="item,index in currentTableList" :key="index" >
                                 <tr class="odd:bg-tablergba20 even:bg-tablergba10 " >
                                     <td class="text-themewhite "  style="text-indent:1.5rem;">
-                                        <span :class="currentTemplate.value  =='template_one'?'text-rgbawhite30':'text-theme'">R$&nbsp; 
+                                        <span :class="currentTemplate.value  =='template_one'?'text-rgbawhite30':'text-theme'">{{ currentUnit.value }}&nbsp; 
                                         <span :class="currentTemplate.value  =='template_one'?'text-themewhite':'text-textcolorsix'">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
                                     </td>
                                     <td class="text-themewhite " style="text-indent: 1.5rem;">
-                                        <span  :class="currentTemplate.value  =='template_one'?'text-rgbawhite30':'text-theme'">R$&nbsp;<span  class="text-four">{{ fn(item['send_num_min'],0) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
+                                        <span  :class="currentTemplate.value  =='template_one'?'text-rgbawhite30':'text-theme'">{{ currentUnit.value }}&nbsp;<span  class="text-four">{{ fn(item['send_num_min'],0) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
                                     </td>
                                 </tr>
                             </template>
@@ -781,19 +781,19 @@ onMounted(() => {
             <table class="w-full text-sm table-fixed mt-7 mb-8" v-if="currentTemplate.value  =='template_three'">
                         <thead class="text-ms ">
                             <tr class="bg-tablergba40 text-center text-themetext2" style="margin: 0.5rem 0;">
-                                <td class="border-r-[0.1rem] border-body-bg" style="padding: 0.7rem;">Âmbito do depósito</td>
-                                <td style="padding: 0.7rem;">Bônus Misterioso</td>
+                                <td class="border-r-[0.1rem] border-body-bg" style="padding: 0.7rem;">{{ t('activityCenter.Scopedeposit') }}</td>
+                                <td style="padding: 0.7rem;">{{ t('activityCenter.MysteryBonus') }}</td>
                             </tr>
                         </thead>
                         <tbody>
                             <template v-for="item,index in currentTableList" :key="index" >
                                 <tr class="odd:bg-tablergba20 even:bg-tablergba10 " >
                                     <td class="text-themewhite "  style="text-indent:1.5rem;">
-                                        <span class="text-themetext2">R$&nbsp; 
+                                        <span class="text-themetext2">{{ currentUnit.value }}&nbsp; 
                                         <span class="text-themetext1">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
                                     </td>
                                     <td class="text-themewhite " style="text-indent: 1.5rem;">
-                                        <span class="text-themetext2">R$&nbsp;<span  class="text-themetext0">{{ fn(item['send_num_min'],0) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
+                                        <span class="text-themetext2">{{ currentUnit.value }}&nbsp;<span  class="text-themetext0">{{ fn(item['send_num_min'],0) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
                                     </td>
                                 </tr>
                             </template>
@@ -815,10 +815,10 @@ onMounted(() => {
                     <template v-for="item,index in currentTableList" :key="index" >
                         <tr class="odd:bg-tablebg2  " >
                             <td  style="text-indent:1.5rem;">
-                                <span class="text-themetext0">R$&nbsp;  <span  class="text-white">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
+                                <span class="text-themetext0">{{ currentUnit.value }}&nbsp;  <span  class="text-white">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
                             </td>
                             <td  style="text-indent: 1.5rem;">
-                                <span  class="text-themetext0">R$&nbsp;<span  class="text-themetext0">{{item['send_num_min']%1 === 0 ?fn(item['send_num_min'],0): fn(item['send_num_min'],2) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
+                                <span  class="text-themetext0">{{ currentUnit.value }}&nbsp;<span  class="text-themetext0">{{item['send_num_min']%1 === 0 ?fn(item['send_num_min'],0): fn(item['send_num_min'],2) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
                             </td>
                         </tr>
                     </template>
@@ -840,10 +840,10 @@ onMounted(() => {
                     <template v-for="item,index in currentTableList" :key="index" >
                         <tr class="odd:bg-tablebg2  " >
                             <td  style="text-indent:1.5rem;">
-                                <span class="text-themetext0">R$&nbsp;  <span  class="text-white">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
+                                <span class="text-themetext0">{{ currentUnit.value }}&nbsp;  <span  class="text-white">{{ fn(item['pay_num_min'],0) }}~{{ item['pay_num_max']==99999999?'∞': fn(item['pay_num_max'],0) }}</span></span>
                             </td>
                             <td  style="text-indent: 1.5rem;">
-                                <span  class="text-themetext0">R$&nbsp;<span  class="text-themetext0">{{item['send_num_min']%1 === 0 ?fn(item['send_num_min'],0): fn(item['send_num_min'],2) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
+                                <span  class="text-themetext0">{{ currentUnit.value }}&nbsp;<span  class="text-themetext0">{{item['send_num_min']%1 === 0 ?fn(item['send_num_min'],0): fn(item['send_num_min'],2) }}~{{ fn(item['send_num_max'],0)  }}</span></span>
                             </td>
                         </tr>
                     </template>
@@ -872,7 +872,7 @@ onMounted(() => {
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2" ></em>
                 <h5 class="ma-w-[60%] px-2 text-sm text-themetext2">
-                    <span>Descrição da Atividade</span>
+                    <span>{{ t('ActivityDescription') }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2" ></em>
             </div>

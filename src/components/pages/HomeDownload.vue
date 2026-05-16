@@ -1,5 +1,6 @@
 <script setup>
 import { nextTick, ref,onMounted, onUnmounted} from 'vue'
+import { t } from '@/i18n'
 import { useScreenSafeArea } from '@vueuse/core'
 import { isIOS,isChrome,isAndroid,isSafari} from '@/utils/core'
 import { bodyWidthRef } from '@/utils/config'
@@ -9,11 +10,14 @@ import { useThemeImages } from '@/utils/themeimg'
 import { $get } from '@/request'
 
 const PwaImg = useThemeImages().pwa
+const LoginImg = useThemeImages().login
 
 const { top, bottom } = useScreenSafeArea()
 
-
+const currentUnit = import.meta.env.VITE_UNIT || 'R$'
 const router = useRouter()
+
+
 
 const comment_list = ref([
     {
@@ -39,6 +43,40 @@ const comment_list = ref([
     },
 ])
 
+const phcomment_list = ref([
+    {
+        name: 'Jayson 8847', 
+        avatar: PwaImg.icon_avatar1, 
+        date: 'May 18, 2026', 
+        team: 52, 
+        content: `The game is good, but it needs some encouragement. Overall, I liked it a lot. It's a great way to distract yourself and play, it's very good! `
+    },
+    {
+        name: 'Maria Kristine', 
+        avatar: PwaImg.icon_avatar2, 
+        date: 'April 15, 2026', 
+        team: 22, 
+        content: `I really like it, the game is super fun and the jackpot explodes every day.`
+    },
+    {
+        name: 'Princess Joy', 
+        avatar: PwaImg.icon_avatar3, 
+        date: 'July 30,2025', 
+        team: 20, 
+        content: `Very fun, doesn't freeze or get full of ads, really good.`
+    },
+    {
+        name: 'John Carlo', 
+        avatar: PwaImg.icon_avatar3, 
+        date: 'July 20,2025', 
+        team: 20, 
+        content: `This game is exciting and fun, I really like it. There are many ways to play and lots of bonus.`
+    },
+])
+
+// 根据 currentUnit 选择使用 games 或 phGames
+const selectedcomment_list = currentUnit === 'R$' ? comment_list : phcomment_list
+
 let deferredPrompt = ref(null);
 let ios_guide_show = ref(false)
 let pwa_loading_show = ref(false)
@@ -58,6 +96,8 @@ let start = null;
 const duration = 1500; // 动画持续时间（毫秒）
 const startValue = 0;
 const endValue = 80;
+
+
 const games = [
   { id: 1, title: 'Cash Craze: Casino Slots Games', icon: 'https://play-lh.googleusercontent.com/yZ_nzWpg_cj6GYJv15YdsfWBKS6JzXGt69R8fCCj3AsapCSs5MGdr6haxPCk-Ae91g=s128-rw', rating: '4,5★' },
   { id: 2, title: 'Charge Buffalo Slot-TaDa Jogos', icon: 'https://play-lh.googleusercontent.com/vHA867MF5a-0zJfHgxgKUKs4GJb8mWMLNjGpTpufUpw1IN_EuqWGY9d-qrY4keq4hw8=s128-rw', rating: '4,5★' },
@@ -66,6 +106,20 @@ const games = [
   { id: 5, title: 'Slots Era-TaDa', icon: 'https://play-lh.googleusercontent.com/ESO0hEf9irZ4_SDA9KruU4irxTkjSyRCeUhWEPOROs1x2TlMqOrqB4i34M-ZPIE5XQ7W=s128-rw', rating: '4,4★' },
   { id: 6, title: 'Infinity Slots', icon: 'https://play-lh.googleusercontent.com/CSkRZuIZLOJZ8q0krA3qvnciiRTXZBU5Nx6nmTXM31ZUEilUf6Plz_va-IV_-pjWDgE=s128-rw', rating: '4,5★' },
 ];
+
+
+const phGames=[
+    { id: 1, title: 'Super Ace', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295924_tN3SH437.png', rating: '4,5★' },
+  { id: 2, title: 'Fortune Gems 2', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296155_hGGagpZr.png', rating: '4,5★' },
+  { id: 3, title: 'Golden Empire', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295985_LzlM2ilo.png', rating: '2,6★' },
+  { id: 4, title: 'Wild Bounty Showdown', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296079_paJm7ND6.png', rating: '3,9★' },
+  { id: 5, title: 'Wild Bandito', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296102_csg8jWJ7.png', rating: '4,4★' },
+  { id: 6, title: 'Lucky Neko', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296038_tZYvK2Q5.png', rating: '4,5★' },
+]
+
+
+// 根据 currentUnit 选择使用 games 或 phGames
+const selectedGames = currentUnit === 'R$' ? games : phGames
 
 const animate = (timestamp) => {
     if (!start) start = timestamp;
@@ -455,7 +509,7 @@ function reload() {
                             <span>🎁 {{pwaPageConfig.base_pwa_subtitle}}</span>
                         </p>
                         <p class="text-xs text-rgbablack50">
-                            <span>Verificado pelo aplicativo</span>
+                            <span>{{ t('downloadPage.Verified')  }}</span>
                         </p>
                     </dd>
                 </dl>
@@ -470,7 +524,7 @@ function reload() {
                             </svg>
                         </h6>
                         <p class="text-xs text-rgbablack50">
-                            <span>46K avaliações</span>
+                            <span>46K {{ t('downloadPage.reviews')  }}</span>
                         </p>
                         <em class="h-full absolute right-0 top-0 flex items-center">
                             <i class="w-px h-6 bg-rgbablack15"></i>
@@ -478,7 +532,7 @@ function reload() {
                     </dd>
                     <dd class="w-1/3 px-2 relative flex flex-col items-center">
                         <h6 class="text-sm text-rgbablack80 !leading-6 font-medium">
-                            <span>50 mil+</span>
+                            <span>50 {{ t('downloadPage.thousand') }}</span>
                         </h6>
                         <p class="text-xs text-rgbablack50">
                             <span>Downloads</span>
@@ -507,9 +561,9 @@ function reload() {
                                     <polygon id="路径" fill="currentColor" points="355.285691 128 732.009857 128 588.596024 418.149831 832 418.474625 321.955643 1024 468.628881 638.144031 192 638.144031"></polygon>
                                 </g>
                             </svg>
-                            <span class="text-[0.8125rem] align-middle">Rapid Instalar</span>
+                            <span class="text-[0.8125rem] align-middle">{{ t('downloadPage.QuickInstall') }}</span>
                         </p>
-                        <p class="text-[0.6875rem] leading-none">Baixe dentro de 15 segundos</p>
+                        <p class="text-[0.6875rem] leading-none">{{ t('downloadPage.downloadSeconds') }}</p>
                     </div>
                 </a>
             </pu-card>
@@ -519,13 +573,13 @@ function reload() {
                         <svg class="w-6 h-6 mr-[0.46875rem] shrink-0" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"></path>
                         </svg>
-                        <span>Compartilhar</span>
+                        <span>{{ t('downloadPage.Toshare') }}</span>
                     </dd>
                     <dd class="w-1/2 flex items-center justify-center">
                         <svg class="w-6 h-6 mr-[0.46875rem] shrink-0" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7 3H17C18.1045 3 19 3.8955 19 5V21L12 18L5 21L5.01075 5C5.01075 3.8955 5.8965 3 7 3ZM12 15.824L17 18V5H7V18L12 15.824ZM13 7V9H15V11H13V13H11V11H9V9H11V7H13Z"></path>
                         </svg>
-                        <span>Adicionar à lista de desejos</span>
+                        <span>{{ t('downloadPage.Addwishlist') }}</span>
                     </dd>
                 </dl>
             </pu-card>
@@ -543,7 +597,7 @@ function reload() {
             <pu-card theme="3" class="py-3">
                 <div class="w-full mb-5 flex items-center">
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-lg font-bold">Sobre este jogo</p>
+                        <p class="text-lg font-bold">{{ t('downloadPage.Aboutgame') }}</p>
                     </div>
                     <svg class="w-5 h-5 text-rgbablack50 shrink-0" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M41.9999 24H5.99994" stroke-linecap="round" stroke-linejoin="round"/>
@@ -555,7 +609,7 @@ function reload() {
                     <div v-html="pwaPageConfig.base_pwa_desc"></div>
                 </article>
                 <div class="mt-6">
-                    <h6 class="text-sm font-medium">Atualizado em</h6>
+                    <h6 class="text-sm font-medium">{{ t('downloadPage.Updatedon') }}</h6>
                     <p class="text-sm text-rgbablack50">10 de fev. de 2025</p>
                 </div>
                 <!-- <ul class="w-full !mt-7 !mb-1 text-sm text-rgbawhite50 flex flex-wrap">
@@ -570,7 +624,7 @@ function reload() {
             <pu-card theme="3" class="py-3">
                 <div class="w-full mb-5 flex items-center">
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-lg font-bold">Segurança dos dados</p>
+                        <p class="text-lg font-bold">{{ t('downloadPage.DataSecurity') }}</p>
                     </div>
                     <svg class="w-5 h-5 text-rgbablack50 shrink-0" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M41.9999 24H5.99994" stroke-linecap="round" stroke-linejoin="round"/>
@@ -578,7 +632,7 @@ function reload() {
                     </svg>
                 </div>
                 <article class="text-sm text-rgbablack50">
-                    <p>Sua segurança começa com o entendimento de como os desenvolvedores coletam e compartilham seus dados. As práticas de segurança e privacidade de dados podem variar de acordo com o uso, a região e a idade. O desenvolvedor forneceu as informações a seguir, que podem ser atualizadas ao longo do tempo.</p>
+                    <p>{{ t('downloadPage.downloadDetail1') }}</p>
                     <div class="w-full p-5 mt-8 border border-rgbablack15">
                         <dl class="w-full mt-5 first:mt-0 flex">
                             <dt class="mr-5 shrink-0">
@@ -587,8 +641,8 @@ function reload() {
                                 </svg>
                             </dt>
                             <dd class="flex-1 overflow-hidden">
-                                <p>Os dados não são compartilhados com terceiros</p>
-                                <p>Saiba mais sobre como os desenvolvedores declaram o compartilhamento</p>
+                                <p>{{ t('downloadPage.downloadDetail2') }}</p>
+                                <p>{{ t('downloadPage.downloadDetail3') }}</p>
                             </dd>
                         </dl>
                         <dl class="w-full mt-5 first:mt-0 flex">
@@ -598,8 +652,8 @@ function reload() {
                                 </svg>
                             </dt>
                             <dd class="flex-1 overflow-hidden">
-                                <p>Este app pode coletar estes tipos de dados</p>
-                                <p>Local, Atividade no app e Identificadores do dispositivo e outros</p>
+                                <p>{{ t('downloadPage.downloadDetail4') }}</p>
+                                <p>{{ t('downloadPage.downloadDetail5') }}</p>
                             </dd>
                         </dl>
                         <dl class="w-full mt-5 first:mt-0 flex">
@@ -609,7 +663,7 @@ function reload() {
                                 </svg>
                             </dt>
                             <dd class="flex-1 overflow-hidden">
-                                <p>Os dados são criptografados em trânsito</p>
+                                <p>{{ t('downloadPage.downloadDetail6') }}</p>
                             </dd>
                         </dl>
                         <dl class="w-full mt-5 first:mt-0 flex">
@@ -619,11 +673,11 @@ function reload() {
                                 </svg>
                             </dt>
                             <dd class="flex-1 overflow-hidden">
-                                <p>Você pode solicitar a exclusão dos dados</p>
+                                <p>{{ t('downloadPage.downloadDetail7') }}</p>
                             </dd>
                         </dl>
                         <div class="pl-2.5 mt-5">
-                            <p class="text-sm text-pwa">Mais detalhes</p>
+                            <p class="text-sm text-pwa">{{ t('downloadPage.downloadDetail8') }}</p>
                         </div>
                     </div>
                 </article>
@@ -631,7 +685,7 @@ function reload() {
             <pu-card theme="3" class="py-3">
                 <div class="w-full mb-3 flex items-center">
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-lg font-bold">Classificações e resenhas</p>
+                        <p class="text-lg font-bold">{{ t('downloadPage.downloadDetail9') }}</p>
                     </div>
                     <svg class="w-5 h-5 text-rgbablack50 shrink-0" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M41.9999 24H5.99994" stroke-linecap="round" stroke-linejoin="round"/>
@@ -639,7 +693,7 @@ function reload() {
                     </svg>
                 </div>
                 <p class="text-xs text-rgbablack50">
-                    <span class="align-middle">As notas e avaliações são verificadas</span>
+                    <span class="align-middle">{{ t('downloadPage.downloadDetail10') }}</span>
                     <svg class="w-4 h-4 ml-2 inline-block align-middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM11 7H13V9H11V7ZM11 11H13V17H11V11Z"></path>
                     </svg>
@@ -651,7 +705,7 @@ function reload() {
                             <path d="M22 10L26 10" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M20 38H28" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>Telefone</span>
+                        <span>{{ t('downloadPage.Telephone') }}</span>
                     </li>
                     <li class="h-8 px-4 my-1.5 mr-3 border border-rgbablack15 rounded-full flex items-center shrink-0">
                         <svg class="w-4 h-4 mr-2" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -659,7 +713,7 @@ function reload() {
                             <path d="M40 30V6C40 4.89543 39.1046 4 38 4H10C8.89543 4 8 4.89543 8 6V30" stroke-linejoin="round"/>
                             <path d="M22 37H26" stroke-linecap="round"/>
                         </svg>
-                        <span>Tablet</span>
+                        <span>{{ t('downloadPage.Tablet') }}</span>
                     </li>
                 </ul>
                 <dl class="pt-3 mb-4 flex">
@@ -670,7 +724,7 @@ function reload() {
                                 <path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path>
                             </svg>
                         </div>
-                        <p class="mt-1 text-sm text-rgbablack50 font-light">1,91 mil avaliações</p>
+                        <p class="mt-1 text-sm text-rgbablack50 font-light">1,91 {{ t('downloadPage.thousandreviews') }}</p>
                     </dt>
                     <dd class="w-3/5 pl-2">
                         <ol class="!pt-1 text-xs text-rgbablack50">
@@ -718,7 +772,7 @@ function reload() {
                     </dd>
                 </dl>
                 <ul>
-                    <template v-for="item,index in comment_list" :key="index">
+                    <template v-for="item,index in selectedcomment_list" :key="index">
                         <li class="w-full py-4 block">
                             <div class="flex items-center">
                                 <van-image :src="item.avatar" fit="cover" round class="w-8 h-8 mr-4 shrink-0" />
@@ -743,53 +797,53 @@ function reload() {
                                 <p>{{ item.content }}</p>
                             </article>
                             <p class="mt-4 text-xs text-rgbablack50">
-                                <span>Essa avaliação foi marcada como útil por 20 pessoas</span>
+                                <span>{{ t('downloadPage.downloadDetail11') }}</span>
                             </p>
                             <div class="mt-3 flex items-center flex-wrap">
                                 <p class="mr-5 text-xs text-rgbablack50">
-                                    <span>Você achou isso útil?</span>
+                                    <span>{{ t('downloadPage.helpful') }}</span>
                                 </p>
                                 <a href="javascript:;" class="h-[1.375rem] px-4 my-1.5 mr-3 border border-rgbablack15 rounded-full flex items-center shrink-0">
-                                    <span class="text-sm text-rgbablack50 opacity-70">Sim</span>
+                                    <span class="text-sm text-rgbablack50 opacity-70">{{ t('downloadPage.Yes') }}</span>
                                 </a>
                                 <a href="javascript:;" class="h-[1.375rem] px-4 my-1.5 mr-3 border border-rgbablack15 rounded-full flex items-center shrink-0">
-                                    <span class="text-sm text-rgbablack50 opacity-70">Não</span>
+                                    <span class="text-sm text-rgbablack50 opacity-70">{{ t('downloadPage.No') }}</span>
                                 </a>
                             </div>
                         </li>
                     </template>
                 </ul>
                 <button class="h-12 px-2 !text-sm !text-pwa !font-medium bg-transparent">
-                    <span>Ver todas as avaliações</span>
+                    <span>{{ t('downloadPage.Seeallreviews') }}</span>
                 </button>
             </pu-card>
             <pu-card theme="3" class="py-3">
                 <div class="w-full mb-5 flex items-center">
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-lg font-bold">O que há de novo</p>
+                        <p class="text-lg font-bold">{{ t('downloadPage.Whatnew') }}</p>
                     </div>
                 </div>
                 <article class="text-sm text-rgbablack50">
-                    <p>Olá, fãs de Fortune Tiger Slot!</p>
-                    <p>Aqui está uma nova atualização:</p>
+                    <p>{{ t('downloadPage.fans') }}</p>
+                    <p>{{ t('downloadPage.newUpdate') }}</p>
                     <br>
-                    <p>-Melhorias de desempenho</p>
+                    <p>{{ t('downloadPage.improvements') }}</p>
                     <br>
-                    <p>Aproveite e divirta-se!</p>
+                    <p>{{ t('downloadPage.havefun') }}</p>
                 </article>
             
             </pu-card>
             <pu-card theme="3" class="py-3">
                 <div class="w-full mb-5 flex items-center">
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-lg font-bold">Jogos semelhantes</p>
+                        <p class="text-lg font-bold">{{  t('downloadPage.Similargames') }}</p>
                     </div>
                     <div class="shrink-0">
                         <svg data-v-ebba04d0="" class="w-5 h-5 text-rgbablack50 shrink-0" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path data-v-ebba04d0="" d="M41.9999 24H5.99994" stroke-linecap="round" stroke-linejoin="round"></path><path data-v-ebba04d0="" d="M30 12L42 24L30 36" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                     </div>
                 </div>
                 <ul class="w-full flex flex-wrap">
-                    <li v-for="game in games" :key="game.id" class="w-1/2 mb-4 flex items-center">
+                    <li v-for="game in selectedGames" :key="game.id" class="w-1/2 mb-4 flex items-center">
                     <img :src="game.icon" class="w-12 h-12 mr-4 rounded-lg" />
                     <div class="flex-1 overflow-hidden">
                         <p class="text-sm font-medium truncate">{{ game.title }}</p>
@@ -798,7 +852,7 @@ function reload() {
                     </li>
                 </ul>
                 <div class="w-full mb-5">
-                    <p class="text-sm text-medium">Sinizar como impróprio</p>
+                    <p class="text-sm text-medium">{{  t('downloadPage.inappropriate') }}</p>
                 </div>
                 <div class="w-full h-px bg-rgbablack15 my-4"></div>
             </pu-card>
@@ -808,27 +862,28 @@ function reload() {
 
                 <!-- 中间链接 -->
                 <ul class="w-full text-base text-rgbablack50 flex flex-col space-y-2">
-                    <li>Vales-presente</li>
+                    <li>{{  t('downloadPage.Giftvouchers') }}</li>
 
-                    <li>Resgatar</li>
+                    <li>{{ t('aside.Rescue') }}</li>
                     
-                    <li>Política de reembolso</li>
+                    <li>{{ t('downloadPage.RefundPolicy') }}</li>
                 </ul>
 
                 <!-- 底部链接 -->
                 <div class="mt-6 text-xs text-rgbablack50 flex flex-wrap justify-between">
-                    <span>Termos de Serviço</span>
-                    <span>Privacidade</span>
+                    <span>{{ t('downloadPage.TermsService') }}</span>
+                    <span>{{ t('downloadPage.Privacy') }}</span>
                 </div>
                 <div class="mt-6 text-xs text-rgbablack50 flex flex-wrap justify-between">
-                    <span>Desenvolvedores</span>
-                    <span>Todos os preços incluem Tributo.</span>
+                    <span>{{ t('downloadPage.Developers') }}</span>
+                    <span>{{ t('downloadPage.Allpricesincludetax') }}</span>
                 </div>
 
                 <!-- 底部国家信息 -->
                 <div class="mt-6 flex items-center">
-                    <img src="https://ssl.gstatic.com/store/images/regionflags/brazil.png" alt="Brazil Flag" class="w-5 h-5 mr-2">
-                    <span class="text-xs text-rgbablack50">Brasil (Português)</span>
+                    <!-- LoginImg.icon_flag_br -->
+                    <img :src="currentUnit=='R$'? 'https://ssl.gstatic.com/store/images/regionflags/brazil.png':LoginImg.icon_flag_br" alt="Brazil Flag" class="w-5 h-5 mr-2">
+                    <span class="text-xs text-rgbablack50">{{ currentUnit=='R$'?'Brasil (Português)':'Philippines(English)' }}  </span>
                 </div>
             </pu-card>
             <!-- <pu-card theme="3" class="py-3"> -->
@@ -847,7 +902,7 @@ function reload() {
                         </svg>
                     </div>
                     <p class="text-sm text-center font-medium">
-                        <span>Jogos</span>
+                        <span>{{ t('games') }}</span>
                     </p>
                 </a>
                 <a @click="checkIsInstall()" href="javascript:;" class="w-1/5 h-full text-pwa flex flex-col items-center justify-center">
@@ -867,7 +922,7 @@ function reload() {
                         </svg>
                     </div>
                     <p class="text-sm text-center font-medium">
-                        <span>Filmes</span>
+                        <span>{{ t('downloadPage.Films') }}</span>
                     </p>
                 </a>
                 <a @click="checkIsInstall()" href="javascript:;" class="w-1/5 h-full flex flex-col items-center justify-center">
@@ -877,7 +932,7 @@ function reload() {
                         </svg>
                     </div>
                     <p class="text-sm text-center font-medium">
-                        <span>Livros</span>
+                        <span>{{ t('downloadPage.Books') }}</span>
                     </p>
                 </a>
                 <a @click="checkIsInstall()" href="javascript:;" class="w-1/5 h-full flex flex-col items-center justify-center">
@@ -887,7 +942,7 @@ function reload() {
                         </svg>
                     </div>
                     <p class="text-sm text-center font-medium">
-                        <span>Crianças</span>
+                        <span>{{ t('downloadPage.Children') }}</span>
                     </p>
                 </a>
             </nav>
@@ -914,7 +969,7 @@ function reload() {
             <div class="w-[19.375rem] px-[24px] py-[32px] bg-themewhite text-themeblack rounded-xl">
                 <div class="w-full mb-[10px] flex items-center justify-center">
                     <img :src=PwaImg.icon_down class="w-[28px] h-auto mr-[8px]">
-                    <h5 class="text-[27px] text-rgbablack50 !leading-[33px]">Rapid Instalar</h5>
+                    <h5 class="text-[27px] text-rgbablack50 !leading-[33px]">{{ t('downloadPage.QuickInstall') }}</h5>
                 </div>
                 <div v-if="pwa_success_show" class="w-full py-[8px] flex flex-col items-center">
                     <div class="px-[20px] py-[4px] mb-[24px] bg-rgbawhite80 text-pwa rounded-full flex items-center">
@@ -939,10 +994,10 @@ function reload() {
                         <svg class="w-[16px] h-[16px] mr-[4px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12.8659 3.00017L22.3922 19.5002C22.6684 19.9785 22.5045 20.5901 22.0262 20.8662C21.8742 20.954 21.7017 21.0002 21.5262 21.0002H2.47363C1.92135 21.0002 1.47363 20.5525 1.47363 20.0002C1.47363 19.8246 1.51984 19.6522 1.60761 19.5002L11.1339 3.00017C11.41 2.52187 12.0216 2.358 12.4999 2.63414C12.6519 2.72191 12.7782 2.84815 12.8659 3.00017ZM10.9999 16.0002V18.0002H12.9999V16.0002H10.9999ZM10.9999 9.00017V14.0002H12.9999V9.00017H10.9999Z"></path>
                         </svg>
-                        <span class="text-[16px] font-bold">Inválido</span>
+                        <span class="text-[16px] font-bold">{{ t('downloadPage.Invalid') }}</span>
                     </div>
                     <a @click="reload()" href="javascript:;" class="w-full h-[44px] bg-red-500 text-themewhite rounded-full flex items-center justify-center">
-                        <span class="text-[16px] font-medium">Reiniciar</span>
+                        <span class="text-[16px] font-medium">{{ t('downloadPage.Restart') }}</span>
                     </a>
                 </div>
                 <div v-else class="w-full py-[8px] flex items-center justify-center">

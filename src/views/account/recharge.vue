@@ -7,17 +7,21 @@ import { isMobileSafari } from '@/utils/core'
 import { memberLocal } from '@/model/user'
 import { useThemeImages } from '@/utils/themeimg'
 import { rechargeTextRef} from '@/model/common'
+import { openServiceFunc } from '@/utils/config'
+
 // 主页图片信息
 const CommonImg = useThemeImages().common
 const MineImg = useThemeImages().mine
-const { configRef, amountRef, channelIndexRef, currentChannelRef, starRechargeFunc, verifyMonyRef } = rechargeModel(true)
+const { configRef, amountRef, channelIndexRef, currentChannelRef, starRechargeFunc, minAmountRef,maxAmountRef,verifyMonyRef } = rechargeModel(true)
 const router = useRouter()
 
 let input_focus = ref(false)
 let channel_item = ref({})
+const selectedMaxAmount = computed(() => Number(currentChannelRef.value?.max || 50000))
+const selectedMinAmount = computed(() => Number(minAmountRef.value || currentChannelRef.value?.min || 0))
 
 let autoclick = computed(() => {
-    let min = currentChannelRef.value.min || 0
+    let min = currentChannelRef.value?.min || 0
     return amountRef.value && amountRef.value >= min
 })
 let multiple = computed(() => {
@@ -43,6 +47,32 @@ let give_amount = computed(() => {
     return _val
 })
 
+
+const channelListRef = [
+    {
+        "id": "108",
+        "channel": [
+            {
+                "name": "GCash",
+                "code": "2090",
+                "min": "100",
+                "max": "50000"
+            }
+        ]
+    },
+    {
+        "id": "108",
+        "channel": [
+            {
+                "name": "Maya",
+                "code": "2090",
+                "min": "100",
+                "max": "50000"
+            }
+        ]
+    }
+]
+
 function choiceMoney(item) {
     amountRef.value = item.amount
 }
@@ -54,7 +84,20 @@ function choiceChannel(index, eq, item) {
     channelIndexRef.value.index = index
     channelIndexRef.value.eq = eq
 }
+
+let ph_channel_index = ref(0)
+const choicephChannel = (index, eq, item) => {
+    ph_channel_index.value = index
+}
+
 function submit() {
+       const amount = Number(amountRef.value || 0)
+       if (amount < selectedMinAmount.value || amount > selectedMaxAmount.value) {
+            showToast({
+                message: "Limite:"+selectedMinAmount.value+" - "+selectedMaxAmount.value, 
+            }); 
+            return
+        }
     //上报注册成功
     window.jsBridge?.postMessage("rechargeClick", JSON.stringify({ cid: window.ch, uid: memberLocal.value.id, phone: memberLocal.value.username }))
 
@@ -84,19 +127,30 @@ function onAmountInput(e) {
     val = val.replace(/^(\d*\.?\d{0,2}).*$/, '$1') // 只保留小数点后两位
     val = val.replace(/^\./g, '') // 如果第一个字符是小数点，则删除
     val = val.replace(/\.{2,}/g, '.') // 只保留第一个小数点，删除多余的
+
+    currentChannelRef.min = currentChannelRef.value && currentChannelRef.value.min || 0
+    currentChannelRef.max = currentChannelRef.value && currentChannelRef.value.max || 0
     amountRef.value = val
 }
 
 watch(amountRef, (newVal) => {
-    const max = currentChannelRef.value && currentChannelRef.value.max
-    if (max !== undefined && max !== null && newVal !== '' && parseFloat(newVal) > max) {
+    const max = selectedMaxAmount.value
+    if (newVal !== '' && parseFloat(newVal) > max) {
         amountRef.value = max
     }
 })
+const handleBlur = () => {
+    const amount = Number(amountRef.value || 0)
+    if (amount < selectedMinAmount.value || amount > selectedMaxAmount.value) {
+       showToast({
+        message: "Limite:"+selectedMinAmount.value+" - "+selectedMaxAmount.value, 
+    }); 
+    }
+}
 </script>
 
 <template>
-    <pu-page title="Depósito" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.Deposit')" class="z-[999]" hideService>
         <pu-card theme="3" class="py-4" v-if="currentTemplate.value == 'template_one'">
             <section class="w-full py-3 px-4 mb-5  rounded-lg bg-rgbawhite10  border border-rgbawhite10">
                 <p class="text-sm opacity-85">Canal de pagamento:</p>
@@ -127,11 +181,11 @@ watch(amountRef, (newVal) => {
             <dl
                 class="w-full h-[3.125rem] px-3 mb-2  rounded-lg flex items-center bg-searchbg border border-searchborder">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="opacity-45">R$</span>
+                    <span class="opacity-45">{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
                     <input type="text" v-model="amountRef"
-                        :placeholder="currentChannelRef ? `valor(${currentChannelRef.min || 0} ~ ${currentChannelRef.max || 1000})` : ``"
+                        :placeholder="currentChannelRef ? `valor(${minAmountRef || 0} ~ ${currentChannelRef.max || 1000})` : ``"
                         @focus="input_focus = true" @input="onAmountInput"
                         class="w-full h-8 text-base placeholder:text-sm placeholder:text-rgbawhite50 bg-transparent outline-none">
                 </dd>
@@ -159,7 +213,7 @@ watch(amountRef, (newVal) => {
                             :class="item.amount == amountRef ? 'ctx-theme' : 'text-rgbawhite80 bg-rgbawhite10'"
                             href="javascript:;"
                             class="w-full h-12 text-center rounded-xl relative flex items-center justify-center">
-                            <span>R$ {{ item.amount }}</span>
+                            <span>{{ currentUnit.value }} {{ item.amount }}</span>
                             <div v-if="item.give_amount > 0"
                                 class="h-4 px-1 bg-green-500 text-themewhite rounded-tl-xl rounded-br-xl absolute left-0 top-0 flex items-center">
                                 <span class="text-[0.525rem]">{{ resetRate(item.amount, item.give_amount) }}%</span>
@@ -198,11 +252,11 @@ watch(amountRef, (newVal) => {
             <dl
                 class="w-full h-[3.125rem] px-3 mb-2  rounded-lg flex items-center bg-default-bg border border-defaultborder">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-four">R$</span>
+                    <span class="text-four">{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
                     <input type="text" v-model="amountRef"
-                        :placeholder="currentChannelRef ? `valor(${currentChannelRef.min || 0} ~ ${currentChannelRef.max || 1000})` : ``"
+                        :placeholder="currentChannelRef ? `valor(${minAmountRef || 0} ~ ${currentChannelRef.max || 1000})` : ``"
                         @focus="input_focus = true" @input="onAmountInput"
                         class="w-full h-8 text-base placeholder:text-sm placeholder:text-rgbawhite50 bg-transparent outline-none">
                 </dd>
@@ -231,7 +285,7 @@ watch(amountRef, (newVal) => {
                             :class="item.amount == amountRef ? 'bg-gradient-to-br from-richlinar1 to-richlinar2 text-themetext' : ' bg-tablergba40'"
                             href="javascript:;"
                             class="w-full h-12 text-center rounded-xl relative flex items-center justify-center">
-                            <span>R$ {{ item.amount }}</span>
+                            <span>{{ currentUnit.value }} {{ item.amount }}</span>
                             <div v-if="item.give_amount > 0"
                                 class="h-4 px-1 bg-green-500 text-themewhite rounded-tl-xl rounded-br-xl absolute left-0 top-0 flex items-center">
                                 <span class="text-[0.525rem]">{{ resetRate(item.amount, item.give_amount) }}%</span>
@@ -250,8 +304,8 @@ watch(amountRef, (newVal) => {
         </pu-card>
         <pu-card theme="3" class="py-4" v-if="currentTemplate.value == 'template_three'">
             <section class="w-full py-3 px-4 mb-5 bg-tablergba20 rounded-lg">
-                <p class="text-sm opacity-85 text-themetext1">Canal de pagamento:</p>
-                <ul class="w-full text-xs flex flex-wrap">
+                <p class="text-sm opacity-85 text-themetext1">{{ t('depCenter.PaymentChannel:') }}</p>
+                <ul class="w-full text-xs flex flex-wrap" v-if="currentUnit.value == 'R$'">
                     <template v-for="item, index in configRef.channel || []" :key="index">
                         <li v-for="child, eq in item.channel || []" :key="'child_' + eq"
                             @click="choiceChannel(index, eq, item)"
@@ -261,10 +315,20 @@ watch(amountRef, (newVal) => {
                         </li>
                     </template>
                 </ul>
+                <ul class="w-full text-xs flex flex-wrap" v-else-if="currentUnit.value == '₱ '">
+                    <template v-for="item, index in channelListRef || []" :key="index">
+                        <li v-for="child, eq in item.channel || []" :key="'child_' + eq"
+                            @click="choicephChannel(index)"
+                            :class="index == ph_channel_index ? 'm3-theme-btn4' : 'bg-tablergba40'"
+                            class="h-9 px-5 mr-2.5 mt-2.5 rounded-lg flex items-center cursor-pointer">
+                            <span>{{ child.name }}</span>
+                        </li>
+                    </template>
+                </ul>
             </section>
             <section class="w-full p-2 mb-2 text-sm leading-none bg-tablergba20 rounded-lg ">
                 <img :src="CommonImg.icon_rich_warn" class="w-4 h-4 mr-1 inline-block align-middle" />
-                <span class="align-middle text-themetext2">Bônus resgatável após 1x faturamento</span>
+                <span class="align-middle text-themetext2">{{ t('depCenter.Depcenter2') }}</span>
             </section>
             <!-- <section v-if="parseFloat(give_amount)>0" class="w-full p-2 mb-2 text-sm leading-none text-rgbawhite50 border border-rgbawhite10 rounded-lg bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <svg class="w-4 h-4 mr-1 inline-block align-middle" stroke="currentColor" stroke-width="4" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -276,11 +340,11 @@ watch(amountRef, (newVal) => {
             </section> -->
             <dl class="w-full h-[3.125rem] px-3 mb-2  rounded-lg flex items-center m3-theme-btn2">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-themetext0">R$</span>
+                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
                     <input type="text" v-model="amountRef"
-                        :placeholder="currentChannelRef ? `valor(${currentChannelRef.min || 0} ~ ${currentChannelRef.max || 1000})` : ``"
+                        :placeholder="currentChannelRef ? `${ t('account.value') }(${minAmountRef || 0} ~ ${currentChannelRef.max || 1000})` : ``"
                         @focus="input_focus = true" @input="onAmountInput"
                         class="w-full h-8 text-base text-white placeholder:text-sm placeholder:text-themetext2 bg-transparent outline-none">
                 </dd>
@@ -307,7 +371,7 @@ watch(amountRef, (newVal) => {
                         <a @click="choiceMoney(item)" :class="item.amount == amountRef ? 'm3-theme-btn4' : ' bg-tablergba40'"
                             href="javascript:;"
                             class="w-full h-12 text-center rounded-xl relative flex items-center justify-center">
-                            <span>R$ {{ item.amount }}</span>
+                            <span>{{ currentUnit.value }} {{ item.amount }}</span>
                             <div v-if="item.give_amount > 0"
                                 class="h-4 px-1 bg-yellow-500 text-themewhite rounded-tl-xl rounded-br-xl absolute left-0 top-0 flex items-center">
                                 <span class="text-[0.525rem]">{{ resetRate(item.amount, item.give_amount) }}%</span>
@@ -319,7 +383,7 @@ watch(amountRef, (newVal) => {
             <div class="px-8 flex justify-center">
                 <a @click="submit()" :class="autoclick ? '' : 'opacity-50 pointer-events-none'"
                     class="w-full m3-theme-btn1 rounded-lg  text-center p-4">
-                    <span>Depósito</span>
+                    <span>{{ t('deposit') }}</span>
                 </a>
             </div>
         </pu-card>
@@ -346,10 +410,10 @@ watch(amountRef, (newVal) => {
             <div class="w-full py-4 px-4 mb-5 bg-tablebg  rounded-lg">
                 <dl class="w-full h-[3.125rem] px-3 mb-2 bg-default-bg rounded-lg flex items-center">
                 <dt class="mr-3 m4-text  font-bold shrink-0">
-                    <span>R$</span>
+                    <span>{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
-                    <input type="text" v-model="amountRef" :placeholder="currentChannelRef?`valor(${currentChannelRef.min||0} ~ ${currentChannelRef.max||1000})`:``" @focus="input_focus=true" @input="onAmountInput" class="w-full h-8 text-base placeholder:text-sm placeholder:text-body-gray bg-theme outline-none">
+                    <input type="text" v-model="amountRef" :placeholder="currentChannelRef?`valor(${minAmountRef||0} ~ ${currentChannelRef.max||1000})`:``" @focus="input_focus=true" @blur="handleBlur" @input="onAmountInput" class="w-full h-8 text-base placeholder:text-sm placeholder:text-body-gray bg-theme outline-none">
                 </dd>
                 <dd v-if="parseFloat(give_amount)>0" class="px-2 -mr-2 text-sm">
                     <span class="opacity-65">Extra&nbsp;</span>
@@ -383,7 +447,7 @@ watch(amountRef, (newVal) => {
                 <template v-for="item,index in configRef.packages" :key="index">
                     <li class="w-1/3 p-1">
                         <a @click="choiceMoney(item)" :class="item.amount==amountRef?'m4-ten-btn':'m4-btn-false'" href="javascript:;" class="w-full h-12 text-center rounded-xl relative flex items-center justify-center">
-                            <span>R$ {{ item.amount }}</span>
+                            <span>{{ currentUnit.value }} {{ item.amount }}</span>
                             <div v-if="item.give_amount>0" class="h-4 px-1 bg-btnlinar3  text-theme rounded-tl-xl rounded-br-xl absolute left-0 top-0 flex items-center">
                                 <span class="text-[0.525rem]">{{ resetRate(item.amount, item.give_amount) }}%</span>
                             </div>
@@ -401,12 +465,12 @@ watch(amountRef, (newVal) => {
             <section class=" mb-10 ">
                  <div class="flex items-center mb-4">
                     <p class="text-2xl  text-themewhite font-bold mr-2">Depósito</p>
-                    <img :src="MineImg.icon_pig" class="w-[1.6rem] h-[1.2rem] mr-2"/>
+                    <img :src="MineImg.icon_pig" class="w-[1.6rem] h-[1.6rem] mr-2"/>
                  </div>
                  <div class="text-[0.875rem] text-themetext4">
                     <p>Bônus resgatável após 1x faturamento</p>
                     <p>Recarregue sua conta e participe de nossas </p>
-                    <img :src="MineImg.img_support" class=" h-[1.2rem] mr-1 inline-block align-middle" />
+                    <img :src="MineImg.img_support" class=" h-[1.2rem] mr-1 inline-block align-middle" @click="openServiceFunc({ type: 'service' })"/>
                  </div>
             </section>
             <section class="w-full mb-10 rounded-lg  ">
@@ -435,11 +499,11 @@ watch(amountRef, (newVal) => {
                 <p class="text-xm font-bold mb-2">Montante</p>
                 <dl class="w-full h-[3.125rem] px-3 mb-2  rounded-lg flex items-center m5-theme-input">
                 <dt class="mr-3 text-base font-bold shrink-0">
-                    <span class="text-themetext0">R$</span>
+                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                 </dt>
                 <dd class="flex-1 overflow-hidden">
                     <input type="text" v-model="amountRef"
-                        :placeholder="currentChannelRef ? `valor(${currentChannelRef.min || 0} ~ ${currentChannelRef.max || 1000})` : ``"
+                        :placeholder="currentChannelRef ? `valor(${minAmountRef || 0} ~ ${currentChannelRef.max || 1000})` : ``"
                         @focus="input_focus = true" @input="onAmountInput"
                         class="w-full h-8 text-base placeholder:text-sm placeholder:text-rgbawhite50 bg-transparent outline-none">
                 </dd>

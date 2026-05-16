@@ -103,6 +103,11 @@ const COLOR_TOKEN_MAP = {
   thirsmodelboder: '--color-thirsmodelboder',
   activitymodel1: '--color-activitymodel1',
   activitymodel2: '--color-activitymodel2',
+  logininputcolor1: '--color-logininputcolor1',
+  logininputcolor2: '--color-logininputcolor2',
+  logininputborder: '--color-logininputborder',
+  loginBtncolor: '--color-loginBtncolor',
+  loginBg: '--color-loginbg',
 }
 
 const COLOR_TOKEN_FALLBACKS = {

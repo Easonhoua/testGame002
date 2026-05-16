@@ -64,7 +64,7 @@ function onClickReceiveClose(){
                     <!-- <div class="w-full flex justify-center mt-6">
                         <a v-if="popReceiveAward > 0" class="w-72 h-12 flex items-center justify-center bg-rgbablack15 bg-blur rounded-3xl">
                             <img :src=CommonImg.img_gold class="w-6 h-">
-                            <span class="text-themewhite">Bónus de R$ {{popReceiveAward}}</span>
+                            <span class="text-themewhite">Bónus de {{ currentUnit.value }} {{popReceiveAward}}</span>
                         </a>
                     </div> -->
                     <div class="w-full flex justify-center mt-[-6rem]">
@@ -100,7 +100,7 @@ function onClickReceiveClose(){
                 </button>
                 <div class="w-full h-full text-themewhite relative overflow-y-auto">
                     <div class="text-center text-lg text-themewhite">
-                        <span class="text-themewhite text-3xl">R$ {{pwaReceiveAmount}}</span>
+                        <span class="text-themewhite text-3xl">{{ currentUnit.value }} {{pwaReceiveAmount}}</span>
                     </div>
                 </div>
             </div>  

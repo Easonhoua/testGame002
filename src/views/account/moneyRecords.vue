@@ -20,11 +20,11 @@ onMounted(() => {
 })
 
 const time_list = ref([
-    { label: '3 horas', value: 3 },
-    { label: '12 horas', value: 12 },
-    { label: '24 horas', value: 24 },
-    { label: '48 horas', value: 48 },
-    { label: '7 dias', value: 168 },
+    { label: '3 ' + t('account.hours'), value: 3 },
+    { label: '12 ' + t('account.hours'), value: 12 },
+    { label: '24 ' + t('account.hours'), value: 24 },
+    { label: '48 ' + t('account.hours'), value: 48 },
+    { label: '7 ' + t('account.days'), value: 168 },
 ])
 const recordType = ref(0)
 const time_index = ref(3)
@@ -38,7 +38,7 @@ function chageType(type) {
 </script>
 
 <template>
-    <pu-page title="Registros de depósito e saque" class="z-[999]" hideService
+    <pu-page :title="t('pageTitle.Depositwithdrawalrecords')" class="z-[999]" hideService
         :style="currentTemplate.value != 'template_four' ? { background: `url(${CommonBgImg.bg_body_1}) center` } : { background: `var(--color-theme)` }"
         style="background-size: cover;">
         <div v-if="currentTemplate.value == 'template_one'">
@@ -254,11 +254,11 @@ function chageType(type) {
                     <div class="w-[49%] cursor-pointer h-[2.5rem]  text-center rounded-lg mr-2 "
                         style="line-height: 2.5rem;" :class="recordType == 0 ? 'm3-theme-btn1 font-bold' : 'font-bold  border border-defaultborder bg-default-bg text-theme'"
                         @click="chageType(0)">
-                        Histórico de recargas
+                        {{ t('account.ReloadHistory') }}
                     </div>
                     <div class="w-[49%] cursor-pointer h-[2.5rem] text-center rounded-lg " style="line-height: 2.5rem;"
                         :class="recordType == 1 ? 'm3-theme-btn1 font-bold' : 'font-bold border border-defaultborder bg-default-bg text-theme'" @click="chageType(1)">
-                        Registos de saques
+                        {{ t('account.SaxRecords') }}
                     </div>
                 </div>
             </pu-card>
@@ -268,17 +268,17 @@ function chageType(type) {
                 <section
                     class="w-full px-5 py-2 text-xs !leading-normal text-themefont border border-defaultborder bg-default-bg rounded-xl ">
                     <p>
-                        <span  class="text-themewhite font-[700] text-[1rem]">Dados {{logTypeRef ===
-                            168 ? 'dos' : 'das' }} últimas {{time_list.find(item => item.value ===
+                        <span  class="text-themewhite font-[700] text-[1rem]">{{ t('account.Data') }} {{logTypeRef ===
+                            168 ? 'dos' : 'das' }} {{ t('account.last') }} {{time_list.find(item => item.value ===
                             logTypeRef)?.label||
                             '3horas' }}</span>
                     </p>
                     <p>
-                        <span>{{recordType==0?'Número de recargas: ':'Número de levantamentos:  '}}</span>
+                        <span>{{recordType==0? t('account.NumberReloads')+ ': ':t('account.NumberSurveys')+': '}}</span>
                         <span class="text-themetext0 ml-1">{{ rechargeNumRef }}</span>
                     </p>
                     <p>
-                        <span>{{recordType==0?'Valor de recarga:':'Valor do levantamento:'}} </span>
+                        <span>{{recordType==0? t('account.ReloadValue')+':':t('account.RaiseValue')+':'}} </span>
                         <span class="text-themetext0 ml-1">{{ moneyRef }}</span>
                     </p>
                 </section>
@@ -288,10 +288,10 @@ function chageType(type) {
                     class="w-full text-sm text-center bg-gradient-to-br from-themecardlinear2 to-themecardlinear1 table-fixed rounded-[1rem] overflow-hidden table-tempalte-four">
                     <thead class="text-xs py-2">
                         <tr class="bg-rgbablack30 text-themewhite">
-                            <td >Data</td>
-                            <td>Tempo</td>
-                            <td>Quantia</td>
-                            <td >Estado</td>
+                            <td >{{ t('account.Date') }}</td>
+                            <td>{{ t('account.Time') }}</td>
+                            <td>{{ t('account.Amount') }}</td>
+                            <td >{{ t('account.Status') }}</td>
                         </tr>
                     </thead>
                     <!-- v-if="reliefFundsListRef.length > 0" -->
@@ -320,7 +320,7 @@ function chageType(type) {
                             <td colspan="4 ">
                                 <div class="w-full py-4 text-center flex flex-col items-center">
                                     <img :src=CommonImg.img_nodata class="w-40 h-auto">
-                                    <p class="mt-2 text-sm opacity-70 text-themetext1">Ainda não há reqistos de transações.</p>
+                                    <p class="mt-2 text-sm opacity-70 text-themetext1">{{ t('account.NoData') }}</p>
                                 </div>
                             </td>
                         </tr>

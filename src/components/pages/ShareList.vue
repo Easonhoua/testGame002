@@ -33,7 +33,7 @@ const share_list = ref([
     {name: 'Youtube', type: 'youtube',logo: '/imgs/lo_youtube.svg'},
 ])
 
-// const share_detection = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe R$ 10.000 por dia!`)
+// const share_detection = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe {{ currentUnit.value }} 10.000 por dia!`)
 function moreShare() {
     share({
         title: shareMsg.value,

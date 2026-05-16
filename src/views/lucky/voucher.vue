@@ -5,7 +5,7 @@ const { configRef, takeVoucherFunc } = luckyDrawMOdel(true)
 </script>
 
 <template>
-    <pu-page title="Coletar Bônus" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.CollectBonuses')" class="z-[999]" hideService>
         <pu-card theme="3" class="py-5" v-if="currentTemplate.value=='template_one'">
             <ul>
                 <template v-for="item,index in configRef.task_list" :key="index">
@@ -82,7 +82,7 @@ const { configRef, takeVoucherFunc } = luckyDrawMOdel(true)
                         <dl class="w-full px-3 py-2 rounded-xl relative flex items-center bg-gradient-to-r from-card1 to-card2">
                             <dt class="shrink-0">
                                 <p class="text-[0.5625rem] opacity-45 text-center">
-                                    <span>Bônus</span>
+                                    <span>{{ t('Bonus') }}</span>
                                 </p>
                                 <p class="text-[1.375rem] text-four text-center">
                                     <span>x1</span>
@@ -99,7 +99,7 @@ const { configRef, takeVoucherFunc } = luckyDrawMOdel(true)
                                 </p>
                             </dd>
                             <dd @click="takeVoucherFunc(index,item)" :class="item.status==1?'m3-theme-btn1':'text-rgbawhite30 bg-rgbablack15'" class="w-24 h-9 px-3 rounded-lg cursor-pointer flex justify-center items-center shrink-0">
-                                <span>{{ item.status == 2 ? 'Reclamado' : 'Receber' }}</span>
+                                <span>{{ item.status == 2 ? t('Received') : t('Receive')}}</span>
                             </dd>
                         </dl>
                     </li>

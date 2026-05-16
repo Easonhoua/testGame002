@@ -103,7 +103,7 @@ const {
                         <div @click="toMine()" class="h-7 p-px rounded-lg ctx-theme__linear flex">
                             <div class="h-full px-2 bg-body-bg rounded-lg flex items-center">
                                 <p>
-                                    <span class="text-[0.625rem] text-one">R$&nbsp;</span>
+                                    <span class="text-[0.625rem] text-one">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-sm">{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
                                 </p>
                                 <!-- <svg :class="accountLoadingRef?'animate-spin':''" class="w-3 h-3 mr-0.5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -334,12 +334,11 @@ const {
             
             <!-- 首页活动弹窗 -->
              <!-- 签到活动开启时，仅当签到完成才显示弹窗 -->
-            <template v-if="isOpenEnterRef&&isSignInRef">
+            <template v-if="isOpenEnterRef && signConfigRef?.todayStatus === false">
                 <pdd-index-pop 
                     v-for="(item, idx) in activityListRef" 
                     :key="idx" 
-                    :data="item" 
-                    v-if="showActivityPop"
+                    :data="item"
                 />
             </template>
             <!-- 签到活动关闭时，直接显示弹窗 -->

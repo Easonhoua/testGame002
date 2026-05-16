@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { t } from '@/i18n'
 import { rechargeSpecialOfferDataModel } from '@/model/account'
 import { modalScrollControlModel } from '@/model/other'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const { rechargeSpecialOfferData, rechargeSpecialOfferInfoFunc, rechargeTimeRef, payKeyRef, rechargeFunc, rechargeWeek, rechargeBtnRef, endTimeRef, grandContentRef } = rechargeSpecialOfferDataModel();
 const { lockScroll, unlockScroll } = modalScrollControlModel()
-console.log( rechargeFunc, rechargeWeek, rechargeBtnRef, endTimeRef, grandContentRef,'0000')
 import { useThemeImages } from '@/utils/themeimg'
 import { babelParse } from 'vue/compiler-sfc';
 const CommonImg = useThemeImages().common
@@ -118,7 +118,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <pu-page title="Grande Retorno de Depósito" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.DepositReturn')" class="z-[999]" hideService>
         <div v-if="currentTemplate.value != 'template_four'&&currentTemplate.value != 'template_five'">
             <div v-if="currentTemplate.value == 'template_one'">
             <div class="banner relative">
@@ -174,22 +174,22 @@ onUnmounted(() => {
                         <div class="top">
                             <div class="lefttext">
                                 <div class="left">
-                                    <div class="name">Depósito <p> R$ {{ item.recharge_amount }}</p>
+                                    <div class="name">Depósito <p> {{ currentUnit.value }} {{ item.recharge_amount }}</p>
                                     </div>
-                                    <div class="name">Ganhe <p> R$ {{ item.bonus }}</p>
+                                    <div class="name">Ganhe <p> {{ currentUnit.value }} {{ item.bonus }}</p>
                                     </div>
                                 </div>
                                 <div class="right">
                                     <h1 class="text-themetext0"> {{ Number(item.recharge_amount) + Number(item.bonus) }}
                                     </h1>
-                                    <p>Totalizando(R$)</p>
+                                    <p>Totalizando({{ currentUnit.value }})</p>
                                 </div>
 
                             </div>
                             <div class="btn" @click="openRule(item)"
                                 :style="rechargeBtnRef == 0 && endTimeRef != 0 ? 'opacity:0.5' : 'opacity: 1;'">Depósito</div>
                         </div>
-                        <div class="rollover">Exigindo R$ {{ item.bet_amount }} de rollover</div>
+                        <div class="rollover">Exigindo {{ currentUnit.value }} {{ item.bet_amount }} de rollover</div>
 
                     </div>
                 </div>
@@ -226,7 +226,7 @@ onUnmounted(() => {
                 }">
                     <div class="countdown-box" v-if="day !== '00'" :class="{ 'countdown-boxfrist': day !== '00' }">
                         <h1 class="time-num days">{{ day }}</h1>
-                        <p class="time-label daytext">Dias</p>
+                        <p class="time-label daytext">{{ t('account.days') }}</p>
                     </div>
                     <div class="countdown-box "
                         :class="{ 'full-width': day === '00', 'countdown-boxsecond': day !== '00' }">
@@ -267,27 +267,27 @@ onUnmounted(() => {
                         <div class="top">
                             <div class="lefttext">
                                 <div class="left text-five">
-                                    <div class="name">Depósito <p> R$ {{ item.recharge_amount }}</p>
+                                    <div class="name">Depósito <p> {{ currentUnit.value }} {{ item.recharge_amount }}</p>
                                     </div>
-                                    <div class="name">Ganhe<p> R$ {{ item.bonus }}</p>
+                                    <div class="name">Ganhe<p> {{ currentUnit.value }} {{ item.bonus }}</p>
                                     </div>
                                 </div>
                                 <div class="right">
                                     <h1> {{ Number(item.recharge_amount) + Number(item.bonus) }}</h1>
-                                    <p>Totalizando(R$)</p>
+                                    <p>Totalizando({{ currentUnit.value }})</p>
                                 </div>
 
                             </div>
                             <div class="btn ctx-resg-btn" @click="openRule(item)"
                                 :style="rechargeBtnRef == 0 && endTimeRef != 0 ? 'opacity:0.5' : 'opacity: 1;'">Depósito</div>
                         </div>
-                        <div class="rollover text-three">Exigindo R$ {{ item.bet_amount }} de rollover</div>
+                        <div class="rollover text-three">Exigindo {{ currentUnit.value }} {{ item.bet_amount }} de rollover</div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="rechargeListBox-two" v-else="currentTemplate.value =='template_three'">
+            <div class="rechargeListBox-two" v-else-if="currentTemplate.value =='template_three'">
                 <div class="rechargeList">
                     <div class="rechargeItem" v-for="item in rechargeSpecialOfferData" :key="item.key" :style="{
                         background: `url(${GreatOfferImg.img_itembg}) no-repeat center center`,
@@ -296,24 +296,24 @@ onUnmounted(() => {
                         <div class="top">
                             <div class="lefttext">
                                 <div class="left text-five">
-                                    <div class="flex text-themetext1 text-sm">Depósito <p class="ml-2 text-white"> R$ {{
+                                    <div class="flex text-themetext1 text-sm">{{ t('deposit') }} <p class="ml-2 text-white"> {{ currentUnit.value }} {{
                                             item.recharge_amount }}</p>
                                     </div>
-                                    <div class="flex text-themetext1 text-sm">Ganhe<p class="ml-[1.35rem] text-white"> R$ {{
+                                    <div class="flex text-themetext1 text-sm">{{ t('Earn') }}<p class="ml-[1.35rem] text-white"> {{ currentUnit.value }} {{
                                             item.bonus }}</p>
                                     </div>
                                 </div>
                                 <div class="right text-themetext0">
                                     <h1> {{ Number(item.recharge_amount) + Number(item.bonus) }}</h1>
-                                    <p class="!text-themetext1">Totalizando(R$)</p>
+                                    <p class="!text-themetext1">{{ t('Totaling') }}({{ currentUnit.value }})</p>
                                 </div>
 
                             </div>
                             <div class="w-16 h-7 mt-3 rounded m3-theme-btn1 text-[0.8rem] flex items-center justify-center"
                                 @click="openRule(item)"
-                                :style="rechargeBtnRef == 0 && endTimeRef != 0 ? 'opacity:0.5' : 'opacity: 1;'">Depósito</div>
+                                :style="rechargeBtnRef == 0 && endTimeRef != 0 ? 'opacity:0.5' : 'opacity: 1;'">{{ t('deposit') }}</div>
                         </div>
-                        <div class="rollover text-themetext1">Exigindo R$ {{ item.bet_amount }} de rollover</div>
+                        <div class="rollover text-themetext1">{{ t('activityCenter.Demanding') }} {{ currentUnit.value }} {{ item.bet_amount }} {{ t('activityCenter.rollover') }}</div>
 
                     </div>
                 </div>
@@ -335,19 +335,19 @@ onUnmounted(() => {
                 </article>
             </pu-card>
 
-            <pu-card theme="3" class="mb-3 pt-5 text-box" v-else="currentTemplate.value =='template_three'">
+            <pu-card theme="3" class="mb-3 pt-5 text-box" v-else-if="currentTemplate.value =='template_three'">
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription')  }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
                 <article class="ctx-article p-mb text-sm text-themetext3" v-html="grandContentRef" v-if="grandContentRef!=''"></article>
                 <article class="ctx-article p-mb text-sm text-themetext3" v-else>
-                    <p>1. No dia da promoção, faça um depósito do valor especificado e receba um grande bônus.</p>
-                    <p>2. Todos os jogadores podem participar apenas uma vez e não podem participar repetidamente.</p>
-                    <p>3. A promoção começa toda Quarta-feira.</p>
+                    <p>{{ t('activityCenter.activityDetail15')  }}</p>
+                    <p>{{ t('activityCenter.activityDetail16')  }}</p>
+                    <p>{{ t('activityCenter.activityDetail17')  }}</p>
                 </article>
             </pu-card>
         </div>
@@ -363,14 +363,14 @@ onUnmounted(() => {
                 <img :src=CommonImg.btn_close class="closeicon" @click="closemask" />
                 <div class="flex flex-col items-center"><img :src=CommonImg.img_recharge class="rsicon" /> </div>
                 <div class="inputboxitem">
-                    <span class="title text-rgbawhite50">Depósito</span>
+                    <span class="title text-rgbawhite50">{{ t('deposit') }}</span>
                     <div class="paynum" :class="currentTemplate.value == 'template_one' ? 'bg-rgbawhite50' : 'bg-default-bg'">
-                        <span>R$</span>
+                        <span>{{ currentUnit.value }}</span>
                         <!-- themewhite -->
                         <h1 :class="currentTemplate.value == 'template_one' ? 'text-themewhite' : 'text-four'">
                             {{ payKeyRef.recharge_amount }}</h1>
                     </div>
-                    <div class="hint">Depósito de R$ 50, ganhe R$ 10, totalizando <span>R$
+                    <div class="hint">{{ t("activityCenter.greatDetail") }} <span>{{ currentUnit.value }}
                             {{ Number(payKeyRef.recharge_amount) + Number(payKeyRef.bonus) }}</span></div>
                 </div>
 
@@ -394,19 +394,18 @@ onUnmounted(() => {
                 <!-- :class="{'opacity-50': !isFormValid}" -->
                 <div class="btn" @click="rechargeFunc"
                     :class="currentTemplate.value == 'template_one' ? 'bg-gradient-to-tr from-gold-100 to-gold-500 rounded-xl' : 'bg-gradient-to-b from-btnlinar4 to-btnlinar3 rounded-full'">
-                    Depósito
+                    {{ t('deposit') }}
                 </div>
             </div>
         </div>
-
+        <!-- hintMask -->
         <div v-if="hintMask" class="hint-mask w-full px-4 pt-5 pb-3  text-rgbawhite80 rounded-t-4xl">
             <div class="mask"></div>
             <div class="hint-content  flex flex-col items-center w-[16rem]"
                 :class="currentTemplate.value == 'template_one' ? 'bg-default-bg' : 'bg-gradient-to-b from-card1 to-card2'">
                 <img :src=CommonImg.btn_close class="closeicon" @click="closemask" />
                 <div class="flex flex-col items-center"><img :src=CommonImg.icon_hin class="rsicon" /> </div>
-                <div class="hint hint-text text-themewhite">Ainda näo chegou o horário da promoqao, por favor participe
-                    deste evento em <span> {{ rechargeWeek }}</span></div>
+                <div class="hint hint-text text-themewhite">{{ t('activityCenter.greatDetail2') }} <span> {{ rechargeWeek }}</span></div>
                 <div class="btn" @click="closemask"
                     :class="currentTemplate.value == 'template_one' ? 'bg-gradient-to-b from-btnlinar4 to-btnlinar3 rounded-xl ' : 'rounded-full !bg-gradient-to-b from-btnlinar4 to-btnlinar3'">
                     OK
@@ -491,15 +490,15 @@ onUnmounted(() => {
                     <div class="top p-4">
                         <div class="lefttext">
                             <div class="left">
-                                <div class="name text-white">Depósito <p class="!m4-text"> R$ {{
+                                <div class="name text-white">Depósito <p class="!m4-text"> {{ currentUnit.value }} {{
                                         item.recharge_amount }}</p>
                                 </div>
-                                <div class="name">Ganhe<p class="!text-themetext0"> R$ {{ item.bonus }}</p>
+                                <div class="name">Ganhe<p class="!text-themetext0"> {{ currentUnit.value }} {{ item.bonus }}</p>
                                 </div>
                             </div>
                             <div class="right text-themetext0">
                                 <h1 class="font-bold"> {{ Number(item.recharge_amount) + Number(item.bonus) }}</h1>
-                                <p class="text-themetext3">Totalizando(R$)</p>
+                                <p class="text-themetext3">Totalizando({{ currentUnit.value }})</p>
                             </div>
 
                         </div>
@@ -509,7 +508,7 @@ onUnmounted(() => {
                     <div
                         class="rollover text-three  p-2 text-white flex items-center justify-start aline-center">
                         <img :src="GreatOfferImg.img_tib" class="w-[1rem] h-[1rem] mr-2" />
-                        Exigindo <span class="text-themetext0 mx-1">R$ {{ item.bet_amount }}</span> de rollover
+                        Exigindo <span class="text-themetext0 mx-1">{{ currentUnit.value }} {{ item.bet_amount }}</span> de rollover
                     </div>
 
                 </div>
@@ -538,10 +537,10 @@ onUnmounted(() => {
                 <div class="inputboxitem">
                     <span class="title">Depósito</span>
                     <div class="paynum bg-theme !text-themewhite font-bold !text-[1.2rem]">
-                        <span>R$</span>
+                        <span>{{ currentUnit.value }}</span>
                         <h1 class="text-themetext0">{{ payKeyRef.recharge_amount }}</h1>
                     </div>
-                    <div class="hint !text-themewhite">Depósito de <span class="!text-themetext0">R$ {{Number(payKeyRef.recharge_amount)}}</span> , ganhe <span class="!text-themetext0">R$ {{Number(payKeyRef.bonus)}}</span>, totalizando <span class="!text-themetext0">R$
+                    <div class="hint !text-themewhite">Depósito de <span class="!text-themetext0">{{ currentUnit.value }} {{Number(payKeyRef.recharge_amount)}}</span> , ganhe <span class="!text-themetext0">{{ currentUnit.value }} {{Number(payKeyRef.bonus)}}</span>, totalizando <span class="!text-themetext0">{{ currentUnit.value }}
                             {{ Number(payKeyRef.recharge_amount) + Number(payKeyRef.bonus) }}</span></div>
                 </div>
 
@@ -659,15 +658,15 @@ onUnmounted(() => {
                     <div class="top p-4">
                         <div class="lefttext">
                             <div class="left">
-                                <div class="name text-white">Depósito <p class="!text-themetext0"> R$ {{
+                                <div class="name text-white">Depósito <p class="!text-themetext0"> {{ currentUnit.value }} {{
                                         item.recharge_amount }}</p>
                                 </div>
-                                <div class="name">Ganhe<p class="!text-themetext0"> R$ {{ item.bonus }}</p>
+                                <div class="name">Ganhe<p class="!text-themetext0"> {{ currentUnit.value }} {{ item.bonus }}</p>
                                 </div>
                             </div>
                             <div class="right text-themetext0">
                                 <h1 class="font-bold"> {{ Number(item.recharge_amount) + Number(item.bonus) }}</h1>
-                                <p class="text-themetext3">Totalizando(R$)</p>
+                                <p class="text-themetext3">Totalizando({{ currentUnit.value }})</p>
                             </div>
 
                         </div>
@@ -677,7 +676,7 @@ onUnmounted(() => {
                     <div
                         class="rollover text-three  p-2 text-white flex items-center justify-start aline-center">
                         <img :src="GreatOfferImg.img_tib" class="w-[1rem] h-[1rem] mr-2" />
-                        Exigindo <span class="text-themetext0 mx-1">R$ {{ item.bet_amount }}</span> de rollover
+                        Exigindo <span class="text-themetext0 mx-1">{{ currentUnit.value }} {{ item.bet_amount }}</span> de rollover
                     </div>
 
                 </div>
@@ -706,10 +705,10 @@ onUnmounted(() => {
                 <div class="inputboxitem">
                     <span class="title">Depósito</span>
                     <div class="paynum bg-theme !text-themewhite font-bold !text-[1.2rem]">
-                        <span>R$</span>
+                        <span>{{ currentUnit.value }}</span>
                         <h1 class="text-themetext0">{{ payKeyRef.recharge_amount }}</h1>
                     </div>
-                    <div class="hint !text-themewhite">Depósito de <span class="!text-themetext0">R$ {{Number(payKeyRef.recharge_amount)}}</span> , ganhe <span class="!text-themetext0">R$ {{Number(payKeyRef.bonus)}}</span>, totalizando <span class="!text-themetext0">R$
+                    <div class="hint !text-themewhite">Depósito de <span class="!text-themetext0">{{ currentUnit.value }} {{Number(payKeyRef.recharge_amount)}}</span> , ganhe <span class="!text-themetext0">{{ currentUnit.value }} {{Number(payKeyRef.bonus)}}</span>, totalizando <span class="!text-themetext0">{{ currentUnit.value }}
                             {{ Number(payKeyRef.recharge_amount) + Number(payKeyRef.bonus) }}</span></div>
                 </div>
 

@@ -13,7 +13,7 @@ function formatCompact(n) {
   return sign + v.replace(/\.00$/, '')
 }
 import { onMounted, onUnmounted, ref, computed, watch } from 'vue'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { useRouter } from 'vue-router'
 import { playBtnAudioFunc } from '@/utils/core'
 import { isAuthRef } from '@/model/user'
@@ -251,7 +251,7 @@ watch(
 </script>
 
 <template>
-  <pu-page title="Jackpot" class="z-[999]"
+  <pu-page :title="t('pageTitle.Jackpot')" class="z-[999]"
     v-if="currentTemplate.value == 'template_one' || currentTemplate.value == 'template_two'">
     <img :src=RankImg.img_rankbg class="w-full h-auto object-cover absolute top-0 left-0" alt="bg" />
 
@@ -355,7 +355,7 @@ watch(
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none mt-0.5 text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[1]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[1]?.bonus) }}
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -383,7 +383,7 @@ watch(
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none mt-0.5 text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[0]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[0]?.bonus) }}
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -411,7 +411,7 @@ watch(
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none mt-0.5 text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[2]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[2]?.bonus) }}
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none text-four font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -456,7 +456,7 @@ watch(
               <!-- 后项：奖金和排名变化 -->
               <div class="flex flex-col items-end justify-center flex-1 min-w-0">
                 <div class="text-four text-[0.9rem]">
-                  R${{ formatCompact(player.bonus) }}({{ player.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(player.bonus) }}({{ player.rate }}%)
                 </div>
               </div>
             </div>
@@ -491,7 +491,7 @@ watch(
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[1]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[1]?.bonus) }}
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -519,7 +519,7 @@ watch(
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[0]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[0]?.bonus) }}
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -547,7 +547,7 @@ watch(
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[2]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[2]?.bonus) }}
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -592,7 +592,7 @@ watch(
               <!-- 后项：奖金和排名变化 -->
               <div class="flex flex-col items-end justify-center flex-1 min-w-0">
                 <div class="text-themetext0 text-[0.9rem]">
-                  R${{ formatCompact(player.bonus) }}({{ player.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(player.bonus) }}({{ player.rate }}%)
                 </div>
               </div>
             </div>
@@ -663,7 +663,7 @@ watch(
               Melhorar a classificação
             </button>
             <span class="font-bold text-[0.60rem] text-var(--color-themewhite) mt-1">Recompensa:{{
-              currentMember.state == 2 ? ('R$' + (currentMember?.bonus ?? '--')) : '--' }}</span>
+              currentMember.state == 2 ? ( currentUnit.value  + (currentMember?.bonus ?? '--')) : '--' }}</span>
           </div>
         </template>
       </div>
@@ -747,7 +747,7 @@ watch(
                     formatCompact(record.bet_amount)}}</div>
                 <!-- 最后一列使用更小的字体 -->
                 <div class="text-center text-four truncate px-1 text-xs leading-tight">
-                  R${{ formatCompact(record.bonus) }}({{ record.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(record.bonus) }}({{ record.rate }}%)
                 </div>
               </div>
             </div>
@@ -913,7 +913,7 @@ watch(
                     '2' ? 'SEM' : record.rank_type === '3' ? 'Mês' : record.rank_type }}</div>
                   <div class="text-center text-themewhite">{{ record.rank }}</div>
                   <div class="text-center flex items-center justify-center space-x-1">
-                    <span class="text-four">R${{ record.bonus }}</span>
+                    <span class="text-four">{{ currentUnit.value }}{{ record.bonus }}</span>
                   </div>
                 </div>
               </template>
@@ -930,7 +930,7 @@ watch(
 
   </pu-page>
 
-  <pu-page title="Jackpot" class="z-[999]" v-if="currentTemplate.value == 'template_three'">
+  <pu-page :title="t('pageTitle.Jackpot')" class="z-[999]" v-if="currentTemplate.value == 'template_three'">
     <img :src=RankImg.img_rankbg class="w-full h-auto object-cover absolute top-0 left-0" alt="bg" />
 
     <!-- 顶部按钮 -->
@@ -983,7 +983,7 @@ watch(
           <span class="text-four text-[0.5rem]">
             {{ activeTab === 'dayRank' ? rulesConfig.bet_rank_day_pump : activeTab === 'weekRank' ?
               rulesConfig.bet_rank_week_pump : rulesConfig.bet_rank_month_pump }}%
-          </span><span class="text-themewhite text-[0.5rem]">da aposta total dos jogos selecionados</span>
+          </span><span class="text-themewhite text-[0.5rem]">{{ t('activityCenter.totalbetselectedgames') }}</span>
         </div>
       </div>
 
@@ -1026,7 +1026,7 @@ watch(
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[1]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[1]?.bonus) }}
               </div>
               <div class="text-[0.7rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -1054,7 +1054,7 @@ watch(
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[0]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[0]?.bonus) }}
               </div>
               <div class="text-[0.8rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -1082,7 +1082,7 @@ watch(
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none mt-0.5 text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
-                R${{ formatCompact(currentRanking[2]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[2]?.bonus) }}
               </div>
               <div class="text-[0.65rem] font-themeblack leading-none text-themetext0 font-bold"
                 style="-webkit-text-stroke:1px var(--color-themeblack);text-stroke:0.3px var(--color-themeblack);">
@@ -1127,7 +1127,7 @@ watch(
               <!-- 后项：奖金和排名变化 -->
               <div class="flex flex-col items-end justify-center flex-1 min-w-0">
                 <div class="text-themetext0 text-[0.9rem]">
-                  R${{ formatCompact(player.bonus) }}({{ player.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(player.bonus) }}({{ player.rate }}%)
                 </div>
               </div>
             </div>
@@ -1150,15 +1150,15 @@ watch(
         <template v-if="currentMember.state == 0">
           <div class="flex flex-col items-center justify-center text-themewhite">
             <div class="text-xs mb-1 text-center">
-              Você precisa de <span class="text-themetext0">{{ isAuthRef ? currentMember.ranksLeft :
-                rulesConfig.bet_rank_limit }}</span> apostas extras para participar do ranking
+              {{ t('activityCenter.Youneedto') }} <span class="text-themetext0">{{ isAuthRef ? currentMember.ranksLeft :
+                rulesConfig.bet_rank_limit }}</span> {{ t('activityCenter.extraparticipateranking') }}
             </div>
           </div>
 
           <div class="flex items-center justify-center">
             <button @click="goToAttend"
               class="w-32 h-10  px-4 py-2 rounded-full m3-theme-btn1 font-bold text-sm transition-all duration-300 shadow-lg">
-              Vá participar
+              {{ t('activityCenter.Goparticipate') }}
             </button>
           </div>
         </template>
@@ -1192,10 +1192,10 @@ watch(
           <div class="flex flex-col items-center justify-center ml-2">
             <button @click="improveRanking"
               class="w-30 h-8 m3-theme-btn1 px-2 py-2 rounded-full font-bold text-[0.75rem] transition-all duration-300 shadow-lg whitespace-nowrap">
-              Melhorar a classificação
+              {{ t('activityCenter.Improveclassification') }}
             </button>
-            <p class="font-bold text-[0.60rem] mt-1">Recompensa:<span class="text-themetext0">{{ currentMember.state == 2
-              ? ('R$' + (currentMember?.bonus ?? '--')) : '--' }}</span></p>
+            <p class="font-bold text-[0.60rem] mt-1">{{ t('activityCenter.Compensation') }}:<span class="text-themetext0">{{ currentMember.state == 2
+              ? ( currentUnit.value  + (currentMember?.bonus ?? '--')) : '--' }}</span></p>
           </div>
         </template>
       </div>
@@ -1211,7 +1211,7 @@ watch(
         <div class="relative z-10 p-2 ">
           <!-- 标题和关闭按钮 -->
           <div class="relative flex items-center justify-between pt-3 mb-4">
-            <h2 class="absolute top-0 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">História</h2>
+            <h2 class="absolute top-0 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">{{ t('activityCenter.History') }}</h2>
             <button @click="closeHistoryModal" class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center">
               <img :src=CommonImg.btn_close alt="关闭" class="w-5 h-5" />
             </button>
@@ -1242,26 +1242,26 @@ watch(
               JACKPOT: {{ Math.ceil(currentHistoryJackpot.jackpot) }}
             </div>
             <div class="text-themewhite text-[0.55rem] absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
-              O Jackpot anterior {{ Math.ceil(currentHistoryJackpot.clearing_bouns) }} foi adicionado ao próximo Jackpot
+              {{ t('activityCenter.PreviousJackpot') }} {{ Math.ceil(currentHistoryJackpot.clearing_bouns) }} {{ t('activityCenter.nextJackpot') }}
             </div>
           </div>
 
           <!-- 历史记录列表 -->
           <div class="rounded-lg">
             <!-- 表头 - 调整列宽比例 -->
-            <div class="grid grid-cols-4 text-xs mb-0 whitespace-nowrap bg-tablergba40 p-3 text-themetext1"
+            <div class="grid grid-cols-4 text-xs mb-0 whitespace-nowrap bg-rgbablack50 p-3 text-themetext1"
               style="grid-template-columns: 0.8fr 1.2fr 1fr 1.5fr;">
-              <div class="text-center  ">Classificação</div>
-              <div class="text-center  ">Nome</div>
-              <div class="text-center ">Apostas totais</div>
-              <div class="text-center ">Recompensa</div>
+              <div class="text-center  ">{{ t('activityCenter.Classification') }}</div>
+              <div class="text-center  ">{{ t('account.name') }}</div>
+              <div class="text-center ">{{ t('activityCenter.Totalbets') }}</div>
+              <div class="text-center ">{{ t('activityCenter.Reward') }}</div>
             </div>
 
             <!-- 列表内容 -->
             <!--  -->
             <div class="h-56 overflow-y-auto overflow-x-hidden">
               <div v-for="(record, index) in currentHistoryRankData" :key="index" class="grid grid-cols-4 py-2"
-                :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba10)' : 'var(--color-tablergba20)' }"
+                :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba20)' : 'var(--color-rgbablack15)' }"
                 style="grid-template-columns: 0.8fr 1.2fr 1fr 1.5fr;">
                 <div class="text-center text-themetext0 truncate px-1 text-xs ">{{ record.rank }}</div>
                 <div class="text-center  truncate px-1 text-xs text-themetext1">{{ record.username }}</div>
@@ -1269,7 +1269,7 @@ watch(
                 <!-- 最后一列使用更小的字体 -->
                 <div
                   class="text-center text-themetext0 truncate px-1 text-xs leading-tight flex items-center justify-center">
-                  <img :src=CommonImg.img_money class="w-3 h-3 mr-1" alt="R$">
+                  <img :src=CommonImg.img_money class="w-3 h-3 mr-1" alt="{{ currentUnit.value }}">
                   {{ formatCompact(record.bonus) }}<span class="text-themetext1">({{ record.rate }}%)</span>
                 </div>
               </div>
@@ -1287,7 +1287,7 @@ watch(
         <img :src=RankImg.img_tanchuang class="w-full h-auto object-cover absolute inset-0 z-0" alt="弹窗背景" />
         <!-- 标题和关闭按钮 -->
         <div class="relative flex items-center justify-between pt-3 mb-4">
-          <h2 class="absolute top-2 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">Regras</h2>
+          <h2 class="absolute top-2 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">{{ t('activityCenter.Rules') }}</h2>
           <button @click="closeRuleModal" class="absolute top-2 right-2 w-8 h-8 flex items-center justify-center">
             <img :src=CommonImg.btn_close alt="关闭" class="w-5 h-5" />
           </button>
@@ -1300,27 +1300,27 @@ watch(
             <div class="w-full mb-4 pt-5 flex items-center">
               <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext1"></em>
               <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext1">
-                <span>Recompensa da atividade</span>
+                <span>{{ t('ActivityDescription') }}</span>
               </h5>
               <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext1"></em>
             </div>
             <!-- 规则内容 -->
-            <article class="ctx-article p-mb text-sm text-themetext2" v-html="rulesConfig.bet_rank_content"></article>
+            <article class="ctx-article p-mb text-sm text-themetext1" v-html="rulesConfig.bet_rank_content"></article>
             <!-- 奖励配置表（表头+列表） -->
             <div class="rounded-lg">
-              <div class="grid grid-cols-4  text-xs mb-0 whitespace-nowrap bg-rgbablack30 p-3 text-themetext2"
+              <div class="grid grid-cols-4  text-xs mb-0 whitespace-nowrap bg-rgbablack50 p-3 text-themetext1"
                 style="grid-template-columns: 1.2fr 1.2fr 1.2fr 1.5fr;">
-                <div class="text-center">Classificaçäo</div>
-                <div class="text-center">Lista DIA</div>
-                <div class="text-center">Lista SEM</div>
-                <div class="text-center">Lista Mês</div>
+                <div class="text-center">{{ t('activityCenter.Classification') }}</div>
+                <div class="text-center">{{ t("activityCenter.DAYList") }}</div>
+                <div class="text-center">{{  t("activityCenter.WEEKList")  }}</div>
+                <div class="text-center">{{ t("activityCenter.MONTHList") }}</div>
               </div>
 
               <!-- 注意：这里不再设置 h-[14rem] 和 overflow -->
               <div>
                 <div v-for="(record, index) in rulesConfig.bet_rank_config" :key="index"
-                  class="grid grid-cols-4  text-xs py-2 text-themetext2"
-                  :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba20)' : 'var(--color-tablergba40)' }"
+                  class="grid grid-cols-4  text-xs py-2 text-themetext1"
+                  :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba20)' : 'var(--color-rgbablack15)' }"
                   style="grid-template-columns: 1.2fr 1.2fr 1.2fr 1.5fr;">
                   <div class="text-center ">{{ record.rank }}</div>
                   <div class="text-center ">{{ record.day }}%</div>
@@ -1346,7 +1346,7 @@ watch(
         <div class="relative z-10 p-3">
           <!-- 标题和关闭按钮 -->
           <div class="relative flex items-center justify-between pt-3 mb-4">
-            <h2 class="absolute top-0 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">My Rewards</h2>
+            <h2 class="absolute top-0 left-1/2 -translate-x-1/2 text-themetext1 text-xl font-bold">{{ t('activityCenter.MyRewards') }}</h2>
             <button @click="closeRewardModal" class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center">
               <img :src=CommonImg.btn_close alt="关闭" class="w-5 h-5" />
             </button>
@@ -1360,24 +1360,24 @@ watch(
               <template v-if="Array.isArray(rewardRecord) && rewardRecord.length > 0">
 
                 <!-- 表头 -->
-                <div class="grid grid-cols-4 text-xs mb-0 whitespace-nowrap bg-rgbablack30 p-3 text-themetext2"
+                <div class="grid grid-cols-4 text-xs mb-0 whitespace-nowrap bg-rgbablack50 p-3 text-themetext2"
                   style="grid-template-columns: 1.2fr 1fr 0.8fr 1.5fr;">
-                  <div class="text-center ">Tempo</div>
-                  <div class="text-center">Tipo</div>
-                  <div class="text-center">Classificaçäo</div>
-                  <div class="text-center">Recompensa</div>
+                  <div class="text-center ">{{ t('account.Time') }}</div>
+                  <div class="text-center">{{ t('account.Type') }}</div>
+                  <div class="text-center">{{ t('activityCenter.Classification') }}</div>
+                  <div class="text-center">{{ t('activityCenter.Reward') }}</div>
                 </div>
 
                 <div v-for="(record, index) in rewardRecord" :key="index"
                   class="grid grid-cols-4 text-themetext2 text-xs py-2 "
-                  :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba40)' : 'var(--color-tablergba20)' }"
+                  :style="{ backgroundColor: index % 2 === 0 ? 'var(--color-tablergba20)' : 'var(--color-rgbablack15)' }"
                   style="grid-template-columns: 1.4fr 0.8fr 0.8fr 1.5fr;">
                   <div class="text-center ">{{ record.rank_start_date }}</div>
                   <div class="text-center ">{{ record.rank_type === '1' ? 'DIA' : record.rank_type === '2' ? 'SEM' :
                     record.rank_type === '3' ? 'Mês' : record.rank_type }}</div>
                   <div class="text-center ">{{ record.rank }}</div>
                   <div class="text-center flex items-center justify-center space-x-1">
-                    <span class="text-themetext0">R${{ record.bonus }}</span>
+                    <span class="text-themetext0">{{ currentUnit.value }}{{ record.bonus }}</span>
                   </div>
                 </div>
               </template>
@@ -1485,7 +1485,7 @@ watch(
               </div>
               <div class="text-[0.7rem] font-black leading-none mt-0.5"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[1]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[1]?.bonus) }}
               </div>
               <div class="text-[0.7rem] font-black leading-none"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -1513,7 +1513,7 @@ watch(
               </div>
               <div class="text-[0.8rem] font-black leading-none mt-0.5 "
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[0]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[0]?.bonus) }}
               </div>
               <div class="text-[0.8rem] font-black leading-none "
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -1541,7 +1541,7 @@ watch(
               </div>
               <div class="text-[0.65rem] font-black leading-none mt-0.5"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[2]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[2]?.bonus) }}
               </div>
               <div class="text-[0.65rem] font-black leading-none"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -1595,7 +1595,7 @@ watch(
               <!-- 后项：奖金和排名变化 -->
               <div class="flex flex-col items-end justify-center flex-1 min-w-0">
                 <div class="text-themetext0 text-[0.9rem]">
-                  R${{ formatCompact(player.bonus) }}({{ player.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(player.bonus) }}({{ player.rate }}%)
                 </div>
               </div>
             </div>
@@ -1665,7 +1665,7 @@ watch(
               class=" m4-nine-btn rounded-xl  text-sm py-2 px-4 line-height-[0.88rem] ml-2">
               melhorar </br> a classificação
             </button>
-            <span class="font-bold text-[0.65rem]">Recompensa:<span class="text-themetext0">{{ currentMember.state == 2 ? ('R$' + (currentMember?.bonus
+            <span class="font-bold text-[0.65rem]">Recompensa:<span class="text-themetext0">{{ currentMember.state == 2 ? ( currentUnit.value  + (currentMember?.bonus
               ?? '--')) : '--' }}</span></span>
           </div>
         </template>
@@ -1753,7 +1753,7 @@ watch(
                 <!-- 最后一列使用更小的字体 -->
                 <div class="text-center text-themetext0 flex   truncate px-1 text-xs leading-tight">
                   <img :src="CommonImg.img_money" alt="" class="w-4 h-4 mr-1">
-                  R${{ formatCompact(record.bonus) }}<span class="text-themewhite">({{ record.rate }}%)</span>
+                  {{ currentUnit.value }}{{ formatCompact(record.bonus) }}<span class="text-themewhite">({{ record.rate }}%)</span>
                 </div>
               </div>
             </div>
@@ -1865,7 +1865,7 @@ watch(
                   <div class="text-center text-themewhite">{{ record.rank }}</div>
                   <div class="text-center flex items-center justify-left ml-3 space-x-1 text-themetext0">
                     <img :src="CommonImg.img_money" alt="" class="w-4 h-4 mr-1">
-                    R${{ record.bonus }}
+                    {{ currentUnit.value }}{{ record.bonus }}
                   </div>
                 </div>
               </template>
@@ -1969,7 +1969,7 @@ watch(
               </div>
               <div class="text-[0.7rem] font-black leading-none mt-0.5"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[1]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[1]?.bonus) }}
               </div>
               <div class="text-[0.7rem] font-black leading-none"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -1993,7 +1993,7 @@ watch(
               </div>
               <div class="text-[0.8rem] font-black leading-none mt-0.5 "
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[0]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[0]?.bonus) }}
               </div>
               <div class="text-[0.8rem] font-black leading-none "
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -2017,7 +2017,7 @@ watch(
               </div>
               <div class="text-[0.65rem] font-black leading-none mt-0.5"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
-                R${{ formatCompact(currentRanking[2]?.bonus) }}
+                {{ currentUnit.value }}{{ formatCompact(currentRanking[2]?.bonus) }}
               </div>
               <div class="text-[0.65rem] font-black leading-none"
                 style="color:#fff000;-webkit-text-stroke:1px #240305;text-stroke:0.3px #240305;">
@@ -2071,7 +2071,7 @@ watch(
               <!-- 后项：奖金和排名变化 -->
               <div class="flex flex-col items-end justify-center flex-1 min-w-0">
                 <div class="text-themetext0 text-[0.9rem]">
-                  R${{ formatCompact(player.bonus) }}({{ player.rate }}%)
+                  {{ currentUnit.value }}{{ formatCompact(player.bonus) }}({{ player.rate }}%)
                 </div>
               </div>
             </div>
@@ -2141,7 +2141,7 @@ watch(
               class=" m5-theme-btn1 rounded-full  text-[0.625rem] p-2">
               melhorar a classificação
             </button>
-            <span class="font-bold text-[0.65rem]">Recompensa:<span class="text-themetext0">{{ currentMember.state == 2 ? ('R$' + (currentMember?.bonus
+            <span class="font-bold text-[0.65rem]">Recompensa:<span class="text-themetext0">{{ currentMember.state == 2 ? (currentUnit.value  + (currentMember?.bonus
               ?? '--')) : '--' }}</span></span>
           </div>
         </template>
@@ -2230,7 +2230,7 @@ watch(
                 <!-- 最后一列使用更小的字体 -->
                 <div class="text-center text-themetext0 flex   truncate px-1 text-xs leading-tight">
                   <img :src="CommonImg.img_money" alt="" class="w-4 h-4 mr-1">
-                  R${{ formatCompact(record.bonus) }}<span class="text-themewhite">({{ record.rate }}%)</span>
+                  {{ currentUnit.value }}{{ formatCompact(record.bonus) }}<span class="text-themewhite">({{ record.rate }}%)</span>
                 </div>
               </div>
             </div>
@@ -2340,7 +2340,7 @@ watch(
                   <div class="text-center text-themewhite">{{ record.rank }}</div>
                   <div class="text-center flex items-center justify-left ml-3 space-x-1 text-themetext0">
                     <img :src="CommonImg.img_money" alt="" class="w-4 h-4 mr-1">
-                    R${{ record.bonus }}
+                    {{ currentUnit.value }}{{ record.bonus }}
                   </div>
                 </div>
               </template>

@@ -153,11 +153,11 @@ function handleSearch(){
             <!-- 表头 -->
             <div class="mt-3 grid grid-cols-6 text-[0.55rem] text-center bg-tablergba20 table-fixed text-themefont py-2 rounded-t-lg ">
                 <div class="m4-text">ID</div>
-                <div class="m4-text">Número de<br>Subordinados</div>
-                <div class="m4-text">Aposta</div>
-                <div class="m4-text">Desempenho</div>
-                <div class="m4-text">Depósito</div>
-                <div class="m4-text">Comissão</div>
+                <div class="m4-text">{{ t('commCenter.NumberOf')  }}<br>{{ t('commCenter.Subordinates') }}</div>
+                <div class="m4-text">{{ t('commCenter.Bet') }}</div>
+                <div class="m4-text">{{ t('commCenter.Performance') }}</div>
+                <div class="m4-text">{{ t('deposit') }}</div>
+                <div class="m4-text">{{ t('commission') }}</div>
             </div>
 
             <!-- 列表 -->
@@ -193,8 +193,8 @@ function handleSearch(){
         </pu-card>
 
         <em class="w-full h-[4.25rem] block"></em>
-        <van-calendar v-model:show="calendar_show" @confirm="onConfirm" :min-date="new Date(2023, 0, 1)"
-            :formatter="calendarFormatterFunc" :confirm-text="t('确认')" :show-mark="false" teleport="body"
+        <van-calendar v-model:show="calendar_show" @confirm="onConfirm"  :min-date="new Date(2023, 0, 1)"
+            :formatter="calendarFormatterFunc"  :show-mark="false" teleport="body"
             :safe-area-inset-bottom="true"
             :style="{ width: '560px', maxWidth: '100%', left: '50%', marginLeft: '-' + (bodyWidthRef / 2) + 'px' }"
             :overlay-style="{ width: '560px', maxWidth: '100%', left: '50%', marginLeft: '-' + (bodyWidthRef / 2) + 'px' }" />

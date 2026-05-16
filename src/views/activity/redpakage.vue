@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { fn } from '@/i18n'
+import { t,fn } from '@/i18n'
 import { randNumberFunc, resetTimeFunc } from '@/utils/core'
 import { redPakageShowRef, redPakageDataRef, redPakageAmountRef, redPakageStateRef, redPakageModel } from '@/model/other'
 import { playBtnAudioFunc } from '@/utils/core'
@@ -32,7 +32,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pu-page title="Chuva de Dinheiro" class="z-[999]" hideService v-if="currentTemplate.value == 'template_five'">
+    <pu-page :title="t('pageTitle.MoneyRain')" class="z-[999]" hideService v-if="currentTemplate.value == 'template_five'">
         <!-- 顶部banner -->
         <img :src="RedpacketImg.img_title" alt="Grande Retorno de Depósito"
             class="absolute inset-0 " />
@@ -46,7 +46,7 @@ onMounted(() => {
                     <div class=" text-themewhite text-[1.5rem] font-bold">Chuva de dinheiro</div>
                     <ul class="px-[3rem] !list-disc text-[0.88rem] leading-normal text-white  mt-5">
                         <li>Membros recarregados podem reivindicar gratuitamente.</li>
-                        <li>Valor máximo de queda em dinheiro: R${{ 7.777 }}.</li>
+                        <li>Valor máximo de queda em dinheiro: {{ currentUnit.value }}{{ 7.777 }}.</li>
                     </ul>
                     <!-- <a href="javascript:;"  class="w-20 h-16 -ml-10 block absolute left-1/2 top-[14.75rem]"></a>
                     <a href="javascript:;" @click="clickClose()" class="p-3 flex">
@@ -67,7 +67,7 @@ onMounted(() => {
                     <div class=" w-full h-full flex flex-col items-center justify-center">
                         <div class=" text-themewhite text-[1.5rem] font-bold">Chuva de dinheiro</div>
                         <p class=" text-themetext0 text-lg ">
-                            <span>R$&nbsp;</span>
+                            <span>{{ currentUnit.value }}&nbsp;</span>
                             <span class="font-bold text-3xl text-themetext0">{{ fn(redPakageAmountRef || 0) }}</span>
                         </p>
                         <p class="text-white text-sm mt-5 font-bold">
@@ -84,10 +84,10 @@ onMounted(() => {
                 <div class="">
                     <div class="p-4 font-bold rounded-xl bg-gradient-to-r from-btnlinar3 to-btnlinar4">
                         <p class="text-sm text-themewhite text-left">
-                            <span>Máximo de Queda R$ 5.000.000 por vez</span>
+                            <span>Máximo de Queda {{ currentUnit.value }} 5.000.000 por vez</span>
                         </p>
                         <p class="">
-                            <span class="text-sm text-themewhite">R$</span>
+                            <span class="text-sm text-themewhite">{{ currentUnit.value }}</span>
                             <span class="text-3xl text-themetext0 ml-1">{{ 7.777 }}</span>
                         </p>
                     </div>
@@ -135,15 +135,15 @@ onMounted(() => {
                 <span>Descrição da Atividade:</span>
             </h5>
             <article class=" p-mb text-[0.68rem] text-themetext4">
-                <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com R$ 5.000.000.</p>
-                <p>2.Valor máximo da chuva de dinheiro: R$ 7.777</p>
+                <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com {{ currentUnit.value }} 5.000.000.</p>
+                <p>2.Valor máximo da chuva de dinheiro: {{ currentUnit.value }} 7.777</p>
                 <p>3.Membros recarregados podem reivindicar gratuitamente.</p>
                 <p>4.O bônus precisa atingir um volume de negócios 1x para poder ser retirado.</p>
             </article>
         </div>
         <Panddingbottom></Panddingbottom>
     </pu-page>
-    <pu-page title="Chuva de Dinheiro" class="z-[999]" hideService v-else>
+    <pu-page :title="t('pageTitle.MoneyRain')" class="z-[999]" hideService v-else>
         <!-- 顶部banner -->
         <img :src="RedpacketImg.img_title" alt="Grande Retorno de Depósito"
             class="absolute inset-0 w-[18rem] mx-auto" />
@@ -158,10 +158,10 @@ onMounted(() => {
                     backgroundPosition: 'center'
                 }">
 
-                    <div class=" text-themetext0 text-[1.5rem] font-bold">Chuva de dinheiro</div>
+                    <div class=" text-themetext0 text-[1.5rem] font-bold">{{ t("activityCenter.rainofmoney") }}</div>
                     <ul class="px-[3rem] !list-disc text-[0.88rem] leading-normal text-white  mt-5">
-                        <li>Membros recarregados podem reivindicar gratuitamente.</li>
-                        <li>Valor máximo de queda em dinheiro: R${{ 7.777 }}.</li>
+                        <li>{{ t('activityCenter.activityDetail5') }}</li>
+                        <li>{{ t('activityCenter.activityDetail6') }} {{ currentUnit.value }}{{ 7.777 }}.</li>
                     </ul>
                     <!-- <a href="javascript:;"  class="w-20 h-16 -ml-10 block absolute left-1/2 top-[14.75rem]"></a>
                     <a href="javascript:;" @click="clickClose()" class="p-3 flex">
@@ -172,7 +172,7 @@ onMounted(() => {
                         </em>
                     </a> -->
                     <div class="mt-5 px-10 py-1 m4-nine-btn rounded-[2rem] font-bold" @click="takeRedPakageFunc()">
-                        Coletar</div>
+                        {{ t('activityCenter.Collect') }}</div>
                 </div>
             </template>
             <!-- 已经领取 redPakageStateRef.status == 2-->
@@ -184,13 +184,13 @@ onMounted(() => {
                 }">
                     <!-- 添加一个透明层处理点击事件 -->
                     <div class=" w-full h-full flex flex-col items-center justify-center">
-                        <div class=" text-themetext0 text-[1.5rem] font-bold">Chuva de dinheiro</div>
+                        <div class=" text-themetext0 text-[1.5rem] font-bold">{{ t('activityCenter.rainofmoney') }}</div>
                         <p class=" text-themetext0 text-lg font-bold">
-                            <span>R$&nbsp;</span>
+                            <span>{{ currentUnit.value }}&nbsp;</span>
                             <span class="text-3xl text-themetext0">{{ fn(redPakageAmountRef || 0) }}</span>
                         </p>
                         <p class="text-white text-sm mt-5">
-                            Horário de coleta:
+                           {{ t('activityCenter.CollectionTimes') }}
                         </p>
                         <p class="text-white text-sm mt-1">
                             {{ resetTimeFunc(redPakageDataRef && redPakageDataRef.receive_time || 0) }}
@@ -203,10 +203,10 @@ onMounted(() => {
                 <div class="">
                     <div class="p-4 font-bold rounded-xl m4-boxitem">
                         <p class="text-sm m4-text text-left">
-                            <span>Máximo de Queda R$ 5.000.000 por vez</span>
+                            <span>{{ t('activityCenter.Maximumamount') }}</span>
                         </p>
                         <p class="m4-text">
-                            <span class="text-sm">R$</span>
+                            <span class="text-sm">{{ currentUnit.value }}</span>
                             <span class="text-3xl text-themetext0 ml-1">{{ 7.777 }}</span>
                         </p>
                     </div>
@@ -215,7 +215,7 @@ onMounted(() => {
                             <div class=" w-[8rem] px-2 py-1 text-center m4-ten-btn m-auto rounded-full mb-2">
                                 <b>{{
                                     Object.keys(redPakageDataRef && redPakageDataRef.list &&redPakageDataRef.list||{}).length
-                                    }}X por dia</b>
+                                    }}X {{ t('activityCenter.perday') }}</b>
                             </div>
                             <!-- <ol class="mt-2 text-xs flex flex-wrap">
                             <template v-for="item,index in redPakageDataRef&&redPakageDataRef.list||[]" :key="index" >
@@ -251,13 +251,13 @@ onMounted(() => {
         </section>
         <div class="px-4 mt-[2rem]">
             <h5 class=" px-2 text-l font-bold mb-3 text-start m4-text">
-                <span>Descrição da Atividade:</span>
+                <span>{{ t('ActivityDescription') }}</span>
             </h5>
             <article class=" p-mb text-[0.68rem] text-themetext3">
-                <p>1.Cada sessão de chuva de dinheiro é distribuída gratuitamente com R$ 5.000.000.</p>
-                <p>2.Valor máximo da chuva de dinheiro: R$ 7.777</p>
-                <p>3.Membros recarregados podem reivindicar gratuitamente.</p>
-                <p>4.O bônus precisa atingir um volume de negócios 1x para poder ser retirado.</p>
+                <p>{{ t('activityDetail7') }}</p>
+                <p>{{ t('activityDetail8') }}</p>
+                <p>{{ t('activityDetail9') }}</p>
+                <p>{{ t('activityDetail10') }}</p>
             </article>
         </div>
         <Panddingbottom></Panddingbottom>

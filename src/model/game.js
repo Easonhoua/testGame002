@@ -12,6 +12,8 @@ export var gameListRef = ref([])
 export var gameCollectListRef = ref([])
 export var gameUrlRef = useSessionStorage('gaurl', {})
 
+export const $unit = import.meta.env.VITE_LOCALE || 'pt'
+
 //选中游戏数据
 export var logTypeRef = ref(0)
 export var gameClickRef = ref({});
@@ -94,8 +96,6 @@ export function gameModel(init = { list: false, record: false, collect: false })
         });
         gameListRef.value = list
         getGameCollectFunc()
-
-        
     }
     async function gameDetailFunc(id) {
         playBtnAudioFunc()
@@ -109,7 +109,7 @@ export function gameModel(init = { list: false, record: false, collect: false })
         }
         if(!id) return
         gameUrlRef.value = ''
-        let params = { game_id: id, language : 'pt' }
+        let params = { game_id: id, language : $unit == 'th'?'en':'pt' }
         const res = await $get({ url: '/game/v1/game/get-pop-game-url',params: params }, {loading: true,toast: false})
         if(res.code == 401) {
             //openLoginFunc(0)

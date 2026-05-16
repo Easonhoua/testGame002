@@ -10,7 +10,7 @@ const VipImg = useThemeImages().vip
 </script>
 
 <template>
-    <pu-page title="Fundos de Resgate" class="z-[999]" hideService>
+    <pu-page :title="t('pageTitle.RescueFunds')" class="z-[999]" hideService>
         <div class="w-full absolute left-0 top-0 flex justify-center">
             <div class="w-full overflow-x-hidden" :class="currentTemplate.value=='template_one'?' max-w-[480px]':''">
                 <img :src=RescueImg.img_rescuefund class="w-full h-auto">
@@ -37,7 +37,7 @@ const VipImg = useThemeImages().vip
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right flex justify-end items-center">
-                                <span class="text-one ">R$</span>
+                                <span class="text-one ">{{ currentUnit.value }}</span>
                                 <span class="text-xl opacity-85">{{fn(todayLoss)}}</span>
                             </p>
                         </dd>
@@ -46,7 +46,7 @@ const VipImg = useThemeImages().vip
                         <dt class="flex-1 overflow-hidden">
                             <p class="opacity-85">Fundos de Resgate Previstos</p>
                             <p>
-                                <span class="opacity-65">R$&nbsp;</span>
+                                <span class="opacity-65">{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl">{{ fn(todayBonus) }}</span>
                             </p>
                         </dt>
@@ -71,7 +71,7 @@ const VipImg = useThemeImages().vip
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right flex justify-end items-center">
-                                <span class="text-one">R$</span>
+                                <span class="text-one">{{ currentUnit.value }}</span>
                                 <span class="text-xl opacity-85">{{fn(lossAmount)}}</span>
                             </p>
                         </dd>
@@ -80,7 +80,7 @@ const VipImg = useThemeImages().vip
                         <dt class="flex-1 overflow-hidden">
                             <p class="opacity-85">Fundos de Resgate Disponíveis</p>
                             <p>
-                                <span class="opacity-65">R$&nbsp;</span>
+                                <span class="opacity-65">{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl">{{ fn(waitBonusRef) }}</span>
                             </p>
                         </dt>
@@ -117,7 +117,7 @@ const VipImg = useThemeImages().vip
                                 <span>{{ item.level }}</span>
                             </td>
                             <td class="text-rgbawhite50 border-r-[0.125rem] border-body-bg">
-                                <span>R$</span>
+                                <span>{{ currentUnit.value }}</span>
                                 <span>≥{{ item.loss }}</span>
                             </td>
                             <td class="text-four">
@@ -155,7 +155,7 @@ const VipImg = useThemeImages().vip
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right  text-white  flex justify-end items-center">
-                                <span>R$</span>
+                                <span>{{ currentUnit.value }}</span>
                                 <span class="text-xl text-four">{{fn(todayLoss)}}</span>
                             </p>
                         </dd>
@@ -164,7 +164,7 @@ const VipImg = useThemeImages().vip
                         <dt class="flex-1 overflow-hidden">
                             <p >Fundos de Resgate Previstos</p>
                             <p>
-                                <span >R$&nbsp;</span>
+                                <span >{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl text-four">{{ fn(todayBonus) }}</span>
                             </p>
                         </dt>
@@ -181,7 +181,7 @@ const VipImg = useThemeImages().vip
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right flex justify-end items-center">
-                                <span >R$</span>
+                                <span >{{ currentUnit.value }}</span>
                                 <span class="text-xl text-four">{{fn(lossAmount)}}</span>
                             </p>
                         </dd>
@@ -190,7 +190,7 @@ const VipImg = useThemeImages().vip
                         <dt class="flex-1 overflow-hidden">
                             <p >Fundos de Resgate Disponíveis</p>
                             <p>
-                                <span >R$&nbsp;</span>
+                                <span >{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl text-four">{{ fn(waitBonusRef) }}</span>
                             </p>
                         </dt>
@@ -224,7 +224,7 @@ const VipImg = useThemeImages().vip
                                 <span>{{ item.level }}</span>
                             </td>
                             <td class="text-theme border-r-[0.1rem] border-default-bg">
-                                <span>R$</span>
+                                <span>{{ currentUnit.value }}</span>
                                 <span>≥{{ item.loss }}</span>
                             </td>
                             <td class="text-theme">
@@ -272,20 +272,20 @@ const VipImg = useThemeImages().vip
                 <div class="w-full  h-[8rem] "  :style="{backgroundImage: `url(${RescueImg.img_funditembg})`}"  style="background-size: 100% 100%;">
                     <dl class="w-full px-2 py-3 flex items-center">
                         <dt class="w-1/2 ml-8">
-                            <span class="text-themetext1 align-middle">Perda Atual</span>
+                            <span class="text-themetext1 align-middle">{{ t('activityCenter.CurrentLoss') }}</span>
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right text-sm text-white flex justify-end items-center">
-                                <span>R$&nbsp;</span>
+                                <span>{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl">{{fn(todayLoss)}}</span>
                             </p>
                         </dd>
                     </dl>
                     <dl class="w-full p-4 text-sm flex items-center">
                         <dt class="flex-1 overflow-hidden">
-                            <p >Fundos de Resgate Previstos</p>
+                            <p >{{ t("activityCenter.ProjectedFunds") }}</p>
                             <p>
-                                <span >R$&nbsp;</span>
+                                <span >{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl">{{ fn(todayBonus) }}</span>
                             </p>
                         </dt>
@@ -298,26 +298,26 @@ const VipImg = useThemeImages().vip
                 <div class="w-full  text-white  h-[8rem]" :style="{backgroundImage: `url(${RescueImg.img_funditembg})`}"  style="background-size: 100% 100%;">
                     <dl class="w-full px-2 py-3 text-sm flex items-center">
                         <dt class="w-1/2  ml-8">
-                            <span class="text-themetext1 align-middle">Perda Passada</span>
+                            <span class="text-themetext1 align-middle">{{ t("activityCenter.PastLoss") }}</span>
                         </dt>
                         <dd class="w-1/2 px-2">
                             <p class="text-right text-sm flex justify-end items-center">
-                                <span >R$&nbsp;</span>
+                                <span >{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl ">{{fn(lossAmount)}}</span>
                             </p>
                         </dd>
                     </dl>
                     <dl class="w-full p-4 text-sm flex items-center">
                         <dt class="flex-1 overflow-hidden">
-                            <p >Fundos de Resgate Disponíveis</p>
+                            <p >{{ t('activityCenter.AvailableFunds') }}</p>
                             <p>
-                                <span >R$&nbsp;</span>
+                                <span >{{ currentUnit.value }}&nbsp;</span>
                                 <span class="text-xl">{{ fn(waitBonusRef) }}</span>
                             </p>
                         </dt>
                         <dd class="pl-2">
                             <button @click="takeAwardFunc()" :class="waitBonusRef>0&& rescueFundDataRef.can_be_collected?'m3-theme-btn1':'m3-theme-btn3'" class="h-9 px-4 rounded-[2rem]">
-                                <span :class="waitBonusRef>0&& rescueFundDataRef.can_be_collected?'':'opacity-65'">Receber</span>
+                                <span :class="waitBonusRef>0&& rescueFundDataRef.can_be_collected?'':'opacity-65'">{{ t("Receive") }}</span>
                             </button>
                         </dd>
                     </dl>
@@ -326,16 +326,16 @@ const VipImg = useThemeImages().vip
         </pu-card>
         <pu-card theme="3" class="mt-3 relative">
             <div :style="{backgroundImage: `url(${CommonImg.bg_tableheader})`}" style="background-size: 100% 100%;width: 100%;height: 100%;" class="text-center text-white text-[0.72rem] font-bold py-2">
-                Tabela de Fundos de Resgate
+                {{ t('activityCenter.RedemptionTable') }}
             </div>
             <table class="w-full text-sm text-center">
                 <thead class="text-xs">
                     <tr class="text-themetext1">
                         <td class="border-r-[0.1rem] border-default-bg bg-tablergba40">Nível</td>
                         <td class="border-r-[0.1rem] border-default-bg bg-tablergba40">
-                            <span>Perda no Jogo</span>
+                            <span>{{ t("activityCenter.GameLoss") }}</span>
                         </td>
-                        <td class="bg-tablergba40">Taxa de Resgate</td>
+                        <td class="bg-tablergba40">{{ t('activityCenter.RedemptionFee') }}</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -345,7 +345,7 @@ const VipImg = useThemeImages().vip
                                 <span>{{ item.level }}</span>
                             </td>
                             <td class="text-themetext2 border-r-[0.1rem] border-default-bg">
-                                <span>R$</span>
+                                <span>{{ currentUnit.value }}</span>
                                 <span>≥{{ item.loss }}</span>
                             </td>
                             <td class="text-themetext2">
@@ -378,7 +378,7 @@ const VipImg = useThemeImages().vip
             <div class="w-full mb-4 flex items-center">
                 <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                 <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                    <span>Descrição da Atividade</span>
+                    <span>{{ t("ActivityDescription")  }}</span>
                 </h5>
                 <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
             </div>
@@ -400,7 +400,7 @@ const VipImg = useThemeImages().vip
                             </dt>
                             <dd class="w-1/2 px-2">
                                 <p class="text-right flex justify-end items-center">
-                                    <span class="m4-text">R$</span>
+                                    <span class="m4-text">{{ currentUnit.value }}</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{fn(todayLoss)}}</span>
                                 </p>
                             </dd>
@@ -409,7 +409,7 @@ const VipImg = useThemeImages().vip
                             <dt class="flex-1 overflow-hidden">
                                 <p class="font-bold">Fundos de Resgate Previstos</p>
                                 <p class="mt-2">
-                                    <span class="m4-text">R$&nbsp;</span>
+                                    <span class="m4-text">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{ fn(todayBonus) }}</span>
                                 </p>
                             </dt>
@@ -431,7 +431,7 @@ const VipImg = useThemeImages().vip
                             </dt>
                             <dd class="w-1/2 px-2">
                                 <p class="text-right flex justify-end items-center">
-                                    <span class="m4-text">R$</span>
+                                    <span class="m4-text">{{ currentUnit.value }}</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{fn(lossAmount)}}</span>
                                 </p>
                             </dd>
@@ -440,7 +440,7 @@ const VipImg = useThemeImages().vip
                             <dt class="flex-1 overflow-hidden">
                                 <p class="font-bold">Fundos de Resgate Disponíveiss</p>
                                 <p class="mt-2">
-                                    <span class="m4-text">R$&nbsp;</span>
+                                    <span class="m4-text">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{ fn(waitBonusRef) }}</span>
                                 </p>
                             </dt>
@@ -476,7 +476,7 @@ const VipImg = useThemeImages().vip
                                 <span>{{ item.level }}</span>
                             </td>
                             <td>
-                                <span class="text-themetext0">R$</span>
+                                <span class="text-themetext0">{{ currentUnit.value }}</span>
                                 <span>≥{{ item.loss }}</span>
                             </td>
                             <td class="text-themetext0">
@@ -513,7 +513,7 @@ const VipImg = useThemeImages().vip
                             </dt>
                             <dd class="w-1/2 px-2">
                                 <p class="text-right flex justify-end items-center">
-                                    <span class="text-themetext0">R$</span>
+                                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{fn(todayLoss)}}</span>
                                 </p>
                             </dd>
@@ -522,7 +522,7 @@ const VipImg = useThemeImages().vip
                             <dt class="flex-1 overflow-hidden">
                                 <p class="font-bold">Fundos de Resgate Previstos</p>
                                 <p class="mt-2">
-                                    <span class="text-themetext0">R$&nbsp;</span>
+                                    <span class="text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{ fn(todayBonus) }}</span>
                                 </p>
                             </dt>
@@ -544,7 +544,7 @@ const VipImg = useThemeImages().vip
                             </dt>
                             <dd class="w-1/2 px-2">
                                 <p class="text-right flex justify-end items-center">
-                                    <span class="text-themetext0">R$</span>
+                                    <span class="text-themetext0">{{ currentUnit.value }}</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{fn(lossAmount)}}</span>
                                 </p>
                             </dd>
@@ -553,7 +553,7 @@ const VipImg = useThemeImages().vip
                             <dt class="flex-1 overflow-hidden">
                                 <p class="font-bold">Fundos de Resgate Disponíveiss</p>
                                 <p class="mt-2">
-                                    <span class="text-themetext0">R$&nbsp;</span>
+                                    <span class="text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-[2rem] font-bold text-themetext0 ml-1">{{ fn(waitBonusRef) }}</span>
                                 </p>
                             </dt>
@@ -589,7 +589,7 @@ const VipImg = useThemeImages().vip
                                 <span>{{ item.level }}</span>
                             </td>
                             <td class="text-themetext3 ">
-                                <span>R$</span>
+                                <span>{{ currentUnit.value }}</span>
                                 <span>≥{{ item.loss }}</span>
                             </td>
                             <td class="text-themetext0">

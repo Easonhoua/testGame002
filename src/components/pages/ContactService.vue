@@ -1,5 +1,6 @@
 <script setup>
 import {} from 'vue'
+import { t } from '@/i18n'
 import { useScreenSafeArea } from '@vueuse/core'
 import { bodyWidthRef, serviceShowRef, serviceListRef } from '@/utils/config'
 import {playBtnAudioFunc } from '@/utils/core'
@@ -180,7 +181,7 @@ function close() {
                 </div>
                 <div class="w-full h-full flex justify-center items-center">
                     <h3 class="text-base text-themetext1">
-                        <span>Configuração de Senha</span>
+                        <span>{{ t('modelPage.PasswordSetting') }}</span>
                     </h3>
                 </div>
             </div>
@@ -189,7 +190,7 @@ function close() {
             <pu-card theme="3" class="py-5 pt-[3.125rem]">
                 <img :src="CommonImg.icon_server" alt="" class=" w-[6rem] h-auto block mx-auto mt-9">
                 <p class="pt-6 pb-4 text-[0.8125rem] text-themetext1 text-center">
-                    <span>Bem-vindo! Clique em "CHAT" para entrar em contato conosco através do portal de atendimento ao cliente.</span>
+                    <span>{{ t('modelPage.Welcomechat') }}</span>
                 </p>
                 <ul class="-mx-2 flex flex-col">
                     <template v-for="item,index in serviceListRef" :key="index">
@@ -210,7 +211,7 @@ function close() {
                                     <p class="mt-2 text-[0.65rem] text-center text-themetext2">
                                         <span v-if="item.link_type==2">Whatsapp {{ item.link }}</span>
                                         <span v-else-if="item.link_type==3">Telegram {{ item.link }}</span>
-                                        <span v-else>atendimento online</span>
+                                        <span v-else>{{ t('modelPage.service') }} online</span>
                                     </p>
                                     </div>
                                 </dt>
@@ -218,7 +219,7 @@ function close() {
                                     <dd class="w-full flex justify-center shrink-0">
                                         <!--  -->
                                         <a href="javascript:;" class="min-w-16 h-8 px-6 text-xs  rounded flex items-center justify-center m3-theme-btn1">
-                                            <span>Chat</span>
+                                            <span>{{ t('modelPage.Chat') }}</span>
                                         </a>
                                     </dd>
                                 </div>

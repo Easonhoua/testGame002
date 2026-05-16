@@ -1,14 +1,36 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useThemeImages } from '@/utils/themeimg'
+import { routeToViewFunc } from '@/model/basic'
+import { blogTagIdsRef } from '@/model/common'
 const FooterImg = useThemeImages().footer
-const menu_list = ref([
+    const menu_list = computed(()=> {
+         // 默认菜单配置
+    const defaultList = [
         { icon: FooterImg.icon_home1, actIcon: FooterImg.icon_home2, path: '/', txt:'Inicio'},
         { icon: FooterImg.icon_more1, actIcon: FooterImg.icon_more2, path: '/more',txt:'Promoção' },
-        { icon: '', actIcon: '', path: '/agent',txt:'Comissão' },
+        { icon: FooterImg.img_tabcenter1, actIcon: FooterImg.img_tabcenter1, path: blogTagIdsRef.value.includes(2) ? '/recharge' : '/agent',txt:'Comissão' },
         { icon: FooterImg.icon_wallet1, actIcon: FooterImg.icon_wallet2, path: '/recharge', auth: true,txt:'Depositar' },
         { icon: FooterImg.icon_user1, actIcon: FooterImg.icon_user2, path: '/mine', auth: true ,txt:'Perfil'},
-    ])
+    ]
+    if (footerListRef.value) {
+        footerListRef.value.forEach(item => {
+            if (item.sort == 0) {
+                defaultList[2].icon = item.img
+                defaultList[2].txt = item.desc_str || ''
+                routeToViewFunc(item.link).then(res => {
+                    if (res && res.path) {
+                        defaultList[2].path = res.path
+                    }
+                })
+            } else if (item.sort == 1) {
+                defaultList[2].actIcon = item.img
+            }
+        })
+    }
+    return defaultList
+})
+
 
 import { useFooter } from '@/composables/useFooter'
 const { 
@@ -16,6 +38,7 @@ const {
     redPotCountRef,
     current_path,
     onclickMenu,
+    footerListRef
 } = useFooter()
 
 </script>
@@ -37,35 +60,28 @@ const {
                         <div class="w-full h-full relative flex flex-col items-center justify-center unified-button" >
                             <!-- <img :src="item.path==current_path?item.actIcon:item.icon" class="w-[3.875rem] h-[3.875rem]"> -->
                             <!-- 未选中状态图标 -->
-                            <img 
+                            <!-- <img 
                                 :src="item.icon" 
                                 class="w-[1.6rem] h-[1.6rem]"
                                 v-if = "index != 2"
-                            >
-                            <div class="relative w-full h-full -mt-6 flex items-center justify-center" v-else>
+                            > -->
+                            <div class="relative w-full  flex items-center justify-center" :class="index == 2 ? ' -mt-6 ' : ''">
                                 <img 
-                                    :src="FooterImg.img_tabcenter1" 
-                                    class="absolute w-[3rem] h-[3rem]  left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-0"
-                                >
-                                 <img 
-                                    :src="FooterImg.img_tabcenter2" 
-                                    class="absolute w-[2.0rem] h-[2.0rem]  left-1/2 -translate-x-1/2 z-10 top-1/2 -translate-y-1/2 z-10"
-                                >
-                                 <div class="absolute w-[4.2rem] h-[3.8rem]  left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+                                    :src="item.icon" 
+                                    class=""
+                                    :class="index == 2 ? 'absolute w-[3rem] h-[3rem]  left-1/2 -translate-x-1/2 top-1/2 -translate-y-[2rem] z-0' : 'w-[1.6rem] h-[1.6rem]  '"/>
+                                 <div class="absolute w-[4.2rem] h-[3.8rem]  left-1/2 -translate-x-1/2 top-1/2 -translate-y-[2.5rem]"  v-if="index == 2">
                                      <img 
                                         :src="FooterImg.img_tabcenter3" 
                                         class="w-full h-full self-animate-spin-counterclockwise"
                                     >
                                  </div>
-                                <img 
-                                    :src="FooterImg.img_tabcenter4" 
-                                    class="w-[3rem] h-[3rem] left-1/2 self-animate-spin"
-                                >
                             </div>
 
 
                             <p class="text-[0.625rem] text-rgbawhite50 font-bold" :class="{
                                 'text-themewhite': item.path === current_path,
+                                'absolute   top-[2rem] ':index==2
                             }"> {{ item.txt }}</p>
                             <div 
                             v-if="item.path=='/more'&&redPotCountRef>0" 

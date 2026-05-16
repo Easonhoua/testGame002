@@ -35,6 +35,7 @@ const RankImg = useThemeImages().jprank
 // 获取共用逻辑
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { useHome } from '@/composables/useHome'
+
 const { 
     home_mode,
     NoticeShowRef,
@@ -139,7 +140,7 @@ onUnmounted(() => {
                         <div @click="toMine()" class="h-7 p-px rounded-lg ctx-theme__linear flex">
                             <div class="h-full px-2 bg-body-bg rounded-lg flex items-center">
                                 <p>
-                                    <span class="text-[0.625rem] text-one">R$&nbsp;</span>
+                                    <span class="text-[0.625rem] text-one">{{ currentUnit.value }}&nbsp;</span>
                                     <span class="text-sm">{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
                                 </p>
                                 <!-- <svg :class="accountLoadingRef?'animate-spin':''" class="w-3 h-3 mr-0.5 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -186,11 +187,11 @@ onUnmounted(() => {
                 </div>
             </pu-card>
             <pu-card theme="2">
-                <div class="grid grid-rows-2 grid-flow-col gap-2 mt-1">
+                <div class="grid grid-rows-2 grid-flow-col gap-1.5 mt-1">
                     <template v-for="item,index in bannerListRef&&bannerListRef[2]||[]" :key="index">
-                        <van-image @click="onclickBanner(item)" v-if="index == 0" :src="item.img"  height="6.8rem" radius="0.5rem" fit="fill" class="mt-2 row-span-2 shake-updown" :style="{ animationDelay: (0.2 * index) + 's' }"></van-image>
-                        <van-image @click="onclickBanner(item)" v-else-if="index == 1" :src="item.img" height="3.4rem" radius="0.5rem" fit="fill" class="mt-2 col-span-1 shake-updown" :style="{ animationDelay: (0.6 * index) + 's' }"></van-image>
-                        <van-image @click="onclickBanner(item)" v-else-if="index == 2" :src="item.img" height="3.4rem" radius="0.5rem" fit="fill" class="col-span-1 shake-updown" :style="{ animationDelay: (0.5 * index) + 's' }"></van-image>
+                        <van-image @click="onclickBanner(item)" v-if="index == 0" :src="item.img"  height="6rem" radius="0.5rem" fit="fill" class="mt-2 row-span-2 shake-updown" :style="{ animationDelay: (0.2 * index) + 's' }"></van-image>
+                        <van-image @click="onclickBanner(item)" v-else-if="index == 1" :src="item.img" height="2.8rem" radius="0.5rem" fit="fill" class="mt-2 col-span-1 shake-updown" :style="{ animationDelay: (0.6 * index) + 's' }"></van-image>
+                        <van-image @click="onclickBanner(item)" v-else-if="index == 2" :src="item.img" height="2.8rem" radius="0.5rem" fit="fill" class="col-span-1 shake-updown" :style="{ animationDelay: (0.5 * index) + 's' }"></van-image>
                     </template>
                 </div>
             </pu-card>
@@ -224,12 +225,12 @@ onUnmounted(() => {
                 </dl>
             </pu-card>
             <!-- game_cover -->
-            <pu-card theme="2" class="px-2 pt-2">
+            <pu-card theme="2" class="p-2 sticky top-[0rem] z-10 bg-default-bg" >
                 <van-tabs v-model:active="game_cover_index" shrink 
                     style="--van-tabs-line-height: 5.2rem;
                         --van-tabs-bottom-bar-height: 0;
                         --van-padding-xs: 0;"
-                        class="game-tabs w-full" >
+                        class="game-tabs w-full bg-bodyBg" >
                     <van-tab v-for="item,index in gameListRef" :key="index">
                         <template #title>
                             <a @click="openGameAll(item.id)" href="javascript:;" class="px-1.5 relative flex flex-col items-center">
@@ -279,7 +280,7 @@ onUnmounted(() => {
                                 </div>
                                 <div class="h-6 px-3 mx-1  relative text-center font-bold rounded-full text-themewhite flex items-center ">
                                     <img :src="HomeImg.icon_fanye" class="w-full h-full absolute inset-0">
-                                    <b class="text-xs relative z-10">{{ item.count }}</b>
+                                    <b class="text-xs relative">{{ item.count }}</b>
                                 </div>
                                 <!-- <button @click="gameNextPage(index)" class="w-6 h-6 bg-rgbawhite10 !text-rgbawhite50 rounded-md flex items-center justify-center">
                                     <icon-arrow-right size="2" class="w-5 h-5" />
@@ -381,11 +382,11 @@ onUnmounted(() => {
             
             <!-- 首页活动弹窗 -->
              <!-- 签到活动开启时，仅当签到完成才显示弹窗 -->
-            <template v-if="isOpenEnterRef&&isSignInRef&&showActivityPop">
+             <template v-if="isOpenEnterRef && signConfigRef?.todayStatus === false">
                 <pdd-index-pop 
                     v-for="(item, idx) in activityListRef" 
                     :key="idx" 
-                    :data="item" 
+                    :data="item"
                 />
             </template>
             <!-- 签到活动关闭时，直接显示弹窗 -->
@@ -528,7 +529,7 @@ onUnmounted(() => {
         transform: translateY(0px);
     }
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-4px);
     }
     100% {
         transform: translateY(0px);

@@ -1,5 +1,6 @@
 <script setup>
 import { ref,computed } from 'vue'
+import {  t } from '@/i18n'
 import { useScreenSafeArea,isIOS } from '@vueuse/core'
 import { bodyWidthRef } from '@/utils/config'
 import { playBtnAudioFunc } from '@/utils/core'
@@ -272,7 +273,7 @@ const redirectToSms = () => {
             </section>
             <pu-card theme="5" class="py-5 px-2.5">
                 <h3 class="text-xs">
-                    <span class="text-themetext1">1. Convide amigos para ajudar com saques</span>
+                    <span class="text-themetext1">1. {{ t('activityCenter.invitedetail') }}</span>
                 </h3>
                 <share-list :showName="true"></share-list>
                 <div class="pb-5">
@@ -282,12 +283,12 @@ const redirectToSms = () => {
                         </dt>
                         <dd @click="copyInviteCode(invite_link)" class="h-full px-3 text-[0.78rem] text-themetext0 cursor-pointer select-none flex items-center shrink-0">
                            <img :src=AsideImg.icon_copy alt="" class="w-3 h-3 mr-1"/>
-                            <span>Cópia</span>
+                            <span>{{ t("activityCenter.Copy") }}</span>
                         </dd>
                     </dl>
                 </div>
                 <h3 class="mb-3 text-xs">
-                    <span class="text-themetext1">2. Enviar convite para jogador aleatório ajudar</span>
+                    <span class="text-themetext1">2. {{ t('commCenter.details1') }}</span>
                 </h3>
                 <!-- 电话号码列表 -->
                 <div v-if="phoneNumbers.length > 0" class="phone-list bg-black/20 rounded-lg p-2 mb-4">

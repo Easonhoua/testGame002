@@ -5,13 +5,13 @@ import br from './language/br'
 import en from './language/en'
 import zhCH from './language/zh-ch'
 
-export const $unit = import.meta.env.VITE_LOCALE
+export const $unit = import.meta.env.VITE_LOCALE || 'pt'
 sessionStorage.setItem('language', $unit)
 
 var messages = {
-    'pt-BR': br,
-    'en-US': en,
-    'zh-ch': zhCH,
+    'pt': br,
+    'th': en,
+    'zh-CN': zhCH,
 }
 export var languageList = []
 for(let i in messages) {

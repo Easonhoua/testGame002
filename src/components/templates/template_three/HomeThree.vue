@@ -30,6 +30,10 @@ const CommonImg = useThemeImages().common
 const HomeImg = useThemeImages().home
 const MineImg = useThemeImages().mine
 const RankImg = useThemeImages().jprank
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 
 // 获取共用逻辑
 import { useHome } from '@/composables/useHome'
@@ -106,17 +110,17 @@ const {
                             <div class="h-full px-2  rounded-lg flex items-center m3-theme-btn1" >
                                 <img :src=CommonImg.icon_wallet class="w-5 h-5 mr-2">
                                 <p class="mt-0">
-                                    <span class="text-base" >R$&nbsp;{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
+                                    <span class="text-base" >{{ currentUnit.value }}&nbsp;{{ fn(memberRef&&memberRef.account&&memberRef.account.user_money||0) }}&nbsp;</span>
                                 </p>
                             </div>
                         </div>
                     </template>
                     <template v-else>
                         <a href="javascript:;" @click="toLogin()" class="h-9 px-3 ml-2 text-xs rounded-lg m3-theme-btn2 relative flex items-center">
-                            <span>Entrar</span>
+                            <span>{{ t('enter')}}</span>
                         </a>
                         <a href="javascript:;" @click="toRegister()" class="h-9  px-2 ml-2 text-xs rounded-lg m3-theme-btn1  relative flex items-center">
-                            <span>Registro</span>
+                            <span>{{ t('Registration') }}</span>
                             <em class=""></em>
                         </a>
                     </template>
@@ -133,7 +137,7 @@ const {
                     class=" flex items-center px-4 py-2.5 h-7 rounded-full cursor-pointer m3-theme-btn2 transition-all duration-300"
                     @click="openSearch"
                 >
-                    <span class="text-themetext2 flex-1 text-[0.875rem]">Procurar jogos</span>
+                    <span class="text-themetext2 flex-1 text-[0.875rem]"> {{ t('Searchgames') }}</span>
                     <img :src=CommonImg.icon_search class="w-5 h-4" alt="search">
                 </div>
             </div>
@@ -250,14 +254,14 @@ const {
                                     <icon-arrow-left size="2" class="w-5 h-5  text-themefont " />
                                 </button>
                                 <div class="h-6 px-1.5 mx-1 text-center font-bold rounded-md flex items-center m3-theme-btn2" >
-                                    <span class="text-[0.625rem] text-themefont">Todos&nbsp;</span>
+                                    <span class="text-[0.625rem] text-themefont">{{ t('All') }}&nbsp;</span>
                                     <b class="text-[0.625rem]  text-themefont">{{ item.count }}</b>
                                 </div>
                                 <button @click="gameNextPage(index)" class="w-6 h-6   rounded-md flex items-center justify-center m3-theme-btn2" >
                                     <icon-arrow-right size="2" class="w-5 h-5    text-themefont" />
                                 </button>
                                 <button @click="openGameAll(item.id)" class="h-6 px-3 ml-1.5 !text-xs m3-theme-btn2 rounded-md  text-themefont">
-                                    <span>Mais</span>
+                                    <span>{{ t('More')}}</span>
                                 </button>
                                 </div>
                             </div>
@@ -353,12 +357,11 @@ const {
             </template>
             <!-- 首页活动弹窗 -->
              <!-- 签到活动开启时，仅当签到完成才显示弹窗  -->
-            <template v-if="isOpenEnterRef&&isSignInRef">
+             <template v-if="isOpenEnterRef && signConfigRef?.todayStatus === false">
                 <pdd-index-pop 
                     v-for="(item, idx) in activityListRef" 
                     :key="idx" 
-                    :data="item" 
-                    v-if="showActivityPop"
+                    :data="item"
                 />
             </template>
             <!-- 签到活动关闭时，直接显示弹窗 -->
@@ -398,8 +401,8 @@ const {
                     <p class="text-themetext2 text-center text-[0.68rem] mt-2">{{footerTextRef}}</p>
                  </template>
                  <template v-else>
-                    <p class="text-themetext2 text-center text-[0.68rem] mt-2">Direitos autorais @ 2025 Todos <br/>os direitos reservados</p>
-                    <p class="text-themetext2 text-center text-[0.7rem] mt-2">Isenção de responsabilidade: O ganho final não é garantido</p>
+                    <p class="text-themetext2 text-center text-[0.68rem] mt-2">{{ t('homeDeatil1') }} {{ t('homeDeatil2') }}</p>
+                    <p class="text-themetext2 text-center text-[0.7rem] mt-2">{{ t('homeDeatil3') }}</p>
                 </template>
             </div>
             <Panddingbottom></Panddingbottom>

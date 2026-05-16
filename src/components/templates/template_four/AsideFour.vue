@@ -10,7 +10,7 @@ const AsideImg = useThemeImages().aside
 const CommonImg = useThemeImages().common 
 const HomeImg = useThemeImages().home 
 // 获取共用逻辑
-import { useHome } from '@/composables/useHome'
+import { useMine } from '@/composables/useMine'
 import { useAside } from '@/composables/useAside'
 const openFirm = ref(false)
 const openActivity = ref(true)
@@ -62,12 +62,13 @@ const {
     openService,
     toLogin,
     toRegister,
-    onToProfile,
     copyInviteCode,
     gameListRef,
     openGameAll,
 } = useAside(close)
-
+const { 
+    toWithdrawal,
+} = useMine()
 </script>
 
 <template>
@@ -133,7 +134,7 @@ const {
                             </ol>
                             <div v-if="isAuthRef">
                                 <div class=" w-full rounded-lg text-center  mt-2">
-                                    <span class="text-[1.48rem] text-themetext0 ">R$ {{
+                                    <span class="text-[1.48rem] text-themetext0 ">{{ currentUnit.value }} {{
                                         fn(memberLocal.account && memberLocal.account.user_money || 0) }}</span>
                                 </div>
                                 <dl class="w-full h-8 text-xs flex mt-1 mb-1">
@@ -144,7 +145,7 @@ const {
                                         </router-link>
                                     </dd>
                                     <dd class="w-1/2 pl-1.5">
-                                        <router-link to="/withdrawal" @click="onclickNoNav()"
+                                        <router-link to="/withdrawal" @click="toWithdrawal()"
                                             class="w-full h-full rounded-[1rem] m4-ten-btn text-center text-theme font-bold flex items-center justify-center">
                                             <span>Saque</span>
                                         </router-link>

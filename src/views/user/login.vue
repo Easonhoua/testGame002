@@ -47,10 +47,10 @@ function onclickBtn() {
             </div>
             <div class="w-full text-lg font-black relative flex flex-wrap">
                 <button class="w-1/2 py-3 text-one bg-transparent focus:outline-none">
-                    <span>Entrar</span>
+                    <span>{{ t('enter') }}</span>
                 </button>
                 <button @click="$router.push(`/register`)" class="w-1/2 py-3 bg-transparent focus:outline-none">
-                    <span>Registro</span>
+                    <span>{{ t('Registration') }}</span>
                 </button>
                 <em class="w-full h-0.5 bg-rgbawhite30 absolute left-0 bottom-0 flex">
                     <i class="w-1/2 h-full bg-one"></i>

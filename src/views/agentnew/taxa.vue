@@ -1,7 +1,9 @@
 <script setup>
+
 import { computed, onMounted, ref } from 'vue'
 import { agentConfigRef } from '@/model/agent'
 import { useThemeImages } from '@/utils/themeimg'
+import { t } from '@/i18n'
 const AgentImg = useThemeImages().agent
 
 onMounted(() => {
@@ -9,10 +11,10 @@ onMounted(() => {
 
 const activeIndex = ref(0) // 默认选中第一个
 const typeList = [
-  { img: AgentImg.type_01, label: 'Solt' },
-  { img: AgentImg.type_02, label: 'Cartas' },
-  { img: AgentImg.type_03, label: 'Pesca' },
-  { img: AgentImg.type_04, label: 'Cassino' },
+  { img: AgentImg.type_01, label: t('commCenter.Solt') },
+  { img: AgentImg.type_02, label: t('commCenter.Cards') },
+  { img: AgentImg.type_03, label: t('commCenter.Fishing') },
+  { img: AgentImg.type_04, label: t('commCenter.Cassino') },
 ]
 
 </script>
@@ -144,9 +146,9 @@ const typeList = [
                     <table class="w-full table-fixed text-sm text-center ext-themefont rounded-lg  bg-tablergba20">
                         <thead>
                             <tr class="bg-black/20 m4-text text-[0.65rem]">
-                            <th class="py-2">Nível</th>
-                            <th class="py-2">Desempenho</th>
-                            <th class="py-2">Taxa de Bônus do Agente</th>
+                            <th class="py-2">{{ t('userCenter.Level') }}</th>
+                            <th class="py-2">{{ t('commCenter.Performance') }}</th>
+                            <th class="py-2">{{ t('commCenter.AgentBonusRate')  }}</th>
                             </tr>
                         </thead>
 

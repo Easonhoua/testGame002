@@ -93,7 +93,7 @@ const getLevelLeft = (index) => {
 </script>
 
 <template>
-    <pu-page title="Check-in de Nível" class="z-[999]">
+    <pu-page :title="t('pageTitle.LevelCheck')" class="z-[999]">
         <img :src=BettingCheckIn.img_bg class="w-full absolute left-0 top-0">
         <!-- <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value == 'template_four'">
         <em class="w-full h-44 block" v-else></em> -->
@@ -160,7 +160,7 @@ const getLevelLeft = (index) => {
                 }">
                     <div class="flex items-center justify-between mt-7">
                         <div class="flex flex-col">
-                            <p class="font-bold text-four ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
+                            <p class="font-bold text-four ">{{ currentUnit.value }} {{ Number(lastmoneyRef).toFixed(2) }}</p>
                             <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
                         </div>
                         <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
@@ -213,7 +213,7 @@ const getLevelLeft = (index) => {
                                 <div class="relative h-[1.3rem] text-center ">
                                     <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
                                         <span class=" text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">R$
+                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">{{ currentUnit.value }}
                                             {{ Number(item.bonus) }} </span>
                                     </p>
                                 </div>
@@ -294,7 +294,7 @@ const getLevelLeft = (index) => {
                 }">
                     <div class="flex items-center justify-between mt-7 px-2">
                         <div class="flex flex-col">
-                            <p class="font-bold text-four ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
+                            <p class="font-bold text-four ">{{ currentUnit.value }} {{ Number(lastmoneyRef).toFixed(2) }}</p>
                             <p class="text-[0.58rem] text-textcolorsix">Por favor, resgate a sua recompensa.</p>
                         </div>
                         <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
@@ -343,7 +343,7 @@ const getLevelLeft = (index) => {
                                 <div class="relative h-[1.3rem] text-center ">
                                     <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
                                         <span class="text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">R$ {{
+                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-four'">{{ currentUnit.value }} {{
                                             Number(item.bonus) }}
                                         </span>
                                     </p>
@@ -367,7 +367,7 @@ const getLevelLeft = (index) => {
         <div v-if="currentTemplate.value == 'template_three'">
             <pu-card theme="3" class="relative">
                 <div class="sharebox w-full mx-auto bg-rgbablack50 rounded-[1rem] mt-2">
-                    <p class="text-sm text-themetext1 px-4 pt-2">Convide amigos para se divertir</p>
+                    <p class="text-sm text-themetext1 px-4 pt-2">{{ t('activityCenter.Invitesfriends') }}</p>
                     <share-list class=" !py-1" :showName="false"></share-list>
                 </div>
             </pu-card>
@@ -408,14 +408,14 @@ const getLevelLeft = (index) => {
 
                     </div>
                     <div class="bg-rgbablack30 text-xs text-themeblack px-3 py-1 rounded-lg mt-[5rem] ">
-                        <p>Apostar durante <span class="text-themetext0">{{ streak_daysRef }}</span> dias consecutivos
+                        <p>{{ t('activityCenter.SetDuring') }} <span class="text-themetext0">{{ streak_daysRef }}</span> {{ t('activityCenter.consecutiveDays') }}
                         </p>
-                        <p class="mt-1">Você pode resgatar sua recompensa em até <span class="text-themetext0">{{ 7 -
-                                streak_daysRef }}</span> dias.
+                        <p class="mt-1">{{ t('activityCenter.Youcanby') }} <span class="text-themetext0">{{ 7 -
+                                streak_daysRef }}</span> {{ t('account.days') }}.
                         </p>
                         <p class="flex justify-left text-left mt-1 ">
                             <img :src="BettingCheckIn.icon_tibi" alt="" class="w-[0.88rem] h-[0.88rem] mr-1" />
-                            <span>(É necessário apostar durante <span class="text-themetext0">7</span> dias consecutivos.)</span>
+                            <span>({{ t('activityCenter.Youhaveduring') }} <span class="text-themetext0">7</span>{{ t('activityCenter.consecutiveDays') }}.)</span>
                         </p>
                     </div>
                 </div>
@@ -426,8 +426,8 @@ const getLevelLeft = (index) => {
                 }">
                     <div class="flex items-center justify-between mt-7">
                         <div class="flex flex-col">
-                            <p class="font-bold text-themetext0 ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
-                            <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
+                            <p class="font-bold text-themetext0 ">{{ currentUnit.value }} {{ Number(lastmoneyRef).toFixed(2) }}</p>
+                            <p class="text-[0.58rem] text-themetext3">{{ t('activityCenter.saveReward') }}</p>
                         </div>
                         <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
                             class="mr-2 w-[2rem] h-[2rem]" />
@@ -452,7 +452,7 @@ const getLevelLeft = (index) => {
                                     </em> -->
                                 <p class="text-[0.64rem] leading-[1.25rem]  text-center "
                                 :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext1'">
-                                    <span>Dia {{ index + 1 }}</span>
+                                    <span>{{ t('Day') }} {{ index + 1 }}</span>
                                 </p>
                                 <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
                                     <div v-if="index != 6" class=" flex justify-center">
@@ -476,7 +476,7 @@ const getLevelLeft = (index) => {
                                 <div class="relative h-[1.3rem] text-center ">
                                     <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
                                         <span class="text-[0.8rem] font-bold "
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">R$
+                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">{{ currentUnit.value }}
                                             {{ Number(item.bonus) }}
                                         </span>
                                     </p>
@@ -490,7 +490,7 @@ const getLevelLeft = (index) => {
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
@@ -504,7 +504,7 @@ const getLevelLeft = (index) => {
                     <share-list class=" !py-1" :showName="false"></share-list>
                 </div>
             </pu-card>
-            <em class="w-full h-[12rem] block"> </em>
+            <em class="w-full h-[11rem] block"> </em>
             <pu-card theme="3" class="mb-3 pt-3 relative ">
                 <div class="w-full mb-4 h-auto  px-2 pb-3" :style="{
                     background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
@@ -559,7 +559,7 @@ const getLevelLeft = (index) => {
                 }">
                     <div class="flex items-center justify-between mt-8">
                         <div class="flex flex-col">
-                            <p class="font-bold text-themetext0 ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
+                            <p class="font-bold text-themetext0 ">{{ currentUnit.value }} {{ Number(lastmoneyRef).toFixed(2) }}</p>
                             <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
                         </div>
                         <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
@@ -608,7 +608,7 @@ const getLevelLeft = (index) => {
                                 <div class="relative h-[1.3rem] text-center ">
                                     <p class="h-[1.125rem] text-[0.8125rem]  leading-[2rem] text-center">
                                         <span class=" text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">R$
+                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">{{ currentUnit.value }}
                                             {{ Number(item.bonus) }}
                                         </span>
                                     </p>
@@ -634,11 +634,11 @@ const getLevelLeft = (index) => {
             </pu-card>
             <em class="w-full h-[11rem] block"> </em>
             <pu-card theme="3" class="mb-3 pt-3 relative ">
-                <div class="w-full mb-4 h-auto  px-2 pb-3 relative" :style="{
+                <div class="w-full mb-4 h-auto  px-2 pb-3 " :style="{
                     background: `url(${BettingCheckIn.img_djbg}) no-repeat`,
                     backgroundSize: '100% 100%'
                 }">
-                    <div class="h-[2.5rem] w-[10rem] absolute top-[-1rem] left-[30%] flex items-center justify-center font-bold "
+                    <div class="h-[2.5rem] w-[10rem] absolute top-[-0.5rem] left-[30%] flex items-center justify-center font-bold "
                         :style="{
                             background: `url(${BettingCheckIn.img_dj}) no-repeat`,
                             backgroundSize: '100% 100%',
@@ -654,14 +654,14 @@ const getLevelLeft = (index) => {
                                 <!-- <i class="w-2 h-2 bg-themewhite rounded-full"></i> -->
                             </em>
                         </dd>
-                        <div class="absolute top-[1.5rem] left-[15.5%] w-[75%] h-[2.5rem]">
+                        <div class="absolute top-[2.2rem] left-[15.5%] w-[75%] h-[2.5rem]">
                             <div v-for="(item, index) in levelsRef" :key="item.level"
                                 class="itme absolute flex flex-col items-center justify-center -translate-x-1/2"
                                 :style="{ left: getLevelLeft(index) }">
                                 <span class="text-[0.8rem] text-themeblack leading-3">{{ item.min_bet }}</span>
                                 <!-- 1黑2亮 -->
                                 <img :src="index === 0 || Number(moneyRef || 0) >= Number(item.min_bet || 0) ? BettingCheckIn.icon_pontos2 : BettingCheckIn.icon_pontos1"
-                                    alt="" class="w-[0.9rem] h-[0.9rem] mb-[0.1rem]" />
+                                    alt="" class="w-[1rem] h-[1rem] mb-[0.1rem]" />
                                 <img :src="BettingCheckIn[`icon_lv${Math.min(item.level, 6)}`] || BettingCheckIn.icon_lv1"
                                     alt="" class="w-[1.75rem] h-[1.75rem]" />
                             </div>
@@ -687,7 +687,7 @@ const getLevelLeft = (index) => {
                 }">
                     <div class="flex items-center justify-between mt-8 relative z-10">
                         <div class="flex flex-col">
-                            <p class="font-bold text-themetext0 ">R$ {{ Number(lastmoneyRef).toFixed(2) }}</p>
+                            <p class="font-bold text-themetext0 ">{{ currentUnit.value }} {{ Number(lastmoneyRef).toFixed(2) }}</p>
                             <p class="text-[0.58rem] text-themetext3">Por favor, resgate a sua recompensa.</p>
                         </div>
                         <img :src="BettingCheckIn[`icon_lv${claim_levelRef == 1 ? 2 : claim_levelRef}`]"
@@ -708,12 +708,8 @@ const getLevelLeft = (index) => {
                             }" class="bg-no-repeat bg-fill relative block mb-2"
                             @click="onclickData(item)"
                                 :class="index == 6 ? 'w-[9.8rem]' : 'w-[4.7rem]  h-[5.8rem]'">
-                                <!-- <em v-if="item.status == 1" class="w-full h-full absolute left-0 top-0 flex items-center justify-center">
-                                        <img :src=SignImg.bg_light class="w-[4.9375rem] h-[4.9375rem] sign-day-light">
-                                    </em> -->
-                                <div class="w-full h-[1.4rem] flex items-center mb-[0.2rem] justify-center relative">
-                                    <!-- <span>Dia {{ index + 1 }}</span> -->
-                                     <img :src="BettingCheckIn[`icon_dia${index + 1}`]" class="w-[1.6rem] h-[0.8rem]"  alt="">
+                                <div class="w-full h-[1rem] flex items-center mt-[0.2rem] justify-center relative">
+                                     <img v-if="index != 6 " :src="BettingCheckIn[`icon_dia${index + 1}`]" class="w-[1.6rem] h-[0.7rem]"  alt="">
                                 </div>
                                 <div class="w-full h-[2.825rem] flex flex-col items-center justify-center relative">
                                     <div v-if="index != 6" class=" flex justify-center">
@@ -721,10 +717,6 @@ const getLevelLeft = (index) => {
                                             <img :src="BettingCheckIn[`coin${index + 1}`]" class="w-auto h-[2.3rem] ">
                                         </div>
                                     </div>
-                                    <!-- <em v-if="item.status==4 " class="w-full h-full rounded-[0.5625rem] bg-rgbablack50 text-rgbawhite80 not-italic absolute top-0 left-0 flex items-center justify-center">
-                                            <p class="px-2 text-[0.6875rem] text-center">SUBSCRIPTION INTERRUPTED</p>
-                                        </em> -->
-                                    <!-- v-if="item.status == 2" -->
                                     <em v-if="item.status == 'claimed'"
                                         class="w-full h-[5.8rem] mt-2 rounded-[0.3rem] bg-rgbablack50 absolute flex justify-center items-center z-10">
                                         <img :src="BettingCheckIn.icon_gou" alt="" class="w-[1.25rem] h-[1.25rem]">
@@ -737,7 +729,7 @@ const getLevelLeft = (index) => {
                                 <div class="relative h-[1.3rem] text-center ">
                                     <p class="h-[1.125rem] text-[0.8125rem]  leading-[1.5rem] text-center">
                                         <span class=" text-[0.8rem] font-bold"
-                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">R$
+                                            :class="item.status == 'available' ? 'text-themewhite' : 'text-themetext0'">{{ currentUnit.value }}
                                             {{ Number(item.bonus) }}
                                         </span>
                                     </p>

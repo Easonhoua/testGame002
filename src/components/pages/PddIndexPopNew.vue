@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { t } from '@/i18n'
 import { useRouter } from 'vue-router'
 import {  routeToViewFunc } from '@/model/basic'
 import { isPopPdd, pddBaseConfRef } from '../../model/common'
@@ -33,7 +34,7 @@ function close() {
                 <section class="w-[22rem] h-[16rem] m5-theme-model1 rounded-2xl relative p-2">
 
                     <p class="mt-14 text-[0.9rem] font-bold text-center"><span>Compartilhe o link para convidar amigos e ganhe imediatamaente</span></p>
-                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>R${{pddBaseConfRef.max_bonus}}</span></p>
+                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>{{ currentUnit.value }}{{pddBaseConfRef.max_bonus}}</span></p>
 
                     <div class="mt-10 flex justify-center">
                         <button @click="openshare()" class="w-[8rem] h-10 px-4 rounded-full m5-theme-btn1">
@@ -47,7 +48,7 @@ function close() {
                 <section class="w-[16rem] h-[16rem] bg-gradient-to-b from-card1 to-card2 rounded-2xl relative p-2">
 
                     <p class="mt-14 text-[0.9rem] font-bold text-center"><span>Compartilhe o link para convidar amigos e ganhe imediatamaente</span></p>
-                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>R${{pddBaseConfRef.max_bonus}}</span></p>
+                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>{{ currentUnit.value }}{{pddBaseConfRef.max_bonus}}</span></p>
 
                     <div class="mt-10 flex justify-center">
                         <button @click="openshare()" class="w-[8rem] h-10 px-4 rounded-full bg-gradient-to-b from-btnlinar4 to-btnlinar3">
@@ -57,27 +58,27 @@ function close() {
                 </section>
             </pu-card>
 
-            <pu-card theme="1" class="flex   justify-center -mt-10" v-if="currentTemplate.value == 'template_five'">
+            <pu-card theme="1" class="flex   justify-center -mt-10" v-else-if="currentTemplate.value == 'template_five'">
                 <section class="w-[16rem] h-[16rem] m5-theme-model1 rounded-2xl relative p-2 m-auto -mt-6">
 
                     <p class="mt-14 text-[0.9rem] font-bold text-center"><span>Compartilhe o link para convidar amigos e ganhe imediatamaente</span></p>
-                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>R${{pddBaseConfRef.max_bonus}}</span></p>
+                    <p class="mt-4 text-[1.5rem] font-bold text-center text-[#fff000]"><span>{{ currentUnit.value }}{{pddBaseConfRef.max_bonus}}</span></p>
 
                     <div class="mt-10 flex justify-center">
                         <button @click="openshare()" class="w-[8rem] h-10 px-4 rounded-full m5-theme-btn1">
-                            <span>Receber</span>
+                            <span>{{ t('Receive') }}</span>
                         </button>
                     </div>
                 </section>
             </pu-card>
 
-            <pu-card theme="3" class="flex justify-center -mt-10" v-else="currentTemplate.value =='template_three'">
+            <pu-card theme="3" class="flex justify-center -mt-10" v-else>
                 <section class="w-[16rem] h-[16rem] m3-theme-bg1 rounded-2xl relative p-2">
-                    <p class="mt-14 text-[0.9rem] font-bold text-center text-themetext1"><span>Compartilhe o link para convidar amigos e ganhe imediatamaente</span></p>
-                    <p class="mt-4 text-[1.5rem] font-bold text-center text-themetext0"><span>R${{pddBaseConfRef.max_bonus}}</span></p>
+                    <p class="mt-14 text-[0.9rem] font-bold text-center text-themetext1"><span>{{ t('modelPage.Sharelink') }}</span></p>
+                    <p class="mt-4 text-[1.5rem] font-bold text-center text-themetext0"><span>{{ currentUnit.value }}{{pddBaseConfRef.max_bonus}}</span></p>
                     <div class="mt-10 flex justify-center">
                         <button @click="openshare()" class="w-[8rem] h-10 px-4 rounded-full m3-theme-btn1">
-                            <span>Receber</span>
+                            <span>{{ t('Receive') }}</span>
                         </button>
                     </div>
                 </section>

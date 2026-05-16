@@ -209,7 +209,7 @@ onUnmounted(()=> {
                             </li>
                         </template>
                     </ul>
-                    <p class="mt-2 text-sm text-center text-four font-bold">Coletar 5 cartas para resgatar R$100</p>
+                    <p class="mt-2 text-sm text-center text-four font-bold">Coletar 5 cartas para resgatar {{ currentUnit.value }}100</p>
                     <div class="w-full mt-8 flex justify-center">
                         <a href="javascript:;" @click="starReclamar()" :class="is_reclamar?'ctx-theme__linear':'text-rgbawhite30 border border-rgbawhite10'" class="w-[46%] h-11 rounded-lg text-center relative flex items-center justify-center">
                             <span>Reclamar</span>
@@ -233,7 +233,7 @@ onUnmounted(()=> {
                                 <template v-if="currentPenRef.type=='num'">
                                     <img :src=LuckyImg.icon_money class="w-full h-full object-contain">
                                     <p class="w-full text-[0.625rem] text-center absolute left-0 bottom-0">
-                                        <span>R$&nbsp;{{ currentPenRef.award }}</span>
+                                        <span>{{ currentUnit.value }}&nbsp;{{ currentPenRef.award }}</span>
                                     </p>
                                 </template>
                                 <template v-else>
@@ -396,7 +396,7 @@ onUnmounted(()=> {
                             </li>
                         </template>
                     </ul>
-                    <p class="mt-2 text-sm text-center text-four font-bold">Coletar 5 cartas para resgatar R$100</p>
+                    <p class="mt-2 text-sm text-center text-four font-bold">Coletar 5 cartas para resgatar {{ currentUnit.value }}100</p>
                     <div class="w-full mt-4 flex justify-center">
                         <a href="javascript:;" @click="starReclamar()" :class="is_reclamar?'ctx-theme__linear':'bg-loginlinear-3 border border-border1 text-[#b7b7b7] '" class="px-6 h-11 rounded-full text-center relative flex items-center justify-center">
                             <span class=" ">Coletar</span>
@@ -419,7 +419,7 @@ onUnmounted(()=> {
                                 <template v-if="currentPenRef.type=='num'">
                                     <img :src=LuckyImg.icon_money class="w-full h-full object-contain">
                                     <p class="w-full text-[0.625rem] text-center absolute left-0 bottom-0">
-                                        <span>R$&nbsp;{{ currentPenRef.award }}</span>
+                                        <span>{{ currentUnit.value }}&nbsp;{{ currentPenRef.award }}</span>
                                     </p>
                                 </template>
                                 <template v-else>
@@ -440,7 +440,7 @@ onUnmounted(()=> {
         <Panddingbottom></Panddingbottom>
     </pu-page>
 
-    <pu-page title="Sorteio" class="z-[999]" v-if="currentTemplate.value=='template_three'">
+    <pu-page :title="t('pageTitle.Prizedraw')" class="z-[999]" v-if="currentTemplate.value=='template_three'">
         <i class="bg-theme hidden"></i>
         <pu-card theme="4" class="relative overflow-hidden flex justify-center">
             <img :src=LuckyImg.img_luckybg class="w-full h-auto">
@@ -517,14 +517,14 @@ onUnmounted(()=> {
                     <em v-if="configRef.chances>0" class="w-[1.375rem] h-[1.375rem] bg-red-500 text-themewhite border border-themewhite rounded-full not-italic absolute -top-[0.4rem] -right-[0.2rem] flex items-center justify-center">
                         <span class="text-[0.8125rem]">{{ configRef.chances }}</span>
                     </em>
-                    <span>Sorteio</span>
+                    <span>{{ t('Prizedraw') }}</span>
                 </a>
                 <a href="javascript:;" @click="toPage('/lucky/voucher')" class="w-[46%] h-11 m3-theme-btn1 rounded-full text-center relative flex items-center justify-center">
                     <!-- configRef.count>0 -->
                     <em v-if="configRef.count>0" class="w-[1.375rem] h-[1.375rem] bg-red-500 text-themewhite border border-themewhite rounded-full not-italic absolute -top-[0.4rem] -right-[0.2rem] flex items-center justify-center">
                         <span class="text-[0.8125rem]">{{ configRef.count }}</span>
                     </em>
-                    <span>Bônus</span>
+                    <span>{{ t('Bonus') }}</span>
                 </a>
             </div>
         </pu-card>
@@ -581,10 +581,10 @@ onUnmounted(()=> {
                             </li>
                         </template>
                     </ul>
-                    <p class="mt-2 text-sm text-center text-themetext0 font-bold">Coletar 5 cartas para resgatar R$100</p>
+                    <p class="mt-2 text-sm text-center text-themetext0 font-bold">{{ t('activityCenter.luckyDetail') }}</p>
                     <div class="w-full mt-4 flex justify-center">
                         <a href="javascript:;" @click="starReclamar()" :class="is_reclamar?'m3-theme-btn1':'m3-theme-btn3'" class="px-6 h-11 rounded-full text-center relative flex items-center justify-center">
-                            <span>Coletar</span>
+                            <span>{{ t('activityCenter.Collect') }}</span>
                         </a>
                     </div>
                 </div>
@@ -596,7 +596,7 @@ onUnmounted(()=> {
             <div class="w-wrap max-w-full relative">
                 <div class="w-full h-[26.75rem] bg-fill" :style="{backgroundImage: `url(${LuckyImg.img_restbg})` }">
                     <div class="pt-20 text-lg text-center font-bold">
-                        <span>Parabéns pela conquista</span>
+                        <span>{{ t('activityCenter.Congratulationsachievement') }}</span>
                     </div>
                     <div class="pt-[7.1875rem] flex justify-center">
                         <div class="w-14 h-[3.6875rem] p-1.5  text-three  bg-fill" :style="{backgroundImage: `url(${LuckyImg.img_resitem})` }" >
@@ -604,7 +604,7 @@ onUnmounted(()=> {
                                 <template v-if="currentPenRef.type=='num'">
                                     <img :src=LuckyImg.icon_money class="w-full h-full object-contain">
                                     <p class="w-full text-[0.625rem] text-center absolute left-0 bottom-0">
-                                        <span>R$&nbsp;{{ currentPenRef.award }}</span>
+                                        <span>{{ currentUnit.value }}&nbsp;{{ currentPenRef.award }}</span>
                                     </p>
                                 </template>
                                 <template v-else>
@@ -616,7 +616,7 @@ onUnmounted(()=> {
                 </div>
                 <div class="w-full flex justify-center">
                     <button @click="spinResShowRef=false" class="w-[6.9375rem] h-10 text-base text-[#895b18] bg-fill" :style="{backgroundImage: `url(${LuckyImg.img_resbtn})`}">
-                        <b>Claro</b>
+                        <b>{{ t("Ofcourse") }}</b>
                     </button>
                 </div>
             </div>
@@ -729,7 +729,7 @@ onUnmounted(()=> {
                     </ul>
                     <p class="mt-2 text-sm text-center text-white  flex align-center items-center" >
                         <img :src="CommonImg.icon_rich_warn" alt="" class="w-4 h-4 mr-1 inline-block align-middle">
-                        Coletar <span class="mx-1 text-themetext0"> 5</span> cartas para resgatar <span class="mx-1 text-themetext0 font-bold"> R$100</span> </p>
+                        Coletar <span class="mx-1 text-themetext0"> 5</span> cartas para resgatar <span class="mx-1 text-themetext0 font-bold"> {{ currentUnit.value }}100</span> </p>
                     <div class="w-full mt-4 flex justify-center">
                         <a href="javascript:;" @click="starReclamar()" :class="is_reclamar?'m4-nine-btn text-white':'bg-theme text-white/40'" class="w-full font-bold px-6 h-11 rounded-full text-center relative flex items-center justify-center">
                             <span>Coletar</span>
@@ -753,7 +753,7 @@ onUnmounted(()=> {
                                 <template v-if="currentPenRef.type=='num'">
                                     <img :src=LuckyImg.icon_money  class="w-full h-full object-contain">
                                     <p class="w-full text-[0.625rem] text-center absolute left-0 bottom-0">
-                                        <span>R$&nbsp;{{ currentPenRef.award }}</span>
+                                        <span>{{ currentUnit.value }}&nbsp;{{ currentPenRef.award }}</span>
                                     </p>
                                 </template>
                                 <template v-else>
@@ -885,7 +885,7 @@ onUnmounted(()=> {
                     </ul>
                     <p class="mt-2 text-sm text-center text-white  flex align-center items-center" >
                         <img :src="CommonImg.icon_rich_warn" alt="" class="w-4 h-4 mr-1 inline-block align-middle">
-                        Coletar <span class="mx-1 text-themetext0"> 5</span> cartas para resgatar <span class="mx-1 text-themetext0 font-bold"> R$100</span> </p>
+                        Coletar <span class="mx-1 text-themetext0"> 5</span> cartas para resgatar <span class="mx-1 text-themetext0 font-bold"> {{ currentUnit.value }}100</span> </p>
                     <div class="w-full mt-4 flex justify-center">
                         <a href="javascript:;" @click="starReclamar()" :class="is_reclamar?'m5-theme-btn1  text-white':'bg-rgbablack50 text-themewhite'" class="w-full font-bold px-6 h-11 rounded-full text-center relative flex items-center justify-center">
                             <span>Coletar</span>
@@ -909,7 +909,7 @@ onUnmounted(()=> {
                                 <template v-if="currentPenRef.type=='num'">
                                     <img :src=LuckyImg.icon_money  class="w-full h-full object-contain">
                                     <p class="w-full text-[0.625rem] text-center absolute left-0 bottom-0">
-                                        <span>R$&nbsp;{{ currentPenRef.award }}</span>
+                                        <span>{{ currentUnit.value }}&nbsp;{{ currentPenRef.award }}</span>
                                     </p>
                                 </template>
                                 <template v-else>

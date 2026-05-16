@@ -1,14 +1,40 @@
 <script setup>
-import { ref } from 'vue'
+import { ref,computed } from 'vue'
 import { useThemeImages } from '@/utils/themeimg'
+import { useI18n } from 'vue-i18n'
+import { routeToViewFunc } from '@/model/basic'
+import { blogTagIdsRef } from '@/model/common'
+const { t } = useI18n()
 const FooterImg = useThemeImages().footer
-const menu_list = ref([
-        { icon: FooterImg.icon_home1, actIcon: FooterImg.icon_home2, path: '/' ,name:'Inícia'},
-        { icon: FooterImg.icon_more1, actIcon: FooterImg.icon_more2, path: '/more',name:'Promoção'},
-        { icon: FooterImg.icon_agent1, actIcon: FooterImg.icon_agent2, path: '/agent',name:'Comissão' },
-        { icon: FooterImg.icon_wallet1, actIcon: FooterImg.icon_wallet2, path: '/recharge', auth: true,name:'Depósito'},
-        { icon: FooterImg.icon_user1, actIcon: FooterImg.icon_user2, path: '/mine', auth: true ,name:'Perfil'},
-    ])
+
+
+    const menu_list = computed(()=> {
+         // 默认菜单配置
+         
+    const defaultList = [
+       { icon: FooterImg.icon_home1, actIcon: FooterImg.icon_home2, path: '/' ,name:t('home')},
+        { icon: FooterImg.icon_more1, actIcon: FooterImg.icon_more2, path: '/more',name:t('promotion')},
+        { icon: FooterImg.icon_agent1, actIcon: FooterImg.icon_agent2, path: blogTagIdsRef.value.includes(2) ? '/recharge' : '/agent',name:t('commission') },
+        { icon: FooterImg.icon_wallet1, actIcon: FooterImg.icon_wallet2, path: '/recharge', auth: true,name:t('deposit') },
+        { icon: FooterImg.icon_user1, actIcon: FooterImg.icon_user2, path: '/mine', auth: true ,name:t('profile')},
+    ]
+    if (footerListRef.value) {
+        footerListRef.value.forEach(item => {
+            if (item.sort == 0) {
+                defaultList[2].icon = item.img
+                defaultList[2].name = t(item.desc_str) || ''
+                routeToViewFunc(item.link).then(res => {
+                    if (res && res.path) {
+                        defaultList[2].path = res.path
+                    }
+                })
+            } else if (item.sort == 1) {
+                defaultList[2].actIcon = item.img
+            }
+        })
+    }
+    return defaultList
+})
 
 
 import { useFooter } from '@/composables/useFooter'
@@ -17,6 +43,7 @@ const {
     redPotCountRef,
     current_path,
     onclickMenu,
+    footerListRef
 } = useFooter()
 
 </script>
@@ -31,15 +58,15 @@ const {
                     <li @click="onclickMenu(item)" class="mt-[0.55rem] w-1/5 h-full relative cursor-pointer flex flex-col justify-center items-center">
                             <img 
                                 :src="item.icon" 
-                                :class="item.name!=='Comissão'?'w-[1.8rem] h-[1.8rem] ':' min-w-[4rem] min-h-[4rem] w-auto h-auto relative -top-[0.3rem] '"
+                                :class="index!==2?'w-[1.8rem] h-[1.8rem] ':' min-w-[4rem] min-h-[4rem] w-auto h-auto relative -top-[0.3rem] '"
                                 v-show="item.path !== current_path"
                             >
                             <img 
                                 :src="item.actIcon" 
-                                 :class="item.name!=='Comissão'?'w-[1.8rem] h-[1.8rem]':'min-w-[4rem] min-h-[4rem] w-auto h-auto relative -top-[0.3rem]'"
+                                 :class="index!==2?'w-[1.8rem] h-[1.8rem]':'min-w-[4rem] min-h-[4rem] w-auto h-auto relative -top-[0.3rem]'"
                                 v-show="item.path === current_path"
                             >
-                            <span class="text-[0.7rem]" :class="[item.path !== current_path? 'text-themetext3':'text-themetext1', item.name==='Comissão' ? 'relative -top-[1rem]' : '']">{{ item.name }}</span>
+                            <span class="text-[0.7rem]" :class="[item.path !== current_path? 'text-themetext3':'text-themetext1', index==2 ? 'relative -top-[1rem]' : '']">{{ item.name }}</span>
                             <div 
                             v-if="item.path=='/more'&&redPotCountRef>0" 
                             :class="item.path==current_path?'top-2 right-5':'top-2 right-5'"

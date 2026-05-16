@@ -4,7 +4,7 @@ import { t, fn } from '@/i18n'
 import { playBtnAudioFunc} from '@/utils/core'
 import ShareList from '@/components/pages/ShareList.vue'
 import LogOut from '@/components/pages/LogOut.vue'
-
+import { blogTagIdsRef } from '@/model/common'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const CommonImg = useThemeImages().common
@@ -46,7 +46,7 @@ const {
 </script>
 
 <template>
-    <pu-page title="Central de Contas" hideBack hideService>
+    <pu-page :title="t('pageTitle.AccountCenter')" hideBack hideService>
             <pu-card v-if="memberRef&&memberRef.id" theme="3">
             <div class="w-full  text-white rounded-lg overflow-hidden">
                 <div class="w-full flex py-3 px-4 items-center bg-tablebg justify-between">
@@ -78,12 +78,12 @@ const {
                             <!-- 余额 -->
                         <p class="text-center">
                             <span class="text-xs text-themetext3  ">Saldo:&nbsp;</span>
-                            <b class="text-sm m4-text">R$&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
+                            <b class="text-sm m4-text">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.account&&memberRef.account.user_money||0 )}}</b>
                         </p>
                         <!-- 每日奖励 -->
                         <p class="text-left">
                             <span class="text-[0.68rem] text-themetext3 ">Total de bônus&nbsp; </span>
-                            <p class="text-[0.68rem] text-themetext3 ml-6 -mt-2">recebidos:&nbsp;<b class="text-sm text-themetext0 ">R$&nbsp;{{ fn(memberRef.give_amount||0 )}}</b></p>
+                            <p class="text-[0.68rem] text-themetext3 ml-6 -mt-2">recebidos:&nbsp;<b class="text-sm text-themetext0 ">{{ currentUnit.value }}&nbsp;{{ fn(memberRef.give_amount||0 )}}</b></p>
                         </p>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const {
                         <div class="w-full" >
                             <dt class="w-full flex items-center justify-between">
                                 <span class="text-xs m4-text !font-normal">Volume acumulado de apostas:</span>
-                                <span class="text-xs m4-text float-right">R$ {{next_level.bet_amount}} to VIP.{{next_level.vip}} </span>
+                                <span class="text-xs m4-text float-right">{{ currentUnit.value }} {{next_level.bet_amount}} to VIP.{{next_level.vip}} </span>
                             </dt>
                             <dd class="w-full h-2 rounded-full overflow-hidden flex bg-rgbawhite30">
                                 <em :style="`width: ${amount_rate}%`" class="h-full m4-ten-btn rounded-full flex justify-end overflow-hidden" >
@@ -154,7 +154,7 @@ const {
                         <div class="w-full" >
                             <dt class="w-full flex items-center justify-between">
                                 <span class="text-xs m4-text">Volume de apostas deste mês:</span>
-                                <span class="text-xs text-themetext0 float-right">R$ {{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money) }} </span>
+                                <span class="text-xs text-themetext0 float-right">{{ currentUnit.value }} {{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money) }} </span>
                             </dt>
                             <dd class="w-full h-2 rounded-full overflow-hidden flex bg-rgbawhite30">
                                 <em :style="`width: ${amount_rate}%`" class="h-full bg-themetext0 rounded-full flex justify-end overflow-hidden" >
@@ -172,7 +172,7 @@ const {
             </div>
         </pu-card>
         <pu-card theme="0" class="mt-3 ">
-            <router-link to="/agent" class="w-full mb-2 flex items-center justify-between p-3">
+            <router-link :to="blogTagIdsRef.includes(2) ? '/recharge' : '/agent'" class="w-full mb-2 flex items-center justify-between p-3">
                 <div class="flex items-center">
                     <img :src="MineImg.vip3" class="w-6 h-6 mr-2"/>
                     <b class="text-sm  m4-text ">Agente</b>
@@ -190,7 +190,7 @@ const {
                     <span>Comissão direto de hoje:</span>
                 </p>
                 <p class="pl-1 shrink-0">
-                    <span class="text-xs text-themetext0">R$</span>
+                    <span class="text-xs text-themetext0">{{ currentUnit.value }}</span>
                     <span class="text-s text-themetext0 font-bold">{{ fn(memberRef.agent_bonus, 2) }}</span>
                     <!-- <span class="text-s text-themetext0 font-bold">{{ memberRef.agent_bonus%1 === 0 ?fn(memberRef.agent_bonus, 2):fn(memberRef.agent_bonus, 0) }}</span> -->
                 </p>

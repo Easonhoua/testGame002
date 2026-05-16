@@ -108,7 +108,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <pu-page title="Vincular CPF" class="z-[999]" v-if="currentTemplate.value=='template_five'">
+    <pu-page :title="t('pageTitle.LinkCPF')" class="z-[999]" v-if="currentTemplate.value=='template_five'">
         <template #header>
           <div class="flex items-center h-12 px-2">
             <img :src=CommonImg.btn_back class="w-7 h-7 cursor-pointer" @click="handleBack" />
@@ -119,7 +119,7 @@ onUnmounted(() => {
             <section class="w-full p-3 mb-2 text-sm leading-none text-rgbawhite50  rounded-lg flex items-center">
                 <img :src=CommonImg.icon_verify class="w-8 h-8 mr-2"/>
                 <div class="text-sm text-themewhite font-bold">
-                    Depósito de <span class="align-middle text-yellow-300">R$ {{amountRef}}</span>, exigência de rotação 1x.
+                    Depósito de <span class="align-middle text-yellow-300">{{ currentUnit.value }} {{amountRef}}</span>, exigência de rotação 1x.
                 </div>
             </section>
             <section class="leading-[1.5] text-xs w-full p-3 mb-2 text-sm leading-none text-rgbawhite50 border border-thirsmodelboder rounded-lg bg-gradient-to-r from-thirsmodel1 to-thirsmodel2 flex items-center">
@@ -155,22 +155,22 @@ onUnmounted(() => {
             </div>
         </pu-card>
     </pu-page>
-    <pu-page title="Vincular CPF" class="z-[999]" v-else>
+    <pu-page :title="t('pageTitle.LinkCPF')" class="z-[999]" v-else>
         <template #header>
           <div class="flex items-center h-12 px-2">
             <img :src=CommonImg.btn_back class="w-7 h-7 cursor-pointer" @click="handleBack" />
-            <span class="ml-2 text-lg font-bold">Vincular CPF</span>
+            <span class="ml-2 text-lg font-bold">{{ t('account.Bind') }} CPF</span>
           </div>
         </template>
         <pu-card theme="3" class="py-4">
             <section class="w-full p-3 mb-2 text-sm leading-none text-rgbawhite50 border border-rgbawhite10 rounded-lg bg-gradient-to-b from-rgbawhite10 to-transparent flex items-center">
                 <img :src=CommonImg.icon_verify class="w-10 h-10 mr-2"/>
                 <div class="text-sm text-themewhite">
-                    Depósito de <span class="align-middle text-yellow-300">R$ {{amountRef}}</span>, exigência de rotação 1x.
+                    {{ t('account.DepositOf') }} <span class="align-middle text-yellow-300">{{ currentUnit.value }} {{amountRef}}</span>, {{ t('account.rotation1x') }}.
                 </div>
             </section>
             <section class="leading-[1.5] text-xs w-full p-3 mb-2 text-sm leading-none text-rgbawhite50 border border-rgbawhite10 rounded-lg bg-gradient-to-b from-rgbawhite10 to-transparent flex items-center">
-              Para garantir um depósito bem-sucedido, preencha as seguintes informações de pagamento.
+              {{ t('account.accountDetail2') }}
             </section>
             <p class="mt-4 mb-1 text-rgbablack80" >CPF ID</p>
             <div class="inputbox" :class="{'has-value': cpfId, 'input-error': cpfError}">
@@ -184,9 +184,9 @@ onUnmounted(() => {
                 <img :src=CommonImg.icon_card1 alt="" class="iconfont" v-if="cpfId">
             </div>
             <p v-if="cpfError" class="text-red-600 text-xs mt-1">{{ cpfError }}</p>
-            <p class="mt-4 mb-1 text-rgbablack80">Nome</p>
+            <p class="mt-4 mb-1 text-rgbablack80">{{ t('account.name') }}</p>
             <div class="inputbox" :class="{'has-value': nome}">
-                <input type="text" v-model="nome" placeholder="Por favor,insira seu nome" class="input input2"  >
+                <input type="text" v-model="nome" :placeholder="t('account.entername')" class="input input2"  >
                 <dd @click="clearName()" v-if="nome" class="px-2 mr-1 cursor-pointer">
                     <svg class="w-5 h-5 opacity-65" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 10.5858L9.17157 7.75736L7.75736 9.17157L10.5858 12L7.75736 14.8284L9.17157 16.2426L12 13.4142L14.8284 16.2426L16.2426 14.8284L13.4142 12L16.2426 9.17157L14.8284 7.75736L12 10.5858Z"></path>
@@ -197,7 +197,7 @@ onUnmounted(() => {
             </div>
             <div class=" flex justify-center mt-8 w-full">
                 <a @click="submit()" :class="autoclick ? '' : 'opacity-50 pointer-events-none'" class="w-full h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center ctx-theme__linear">
-                    <span>Enviar</span>
+                    <span>{{ t('Send') }}</span>
                 </a>
             </div>
         </pu-card>

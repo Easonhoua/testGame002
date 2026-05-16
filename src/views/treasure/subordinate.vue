@@ -1,27 +1,51 @@
 <script setup>
-import { ref,watch,onMounted } from 'vue'
+import { ref,watch,onMounted,onUnmounted,nextTick } from 'vue'
 import { t } from '@/i18n'
 import { boxModel } from '@/model/treasure'
 import { useThemeImages } from '@/utils/themeimg'
 import Panddingbottom from '@/components/public/Panddingbottom.vue'
 const TreasureImg = useThemeImages().treasure
 
-const { childListRef,boxListChildFunc,DepositRef,BetRef} = boxModel({list: true})
+const { childListRef,boxListChildFunc,DepositRef,BetRef,childListLoadingRef,childListFinishedRef} = boxModel({list: true})
 
 let check = ref(true)
+let mainContentEl = null
+
+function getStatus() {
+    return check.value == true ? 1 : 0
+}
+
+async function onScrollLoadMore() {
+    if(!mainContentEl || childListLoadingRef.value || childListFinishedRef.value) return
+    let { scrollTop, clientHeight, scrollHeight } = mainContentEl
+    if(scrollTop + clientHeight >= scrollHeight - 40) {
+        await boxListChildFunc(getStatus())
+    }
+}
 
 watch(() => check.value, () => {
-    boxListChildFunc(check.value == true ? 1 : 0)
+    boxListChildFunc(getStatus(), true)
 })
 
-onMounted(()=> {
-    boxListChildFunc(check.value == true ? 1 : 0)
+onMounted(async ()=> {
+    await boxListChildFunc(getStatus(), true)
+    await nextTick()
+    mainContentEl = document.getElementById('main-content')
+    if(mainContentEl) {
+        mainContentEl.addEventListener('scroll', onScrollLoadMore, { passive: true })
+    }
+})
+
+onUnmounted(() => {
+    if(mainContentEl) {
+        mainContentEl.removeEventListener('scroll', onScrollLoadMore)
+    }
 })
 
 </script>
 
 <template>
-    <pu-page title="Meus subordinados diretos" class="z-[999]" v-if="currentTemplate.value =='template_one'||currentTemplate.value =='template_two'||currentTemplate.value =='template_three'">
+    <pu-page :title="t('pageTitle.directsubordinates')" class="z-[999]" v-if="currentTemplate.value =='template_one'||currentTemplate.value =='template_two'||currentTemplate.value =='template_three'">
         <pu-card theme="3" class="pt-4" v-if="currentTemplate.value =='template_one'||currentTemplate.value =='template_two'">
             <h5 class="mb-2 text-sm" :class="currentTemplate.value =='template_one' ? '' : ' text-three'">Condições efectivas do utilizador</h5>
             <dl class="w-full h-11 px-2 mb-1.5 text-xs  rounded-lg flex items-center" :class="currentTemplate.value =='template_one' ? 'bg-rgbawhite10' : 'bg-tablergba20 text-theme'">
@@ -43,20 +67,20 @@ onMounted(()=> {
                 </dd>
             </dl>
         </pu-card>
-        <pu-card theme="3" class="pt-4" v-if="currentTemplate.value =='template_three'">
-            <h5 class="mb-2 text-sm text-themetext1">Condições efectivas do utilizador</h5>
+        <pu-card theme="3" class="pt-4" v-else-if="currentTemplate.value =='template_three'">
+            <h5 class="mb-2 text-sm text-themetext1">{{ t('activityCenter.Effectiveconditions') }}</h5>
             <dl class="w-full h-11 px-2 mb-1.5 text-xs bg-tablergba20 rounded-lg flex items-center">
                 <dt class="w-3/5 px-2 text-themetext2">
-                    <span>Depósitos acumulados</span>
+                    <span>{{ t("activityCenter.Accumulateddeposits") }}</span>
                 </dt>
                 <dd class="w-2/5 px-2 text-right">
                     <span>>&nbsp;</span>
                     <span class="text-sm text-themetext0 font-bold">{{DepositRef}}</span>
                 </dd>
             </dl> 
-            <dl class="w-full h-11 px-2 mb-1.5 text-xs bg-tablergba20 rounded-lg flex items-center" >
+            <dl class="w-full h-11 px-2 mb-1.5 text-xs bg-tablergba20 rounded-lg flex items-center">
                 <dt class="w-3/5 px-2 text-themetext2">
-                    <span>Apostas no jogo</span>
+                    <span>{{t('activityCenter.Bettinggame')}}</span>
                 </dt>
                 <dd class="w-2/5 px-2 text-right">
                     <span>>&nbsp;</span>
@@ -87,7 +111,7 @@ onMounted(()=> {
             <table class="w-full text-sm text-center rounded-xl overflow-hidden"  v-if="currentTemplate.value =='template_one' ">
                 <thead>
                     <tr class="bg-rgbawhite10">
-                        <td>Nome</td>
+                        <td>ID</td>
                         <td class="relative">
                             <em class="w-px h-6 -mt-3 bg-rgbawhite10 absolute left-0 top-1/2"></em>
                             <em class="w-px h-6 -mt-3 bg-rgbawhite10 absolute right-0 top-1/2"></em>
@@ -100,15 +124,14 @@ onMounted(()=> {
                 <tbody>
                     <template v-for="item,index in childListRef" :key="index" v-if="childListRef.length > 0 ">
                         <tr class="bg-rgbawhite10">
-                            <td class="text-left">
-                                <div class="flex items-center">
-                                    <span>{{item.nickname}}</span>
+                            <td class="text-center">
+                                <div class="flex items-center justify-center">
+                                    <span>{{item.member_id}}</span>
                                     <template v-if="item.status === '2'">
-                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="w-6 h-6 ml-2">
+                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="h-4 ml-2">
                                     </template>
                                 </div>
                             </td>
-
                             <td>{{item.recharge}}</td>
                             <td>{{item.bet_amount}}</td>
                         </tr>
@@ -123,7 +146,7 @@ onMounted(()=> {
             <table class="w-full text-sm text-center rounded-xl overflow-hidden mt-6" v-else>
                 <thead>
                     <tr class="bg-tablergba40" >
-                        <td>Nome</td>
+                        <td>ID</td>
                         <td>Depósito</td>
                         <td>Apostas</td>
                     </tr>
@@ -131,17 +154,18 @@ onMounted(()=> {
 
                 <tbody >
                     <!--  -->
-                    <template v-for="item,index in childListRef" :key="index" v-if="childListRef.length > 0 ">
+                    <template v-for="item,index in childListRef" :key="index" 
+                    
+                      v-if="childListRef.length > 0 ">
                         <tr class="bg-body-text/5">
-                            <td class="text-left">
-                                <div class="flex items-center">
-                                    <span class="text-theme">{{item.nickname}}</span>
+                            <td class="text-center">
+                                <div class="flex items-center  justify-center">
+                                    <span class="text-theme">{{item.member_id}}</span>
                                     <template v-if="item.status === '2'">
-                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="w-4 ml-2">
+                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="h-4 ml-2">
                                     </template>
                                 </div>
                             </td>
-
                             <td class="text-theme">{{item.recharge}}</td>
                             <td class="text-theme">{{item.bet_amount}}</td>
                         </tr>
@@ -163,7 +187,7 @@ onMounted(()=> {
                 </svg>
                 <img :src="TreasureImg.icon_user" alt="" class="w-6 h-6 shrink-0 mr-2" v-else>
                 <div class="flex-1 overflow-hidden">
-                    <p class="text-sm text-themetext1">Subordenada</p>
+                    <p class="text-sm text-themetext1">{{ t('activityCenter.Subordinate') }}</p>
                 </div>
                 <div class="flex items-center shrink-0">
                     <span class="text-xs text-themetext1">Eficaz&nbsp;</span>
@@ -177,9 +201,9 @@ onMounted(()=> {
             <table class="w-full text-xs text-center rounded-xl overflow-hidden mt-6">
                 <thead>
                     <tr class="bg-tablergba40 " >
-                        <td>Nome</td>
-                        <td>Depósito</td>
-                        <td>Apostas</td>
+                        <td>{{ t('account.id') }}</td>
+                        <td>{{ t('deposit') }}</td>
+                        <td>{{ t('userCenter.Bets') }}</td>
                     </tr>
                 </thead>
 
@@ -187,15 +211,14 @@ onMounted(()=> {
                     <!--  -->
                     <template v-for="item,index in childListRef" :key="index" v-if="childListRef.length > 0 ">
                         <tr class="bg-tablergba20 even:bg-tablergba10">
-                            <td class="text-left">
-                                <div class="flex items-center">
-                                    <span class="text-themetext2">{{item.nickname}}</span>
+                            <td class="text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="text-themetext2">{{item.member_id}}</span>
                                     <template v-if="item.status === '2'">
-                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="w-4 h-4 ml-2">
+                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="h-4 ml-2">
                                     </template>
                                 </div>
                             </td>
-
                             <td class="text-themetext2">{{item.recharge}}</td>
                             <td class="text-themetext2">{{item.bet_amount}}</td>
                         </tr>
@@ -250,7 +273,7 @@ onMounted(()=> {
             <table class="w-full text-sm text-center rounded-xl overflow-hidden mt-6 bg-tablebg2">
                 <thead>
                     <tr class="bg-tablebg">
-                        <td class="m4-text">Nome</td>
+                        <td class="m4-text">ID</td>
                         <td class="m4-text">Depósito</td>
                         <td class="m4-text">Apostas</td>
                     </tr>
@@ -260,11 +283,11 @@ onMounted(()=> {
                     <!--  -->
                     <template v-for="item,index in childListRef" :key="index" v-if="childListRef.length > 0">
                         <tr class="bg-body-text/5">
-                            <td class="text-left">
-                                <div class="flex items-center">
-                                    <span class="text-white">{{item.nickname}}</span>
+                            <td class="text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="text-white">{{item.member_id}}</span>
                                     <template v-if="item.status === '2'">
-                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="w-4 h-4 ml-2">
+                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class=" h-4 ml-2">
                                     </template>
                                 </div>
                             </td>
@@ -322,7 +345,7 @@ onMounted(()=> {
             <table class="w-full text-sm text-center rounded-xl overflow-hidden mt-6 bg-tablebg2">
                 <thead>
                     <tr class="bg-tablebg1">
-                        <td class="m4-text">Nome</td>
+                        <td class="m4-text">ID</td>
                         <td class="m4-text">Depósito</td>
                         <td class="m4-text">Apostas</td>
                     </tr>
@@ -332,11 +355,11 @@ onMounted(()=> {
                     <!--  -->
                     <template v-for="item,index in childListRef" :key="index" v-if="childListRef.length>0">
                         <tr class="bg-body-text/5">
-                            <td class="text-left">
-                                <div class="flex items-center">
-                                    <span class="text-white">{{item.nickname}}</span>
+                            <td class="text-center">
+                                <div class="flex items-center  justify-center">
+                                    <span class="text-white">{{item.member_id}}</span>
                                     <template v-if="item.status === '2'">
-                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="w-4 h-4 ml-2">
+                                        <img :src=TreasureImg.icon_coins alt="Treasure Box" class="h-4 ml-2">
                                     </template>
                                 </div>
                             </td>

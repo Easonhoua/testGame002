@@ -40,7 +40,7 @@ function onConfirm(value) {
                         <p class="mt-1 text-[0.625rem] m4-text">Diretamente responsável pela codificação global
                         </p>
                         <h5 class="text-xl text-themetext0">
-                            <span class="text-sm ">R$&nbsp;</span>
+                            <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                             <b>{{ logsDataRef.team_bet_amount }}</b>
                         </h5>
 
@@ -59,7 +59,7 @@ function onConfirm(value) {
                     <div class="h-full px-1 py-2  flex items-center flex-col justify-between">
                         <p class="mt-1 text-[0.625rem] m4-text ">A comissão de hoje</p>
                         <h5 class="text-xl text-themetext0">
-                            <span class="text-sm ">R$&nbsp;</span>
+                            <span class="text-sm ">{{ currentUnit.value }}&nbsp;</span>
                             <b>{{ logsDataRef.bonus }}</b>
                         </h5>
 
@@ -85,17 +85,17 @@ function onConfirm(value) {
                 </div>
 
                 <div class="flex items-center p-2 boxitem">
-                    <div class="min-w-[6rem] text-right m4-text">Pessoal:</div>
+                    <div class="min-w-[6rem] text-right m4-text">{{ t('commCenter.Guys') }}:</div>
                     <span class="text-white ml-2"> {{ fn(item.bet_amount) }}</span>
-                    <div class="ml-6 text-right m4-text">Equipe: </div>
+                    <div class="ml-6 text-right m4-text">{{ t('commCenter.Team') }}: </div>
                     <span class="text-white/60 ml-2"> {{ fn(item.team_bet_amount) }}</span>
                 </div>
                 <div class="flex items-center p-2 boxitem">
-                    <div class="min-w-[6rem] text-right m4-text">Nivel:</div>
+                    <div class="min-w-[6rem] text-right m4-text">{{ t('userCenter.Level') }}:</div>
                     <span class="text-themetext0 ml-2">{{ item.level }}</span>
                 </div>
                 <div class="flex items-center p-2 boxitem">
-                    <div class="min-w-[6rem] text-right m4-text">Comissão:</div>
+                    <div class="min-w-[6rem] text-right m4-text">{{ t('commission') }}:</div>
                     <span class="text-themetext0 ml-2">{{ fn(item.bonus) }}</span>
                 </div>
             </div>

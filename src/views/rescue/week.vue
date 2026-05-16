@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <pu-page title="Compensação Semanal" class="z-[999]" hideService>
+    <pu-page :title="t('WeeklyCompensation')" class="z-[999]" hideService>
         <img :src=RescueImg.img_rescueweek class="w-full absolute left-0 ">
         <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value == 'template_four'">
         <em class="w-full h-[18rem] block" v-else-if="currentTemplate.value == 'template_five'"></em>
@@ -61,20 +61,20 @@ onMounted(() => {
                                             stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M37 28L31 34" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <span class="opacity-65 align-middle">Perda Atual</span>
+                                    <span class="opacity-65 align-middle">{{t('activityCenter.CurrentLoss')}}</span>
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="opacity-65">R$</span>
+                                        <span class="opacity-65">{{ currentUnit.value }}</span>
                                         <span class="text-xl opacity-85">{{ rescueThisweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
                             </dl>
                             <dl class="w-full p-4 text-sm flex items-center">
                                 <dt class="flex-1 overflow-hidden">
-                                    <p class="opacity-85">Fundos de Resgate Previstos</p>
+                                    <p class="opacity-85">{{ t('activityCenter.ProjectedFunds') }}</p>
                                     <p>
-                                        <span class="opacity-65">R$&nbsp;</span>
+                                        <span class="opacity-65">{{ currentUnit.value }}&nbsp;</span>
                                         <span class="text-xl">{{ rescueThisweekRef.bonus }}</span>
                                     </p>
                                 </dt>
@@ -118,11 +118,11 @@ onMounted(() => {
                                             stroke-linecap="round" stroke-linejoin="round" />
                                         <path d="M37 28L31 34" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <span class="opacity-65 align-middle">Perda Passada</span>
+                                    <span class="opacity-65 align-middle">{{ t('activityCenter.PastLoss') }}</span>
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="opacity-65">R$</span>
+                                        <span class="opacity-65">{{ currentUnit.value }}</span>
                                         <span class="text-xl opacity-85">{{ rescueLastweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
@@ -130,9 +130,9 @@ onMounted(() => {
                             <dl class="w-full text-sm flex items-center" style="padding: 1rem 0.5rem 1rem 1rem;">
                                 <dt class="flex-1 overflow-hidden flex items-center justify-between">
                                     <div class="">
-                                        <p class="opacity-85">Fundos de Resgate Disponíveiss</p>
+                                        <p class="opacity-85">{{ t('activityCenter.ProjectedFunds') }}</p>
                                         <p>
-                                            <span class="opacity-65">R$&nbsp;</span>
+                                            <span class="opacity-65">{{ currentUnit.value }}&nbsp;</span>
                                             <span class="text-xl">{{ rescueLastweekRef.bonus }}</span>
                                         </p>
                                     </div>
@@ -142,7 +142,7 @@ onMounted(() => {
                                             :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? 'ctx-theme__linear rounded-xl' : 'bg-rgbawhite10 border border-border1'"
                                             class="h-10 px-3 rounded-xl">
                                             <span
-                                                :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? '' : 'opacity-65'">Receber</span>
+                                                :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? '' : 'opacity-65'">{{ t('Receive') }}</span>
                                         </button>
                                     </div>
                                 </dt>
@@ -212,7 +212,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span>R$</span>
+                                        <span>{{ currentUnit.value }}</span>
                                         <span class="text-xl text-four">{{ rescueThisweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
@@ -221,7 +221,7 @@ onMounted(() => {
                                 <dt class="flex-1 overflow-hidden">
                                     <p class="">Fundos de Resgate Previstos</p>
                                     <p>
-                                        <span>R$&nbsp;</span>
+                                        <span>{{ currentUnit.value }}&nbsp;</span>
                                         <span class="text-xl text-four">{{ rescueThisweekRef.bonus }}</span>
                                     </p>
                                 </dt>
@@ -248,7 +248,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span>R$</span>
+                                        <span>{{ currentUnit.value }}</span>
                                         <span class="text-xl text-four">{{ rescueLastweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
@@ -258,7 +258,7 @@ onMounted(() => {
                                     <div>
                                         <p>Fundos de Resgate Disponíveiss</p>
                                         <p>
-                                            <span>R$&nbsp;</span>
+                                            <span>{{ currentUnit.value }}&nbsp;</span>
                                             <span class="text-xl text-four">{{ rescueLastweekRef.bonus }}</span>
                                         </p>
                                     </div>
@@ -331,28 +331,28 @@ onMounted(() => {
                     <div class="w-full p-3 h-[8rem] " :style="{ backgroundImage: `url(${RescueImg.img_weekitembg})` }"
                         style="background-size: 100% 100%;">
                         <p class="mb-4 text-[0.68rem] text-center -mt-2 ">
-                            <span class="text-themetext1">Das&nbsp;</span>
+                            <span class="text-themetext1">{{ t('From') }}&nbsp;</span>
                             <span>{{ rescueThisweekRef.start }}&nbsp00:00</span>
-                            <span class="text-themetext1">&nbsp;às&nbsp;</span>
+                            <span class="text-themetext1">&nbsp;{{ t('to') }}&nbsp;</span>
                             <span>{{ rescueThisweekRef.end }}&nbsp23:59</span>
                         </p>
                         <div class="w-full -mt-6 ">
                             <dl class="w-full  py-3 text-sm flex items-center">
                                 <dt class="w-1/2 ml-8">
-                                    <span class="text-themetext1 align-middle">Perda Atual</span>
+                                    <span class="text-themetext1 align-middle">{{ t('activityCenter.PastLoss') }}</span>
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right">
-                                        <span>R$&nbsp</span>
+                                        <span>{{ currentUnit.value }}&nbsp</span>
                                         <span class="text-xl">{{ rescueThisweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
                             </dl>
                             <dl class="w-full  text-sm flex items-center">
                                 <dt class="flex-1 overflow-hidden">
-                                    <p class="">Fundos de Resgate Previstos</p>
+                                    <p class="">{{ t('activityCenter.ProjectedFunds') }}</p>
                                     <p>
-                                        <span>R$&nbsp;</span>
+                                        <span>{{ currentUnit.value }}&nbsp;</span>
                                         <span class="text-xl">{{ rescueThisweekRef.bonus }}</span>
                                     </p>
                                 </dt>
@@ -367,19 +367,19 @@ onMounted(() => {
                     <div class="w-full p-3 h-[8rem]" :style="{ backgroundImage: `url(${RescueImg.img_weekitembg})` }"
                         style="background-size: 100% 100%;">
                         <p class="mb-4 text-[0.68rem] text-center -mt-2">
-                            <span class="text-themetext1">Das&nbsp;</span>
+                            <span class="text-themetext1">{{ t('From') }}&nbsp;</span>
                             <span>{{ rescueLastweekRef.start }}&nbsp;00:00</span>
-                            <span class="text-themetext1">&nbsp;às&nbsp;</span>
+                            <span class="text-themetext1">&nbsp; {{ t('to') }} &nbsp;</span>
                             <span>{{ rescueLastweekRef.end }}&nbsp;23:59</span>
                         </p>
                         <div class="w-full  text-three ">
                             <dl class="w-full  py-3 text-sm  flex items-center -mt-5">
                                 <dt class="w-1/2 ml-8">
-                                    <span class="text-themetext1  align-middle">Perda Passada</span>
+                                    <span class="text-themetext1  align-middle">{{ t('activityCenter.PastLoss') }}</span>
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right">
-                                        <span>R$&nbsp</span>
+                                        <span>{{ currentUnit.value }}&nbsp</span>
                                         <span class="text-xl ">{{ rescueLastweekRef.loss_amount }}</span>
                                     </p>
                                 </dd>
@@ -387,9 +387,9 @@ onMounted(() => {
                             <dl class="w-full text-sm flex items-center">
                                 <dt class="flex-1 overflow-hidden flex items-center justify-between">
                                     <div>
-                                        <p>Fundos de Resgate Disponíveiss</p>
+                                        <p>{{ t('activityCenter.ProjectedFunds') }}</p>
                                         <p>
-                                            <span>R$&nbsp;</span>
+                                            <span>{{ currentUnit.value }}&nbsp;</span>
                                             <span class="text-xl">{{ rescueLastweekRef.bonus }}</span>
                                         </p>
                                     </div>
@@ -399,7 +399,7 @@ onMounted(() => {
                                             :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? 'm3-theme-btn1' : 'm3-theme-btn3'"
                                             class="h-9 px-4 rounded-[2rem] ">
                                             <span
-                                                :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? '' : 'opacity-65'">Receber</span>
+                                                :class="rescueLastweekRef.bonus > 0 && rescueRef.can_be_collected ? '' : 'opacity-65'">{{ t('Receive') }}</span>
                                         </button>
                                     </div>
                                 </dt>
@@ -419,8 +419,8 @@ onMounted(() => {
                 <table class="w-full text-sm text-center table-fixed table-template-two">
                     <thead class="text-xs">
                         <tr class="text-themetext1" style="margin: 0.5rem 0;">
-                            <td class="border-border1 bg-tablergba40">Lucro esta semana</td>
-                            <td class="bg-tablergba40">Compensação</td>
+                            <td class="border-border1 bg-tablergba40">{{ t('activityCenter.Profitweek') }}</td>
+                            <td class="bg-tablergba40">{{ t('activityCenter.Compensation') }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -447,7 +447,7 @@ onMounted(() => {
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
@@ -477,7 +477,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="m4-text">R$</span>
+                                        <span class="m4-text">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueThisweekRef.loss_amount }}</span>
                                     </p>
@@ -487,7 +487,7 @@ onMounted(() => {
                                 <dt class="flex-1 overflow-hidden">
                                     <p class="font-bold">Fundos de Resgate Previstos</p>
                                     <p class="mt-2">
-                                        <span class="m4-text font-bold">R$&nbsp;</span>
+                                        <span class="m4-text font-bold">{{ currentUnit.value }}&nbsp;</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueThisweekRef.bonus
                                             }}</span>
@@ -520,7 +520,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="m4-text ">R$</span>
+                                        <span class="m4-text ">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueLastweekRef.loss_amount }}</span>
                                     </p>
@@ -531,7 +531,7 @@ onMounted(() => {
                                     <div>
                                         <p class="font-bold">Fundos de Resgate Disponíveis</p>
                                         <p class="mt-2">
-                                            <span class="m4-text font-bold">R$&nbsp;</span>
+                                            <span class="m4-text font-bold">{{ currentUnit.value }}&nbsp;</span>
                                             <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                                 rescueLastweekRef.bonus
                                                 }}</span>
@@ -614,7 +614,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="text-themetext0">R$</span>
+                                        <span class="text-themetext0">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueThisweekRef.loss_amount }}</span>
                                     </p>
@@ -624,7 +624,7 @@ onMounted(() => {
                                 <dt class="flex-1 overflow-hidden">
                                     <p class="font-bold">Fundos de Resgate Previstos</p>
                                     <p class="mt-2">
-                                        <span class="text-themetext0 font-bold">R$&nbsp;</span>
+                                        <span class="text-themetext0 font-bold">{{ currentUnit.value }}&nbsp;</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueThisweekRef.bonus
                                             }}</span>
@@ -657,7 +657,7 @@ onMounted(() => {
                                 </dt>
                                 <dd class="w-1/2 px-2">
                                     <p class="text-right flex justify-end items-center">
-                                        <span class="text-themetext0 ">R$</span>
+                                        <span class="text-themetext0 ">{{ currentUnit.value }}</span>
                                         <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                             rescueLastweekRef.loss_amount }}</span>
                                     </p>
@@ -668,7 +668,7 @@ onMounted(() => {
                                     <div>
                                         <p class="font-bold">Fundos de Resgate Disponíveis</p>
                                         <p class="mt-2">
-                                            <span class="m4-text font-bold text-themetext0">R$&nbsp;</span>
+                                            <span class="m4-text font-bold text-themetext0">{{ currentUnit.value }}&nbsp;</span>
                                             <span class="text-[2rem] font-bold text-themetext0 ml-1">{{
                                                 rescueLastweekRef.bonus
                                                 }}</span>

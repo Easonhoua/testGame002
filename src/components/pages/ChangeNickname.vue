@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { t } from '@/i18n'
 import { useScreenSafeArea } from '@vueuse/core'
 import { bodyWidthRef } from '@/utils/config'
 import { playBtnAudioFunc } from '@/utils/core'
@@ -51,7 +52,7 @@ defineExpose({ show, open })
             <section :style="`padding-top: ${top};`" class="w-full">
                 <div class="w-full h-[3.25rem] relative flex items-center justify-center">
                     <h3 class="text-base leading-4 font-medium text-center line-clamp-2 capitalize" style="max-width: 60%;">
-                        <span>Meu Nome de Marca</span>
+                        <span>{{ t('userCenter.BrandName') }}</span>
                     </h3>
                     <div class="absolute top-0 right-0 h-full flex items-center">
                         <a @click="show=false" href="javascript:;" class="h-full px-3 flex items-center">
@@ -66,22 +67,22 @@ defineExpose({ show, open })
                 <ui-input v-model="nickname" placeholder="Por favor, digite um apelido"></ui-input>
                 <div class="w-full pt-8 flex justify-center" v-if="currentTemplate.value=='template_one'">
                     <a @click="submit()" :class="auto_click?'':'opacity-50 pointer-events-none'" class="min-w-[8.75rem]  h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer flex items-center justify-center ctx-theme__linear">
-                        <span>Salvar</span>
+                        <span>{{ t('Save') }}</span>
                     </a>
                 </div>
                 <div class="w-full pt-8 flex justify-center"  v-else-if="currentTemplate.value =='template_two'">
                     <a @click="submit()" :class="auto_click?'':'opacity-50 pointer-events-none'" class="min-w-[8.75rem] bg-btncolor text-themeblack rounded-lg  text-center p-2">
-                        <span>Salvar</span>
+                        <span>{{ t('Save') }}</span>
                     </a>
                 </div>
                 <div class="w-full pt-8 flex justify-center"  v-else-if="currentTemplate.value =='template_three'">
                     <a @click="submit()" :class="auto_click?'':'opacity-50 pointer-events-none'" class="w-full m3-theme-btn1  rounded-lg  text-center p-2">
-                        <span>Salvar</span>
+                        <span>{{ t('Save') }}</span>
                     </a>
                 </div>
                 <div class="w-full pt-8 flex justify-center"  v-else-if="currentTemplate.value =='template_five'">
                     <a @click="submit()" :class="auto_click?'':'opacity-50 pointer-events-none'" class="min-w-[8.75rem] h-[3.125rem] px-3 text-sm rounded-lg cursor-pointer ctx-theme__linear">
-                        <span>Salvar</span>
+                        <span>{{ t('Save') }}</span>
                     </a>
                 </div>
             </pu-card>

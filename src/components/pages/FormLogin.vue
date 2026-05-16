@@ -6,17 +6,28 @@ import { playBtnAudioFunc } from '@/utils/core'
 import { useThemeImages } from '@/utils/themeimg'
 const LoginImg = useThemeImages().login
 const { dataRef, rememberRef, loginFunc } = loginModel()
+const currentUnit = import.meta.env.VITE_UNIT || 'R$'
+
 // 添加年龄提示状态
 const agreeAge = ref(true)
 const error_username = computed(()=> {
     let _val = false
     // const regex = /^.{3,}$/;
-    const regex = /^\d{6,50}$/;
-    let regres = regex.test(dataRef.value.username)
-    if(!regres&&dataRef.value.username) {
-        _val = true
+    if(currentUnit == "R$"){
+        const regex = /^\d{6,50}$/;
+        let regres = regex.test(dataRef.value.username)
+        if(!regres&&dataRef.value.username) {
+            _val = true
+        }
+         return _val
+    }else {
+        const regex = /^9\d{2} \d{3} \d{4}$/
+        let regres = regex.test(dataRef.value.username)
+        if(!regres&&dataRef.value.username) {
+            _val = true
+        }
+        return _val
     }
-    return _val
 })
 const error_password = computed(()=> {
     let _val = false
@@ -28,10 +39,51 @@ const error_password = computed(()=> {
     return _val
 })
 
+
+const inputRef = ref(null);
+// const formattedValue = ref('');
+
+// 格式化数字为 3-3-4 格式（带空格）
+const formatThreeThreeFour = (value) => {
+  // 移除非数字字符
+  const digits = value.replace(/\D/g, '');
+  
+  // 按 3-3-4 添加空格
+  const parts = [];
+  if (digits.length > 0) parts.push(digits.substring(0, 3));
+  if (digits.length > 3) parts.push(digits.substring(3, 6));
+  if (digits.length > 6) parts.push(digits.substring(6, 10));
+  
+  return parts.join(' ');
+};
+
+// 获取纯数字（移除空格）
+const getRawDigits = (formattedStr) => {
+  return formattedStr.replace(/\s/g, '');
+};
+
 function limitPhoneInput(event) {
-    const value = event.target.value.replace(/\D/g, ''); // 移除非数字字符
-    dataRef.value.username = value.slice(0, 11); // 限制最多11位
+    if(currentUnit == "R$"){
+        const value = event.target.value.replace(/\D/g, ''); // 移除非数字字符
+        dataRef.value.username = value.slice(0, 11); // 限制最多11位
+    }else{
+        const oldValue = event.target.value;
+        const oldCursorPos = event.target.selectionStart;
+        
+        // 获取纯数字
+        const rawDigits = getRawDigits(oldValue);
+        
+        // 格式化为 3-3-4
+        const newFormattedValue = formatThreeThreeFour(rawDigits);
+        
+        // 如果内容没变化，则退出
+        if (newFormattedValue === oldValue) return;
+        
+        // 更新响应式数据
+        dataRef.value.username = newFormattedValue;
+    }
 }
+
 
 let auto_click = computed(()=> {
     return !error_username.value&&!error_password.value&&dataRef.value.username&&dataRef.value.password&&agreeAge.value
@@ -40,6 +92,7 @@ let auto_click = computed(()=> {
 function onclickBtn() {
     playBtnAudioFunc()
     if(auto_click.value) {
+        // dataRef.value.username = getRawDigits(dataRef.value.username)
         loginFunc()
     }
 }
@@ -123,20 +176,20 @@ function onclickBtn() {
             </div>
         </div>
         <div v-if="currentTemplate.value == 'template_three'">
-            <ui-input v-model="dataRef.username" :error="error_username" placeholder="Conta / Número de telefone" :class="error_username?'':'bg-default-bg rounded-lg'"
+            <ui-input ref="inputRef" v-model="dataRef.username" :error="error_username" :placeholder="t('modelPage.AccountPhonenumber')" :class="error_username?'':'bg-default-bg rounded-lg'"
                 @input="limitPhoneInput">
                 <template #icon>
                     <img :src="LoginImg.icon_password_phone" class="w-5 h-5 object-contain block" />
                 </template>
-                <template #error>a conta deve conter no mínimo 6 letras e números, e o número de celular deve ter 11 dígitos.
+                <template #error>{{ t('modelPage.errortip2') }}
                 </template>
             </ui-input>
             <p class="mb-3"></p>
-            <ui-input v-model="dataRef.password" type="password" :error="error_password" placeholder="por favor, insira a senha"  :class="error_password?'':'bg-default-bg rounded-lg'">
+            <ui-input v-model="dataRef.password" type="password" :error="error_password" :placeholder="t('modelPage.enterpassword')"  :class="error_password?'':'bg-default-bg rounded-lg'">
                 <template #icon>
                     <img :src="LoginImg.icon_password" class="w-5 h-5 object-contain block" />
                 </template>
-                <template #error >defina uma senha de 6 a 20 dígitos</template>
+                <template #error >{{ t('modelPage.errortip1') }}</template>
             </ui-input>
              <!-- 添加年龄勾选 -->
          <div class="flex align-center items-center">
@@ -148,12 +201,12 @@ function onclickBtn() {
                     class="mt-1 w-3 h-3 accent-pwa cursor-pointer"
                 />
             </div>
-            <span class="text-rgbawhite80 text-[0.68rem]">Confirmo que tenho pelo menos 18 anos de idade.</span>
+            <span class="text-rgbawhite80 text-[0.68rem]">{{ t('18confirm') }}</span>
 
          </div>
             <div class="w-full pt-8 flex justify-center  ">
                 <button @click="onclickBtn()" class="m3-theme-btn1 w-full h-10 px-4 !text-sm rounded-lg  capitalize text-themeblack">
-                    <span>ENTRAR</span>
+                    <span>{{ t('enter') }}</span>
                 </button>
                 <!-- <img src="/imgs/login/img_5.png" class=" h-5 block absolute right-8 top-1/1 -translate-y-1/2" alt=""> -->
             </div>
@@ -195,16 +248,18 @@ function onclickBtn() {
             </div>
         </div>
         <div v-if="currentTemplate.value =='template_five'"  class="max-h-[22rem] overflow-y-auto rounded-lg">
-            <ui-input v-model="dataRef.username" :error="error_username" placeholder="Conta / Número de telefone" :class="error_username?'':'m5-theme-input rounded-lg'"
-                @input="limitPhoneInput">
-                <template #icon>
-                    <img :src="LoginImg.icon_password_phone" class="w-5 h-5 object-contain block" />
-                </template>
-                <template #error>a conta deve conter no mínimo 6 letras e números, e o número de celular deve ter 11 dígitos.
-                </template>
-            </ui-input>
+            <ui-input v-model="dataRef.username" :error="error_username" placeholder="Número de telefone"  :class="error_username?'':'bg-logininputcolor1 border border-logininputborder rounded-lg'"
+            @input="limitPhoneInput">
+            <template #icon>
+                <img :src="LoginImg.icon_flagsmall_br" class="w-6 h-6 object-contain block">
+            </template>
+            <template #left>
+                <span class="pr-1 text-sm">+55</span>
+            </template>
+            <template #error>a conta deve conter no mínimo 6 letras e números, e o número de celular deve ter 11 dígitos.</template>
+        </ui-input>
             <p class="mb-3"></p>
-            <ui-input v-model="dataRef.password" type="password" :error="error_password" placeholder="por favor, insira a senha"  :class="error_password?'':'m5-theme-input rounded-lg'">
+            <ui-input v-model="dataRef.password" type="password" :error="error_password" placeholder="por favor, insira a senha"  :class="error_password?'':'bg-logininputcolor1 border border-logininputborder rounded-lg'">
                 <template #icon>
                     <img :src="LoginImg.icon_password" class="w-5 h-5 object-contain block" />
                 </template>
@@ -217,14 +272,14 @@ function onclickBtn() {
                     type="checkbox"
                     id="terms"
                     v-model="agreeAge"
-                    class="mt-1 w-3 h-3 accent-pwa cursor-pointer"
+                    class="mt-1 w-3 h-3 bg-inputborder cursor-pointer"
                 />
             </div>
             <span class="text-rgbawhite80 text-[0.68rem]">Confirmo que tenho pelo menos 18 anos de idade.</span>
 
          </div>
             <div class="w-full pt-[2.5rem] flex justify-center">
-                <button @click="onclickBtn()" class="rounded-lg m5-theme-btn1 w-full h-10 px-4 !text-sm rounded-lg text-themewhite">
+                <button @click="onclickBtn()" class="rounded-lg bg-gradient-to-b from-themecardlinear1 to-themecardlinear2 w-full h-10 px-4 !text-sm rounded-lg text-themewhite">
                     <span>ENTRAR</span>
                 </button>
                 <!-- <img src="/imgs/login/img_5.png" class=" h-5 block absolute right-8 top-1/1 -translate-y-1/2" alt=""> -->

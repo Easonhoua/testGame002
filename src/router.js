@@ -244,9 +244,21 @@ const routes = [
         meta: {noAuth: true }
     },
     {
+        path: '/activity/membersGift',
+        name: 'activity_membersGift',
+        component: ()=> import('./views/activity/membersGift.vue'),
+        meta: {noAuth: true }
+    },
+    {
         path: '/worldcup/index',
         name: 'worldcup_index',
         component: ()=> import('./views/worldcup/index.vue'),
+        meta: {noAuth: true }
+    },
+    {
+        path: '/worldcup/group',
+        name: 'worldcup_group',
+        component: ()=> import('./views/worldcup/group.vue'),
         meta: {noAuth: true }
     },
     

@@ -1,6 +1,7 @@
 
 import { computed, ref } from 'vue'
 import { t, fn } from '@/i18n'
+import { $get } from '@/request'
 import { useRoute, useRouter } from 'vue-router'
 import { useScreenSafeArea } from '@vueuse/core'
 import useClipboard from "vue-clipboard3"
@@ -10,9 +11,10 @@ import { isAuthRef, memberLocal } from '@/model/user'
 import { routeToViewFunc} from '@/model/basic'
 import { redPakageStateRef, redPakageModel} from '@/model/other'
 import { gameLogo, appIcon} from '@/model/pwa'
-import { socialMenuListRef,leftproListRef} from '@/model/common'
+import { socialMenuListRef,leftproListRef,blogTagIdsRef} from '@/model/common'
 import { gameAllShowRef, gameAllCateId,gameModel } from '@/model/game'
 const { gameListRef } = gameModel()
+const showBalance = ref('false')
 export function useAside(close) {
 
     const route = useRoute()
@@ -43,9 +45,10 @@ export function useAside(close) {
         })
     }
 
-    function onclickNoNav() {
-        playBtnAudioFunc()
-        close()
+    async function onclickNoNav() {
+       playBtnAudioFunc()
+       close()
+       
     }
 
     function openService() {
@@ -98,7 +101,7 @@ export function useAside(close) {
         {name: 'Telegram', type: 'telegram',logo: '/imgs/lo_telegram.svg', url:'https://t.me/MX39COM'},
         {name: 'Whatsapp', type: 'whatsapp',logo: '/imgs/lo_whatsapp.svg', url:'https://chat.whatsapp.com/KiFWx4WWdPk9IkI8J1hfYv'},
     ])
-    const share_detection = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe R$ 10.000 por dia!`)
+    const share_detection = ref(`Olá, eu estou jogando no ${window.document.title}, Ganhe {{ currentUnit.value }} 10.000 por dia!`)
     function onclickShare(item) {
         switch (item.type) {
             case 'facebook':
@@ -134,6 +137,7 @@ export function useAside(close) {
         copyInviteCode,
         leftproListRef,
         openGameAll,
-        gameListRef
+        gameListRef,
+        showBalance
       }
 }

@@ -125,7 +125,7 @@ const {
         <div class="w-1/2 flex flex-col items-center justify-center">
           <span class="text-[0.625rem] text-themetext3 mb-1">Saldo&nbsp;</span>
           <b class="text-[0.825rem] text-one"
-            ><span class="text-themetext0">R$&nbsp;</span>{{
+            ><span class="text-themetext0">{{ currentUnit.value }}&nbsp;</span>{{
               fn((memberRef.account && memberRef.account.user_money) || 0)
             }}</b
           >
@@ -136,7 +136,7 @@ const {
             >Total de bônus recebidos:&nbsp;</span
           >
           <b class="text-[0.825rem] text-one"
-            ><span class="text-themetext0">R$&nbsp;</span>{{ fn(memberRef.give_amount || 0) }}</b
+            ><span class="text-themetext0">{{ currentUnit.value }}&nbsp;</span>{{ fn(memberRef.give_amount || 0) }}</b
           >
         </div>
       </dd>
@@ -194,7 +194,7 @@ const {
                     >Volume acumulado de apostas:</span
                   >
                   <!-- <span class="text-base opacity-85 float-right">{{ fn(memberRef&&memberRef.account&&memberRef.account.consume_money)}}</span> -->
-                  <span class="text-[0.625rem]"> R$ {{next_level.bet_amount}} to VIP.{{next_level.vip}} </span>
+                  <span class="text-[0.625rem]"> {{ currentUnit.value }} {{next_level.bet_amount}} to VIP.{{next_level.vip}} </span>
                   
                   <!-- <i class="clear-both block"></i> -->
                 </dt>

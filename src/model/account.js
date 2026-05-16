@@ -10,6 +10,8 @@ export function rechargeModel(init) {
     const router = useRouter()
     let configRef = ref({})
     let amountRef = ref('')
+    let minAmountRef = ref(0)
+    let maxAmountRef = ref(0)
     let channelIndexRef = ref({
         index: 0,
         eq: 0,
@@ -49,6 +51,12 @@ export function rechargeModel(init) {
                 }
             }
         }
+        if(configRef.value.packages&&configRef.value.packages.length>0) {
+           var minamount = configRef.value.packages[0].amount || 0
+          var maxamount = configRef.value.packages[configRef.value.packages.length-1].amount || 0
+        }
+        minAmountRef.value = Number(minamount) || 0
+        maxAmountRef.value = Number(maxamount) || 0
     }
     async function starRechargeFunc(type, name = '', identify_num = '',money='') {
         let data
@@ -82,6 +90,11 @@ export function rechargeModel(init) {
         rechargePayInfoRef.value = {}
         let res = await $post({url: '/v1/common/pay/create', data: data}, {loading: true, toast: true})
         if(res.code != 200) return
+        if(res.data.config.link=='Channel error') {
+            showToast({
+                message: res.data.config.link, 
+            }); return  
+        }
         rechargePayInfoRef.value = res.data||{}
         if(rechargePayInfoRef.value&&rechargePayInfoRef.value.config&&rechargePayInfoRef.value.config.link) {
             router.push('/recharge/pay')
@@ -140,12 +153,13 @@ export function rechargeModel(init) {
 
     return { 
         configRef, amountRef, channelIndexRef, currentPayRef, currentChannelRef, getConfigFunc, starRechargeFunc,
-        callbackFbRechargeFunc
+        callbackFbRechargeFunc,minAmountRef,maxAmountRef
     }
 }
 
 export var withdrawalAmountRef = useSessionStorage('w_amount', '')
 export var withdrawalChannelIndexRef = useSessionStorage('w_channel', 0)
+export var withdrawalPhChannelRef = useSessionStorage('w_ph_channel', 0)
 export function withdrawalModel(init = {ch: false, info: false}) {
     const router = useRouter()
     let channelListRef = ref([])

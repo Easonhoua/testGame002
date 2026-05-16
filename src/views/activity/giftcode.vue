@@ -51,7 +51,7 @@ const openSocial = (type) => {
 </script>
 
 <template>
-    <pu-page title="Troca Recompensas" class="z-[999]">
+    <pu-page :title="t('pageTitle.ExchangeRewards')" class="z-[999]">
         <img :src=GiftcodeImg.img_giftcodebg class="w-full absolute left-0 "
             :class="currentTemplate.value == 'template_one' ? '-top-8' : 'top-0'">
         <img :src="CommonImg.m4_null" alt="" v-if="currentTemplate.value == 'template_four'">
@@ -189,23 +189,23 @@ const openSocial = (type) => {
                         :style="{ background: `url(${GiftcodeImg.bg_card1}) no-repeat` }"
                         style="background-size: 100% 100%;">
                         <p class="mb-1 text-xs">
-                            <span>Introduza / Colar o código de resgate do cupom:</span>
+                            <span>{{ t('activityCenter.EnterCupom') }}:</span>
                         </p>
                         <div class="w-full relative">
                             <input ref="input" type="text" v-model="dataRef.code" placeholder="Introduzir / Colar…"
                                 class="w-full h-12 pl-4 pr-24 text-base text-themetext1 bg-default-bg text-body-text placeholder:text-three rounded-xl focus:border-body-bg transition-all duration-300">
                             <div class="h-full pr-2 absolute right-0 top-0 flex items-center">
                                 <button @click="onclickPaste()" class="h-8 px-4 !text-xs m3-theme-btn1 rounded-[2rem]">
-                                    <span class="text-[0.98rem]">Colar</span>
+                                    <span class="text-[0.98rem]">{{ t('activityCenter.exit') }}</span>
                                 </button>
                             </div>
                         </div>
-                        <p class="text-xs text-three ">*Pressione e segure para colar.</p>
+                        <p class="text-xs text-three ">*{{ t('activityCenter.Pressurestoexit') }}.</p>
                         <div class="w-full mt-4 flex justify-center">
                             <!--  -->
                             <button @click="submit()" :class="dataRef.code ? 'm3-theme-btn1' : 'm3-theme-btn3'"
                                 class="h-[3.125rem] min-w-32 px-3 rounded-[2rem] text-[1.25rem] ">
-                                <span>Troca</span>
+                                <span>{{ t('activityCenter.Replace') }}</span>
                             </button>
                         </div>
                     </div>
@@ -217,7 +217,7 @@ const openSocial = (type) => {
                         <div class="flex items-center">
                             <img :src="GiftcodeImg.img_giftlink" class="w-[5rem]  mr-1 shrink-0">
                             <div class="text-xs flex-1 overflow-hidden">
-                                <p>Acompanhe nossa mídia e obtenha códigos de resgate:</p>
+                                <p>{{ t('activityCenter.Followmediarescuecodes') }}:</p>
                             </div>
                         </div>
                         <div
@@ -234,14 +234,14 @@ const openSocial = (type) => {
                 <div class="w-full mb-4 flex items-center">
                     <em class="h-0.5 flex-1 bg-gradient-to-r from-transparent to-themetext2"></em>
                     <h5 class="ma-w-[60%] px-2 text-sm text-center text-themetext2">
-                        <span>Descrição da Atividade</span>
+                        <span>{{ t('ActivityDescription') }}</span>
                     </h5>
                     <em class="h-0.5 flex-1 bg-gradient-to-l from-transparent to-themetext2"></em>
                 </div>
                 <article class="ctx-article p-mb text-sm text-themetext3">
-                    <p>1. Insira o código de resgate para receber o bônus em dinheiro.</p>
-                    <p>2. O uso do bônus deve seguir as regras da plataforma.</p>
-                    <p>3. A empresa reserva-se o direito de interpretação final sobre esta atividade.</p>
+                    <p>{{ t('activityCenter.activityDetail1') }}</p>
+                    <p>{{ t('activityCenter.activityDetail2') }}</p>
+                    <p>{{ t('activityCenter.activityDetail3') }}</p>
                 </article>
             </pu-card>
         </div>

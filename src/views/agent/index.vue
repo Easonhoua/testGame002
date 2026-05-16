@@ -59,19 +59,19 @@ const m4_nav_list = ref([
 ])
 
 const new_nav_list = ref([
-    { title: 'Link de Convite', type: 'invite', show: true, icon: AgentImg.icon_ag01},
-    { title: 'Rede de Agentes', type: 'rule', show: true, icon: AgentImg.icon_ag02},
-    { title: 'Desempenho', type: 'kpi', show: isAuthRef.value, icon: AgentImg.icon_ag03 },
+    { title: t('commCenter.InvitationLink'), type: 'invite', show: true, icon: AgentImg.icon_ag01},
+    { title: t('commCenter.RedeAgentes'), type: 'rule', show: true, icon: AgentImg.icon_ag02},
+    { title: t('commCenter.Performance'), type: 'kpi', show: isAuthRef.value, icon: AgentImg.icon_ag03 },
     // { title: 'Comissão', type: 'comm', show: isAuthRef.value, icon: AgentImg.icon_ag04 },
-    { title: 'Taxa de Bônus do Agente', type: 'taxa', show: isAuthRef.value, icon: AgentImg.icon_ag05}
+    { title: t('commCenter.AgentBonusRate'), type: 'taxa', show: isAuthRef.value, icon: AgentImg.icon_ag05}
 ])
 
 const m5_nav_list = ref([
-    { title: 'Link de Convite', type: 'invite', show: true, icon: AgentImg.icon_ag01,activeicon:AgentImg.icon_ag01_active },
-    { title: 'Rede de Agentes', type: 'rule', show: true, icon: AgentImg.icon_ag02,activeicon:AgentImg.icon_ag02_active },
-    { title: 'Desempenho', type: 'kpi', show: isAuthRef.value, icon: AgentImg.icon_ag03,activeicon:AgentImg.icon_ag03_active },
+    { title: t('commCenter.InvitationLink'), type: 'invite', show: true, icon: AgentImg.icon_ag01,activeicon:AgentImg.icon_ag01_active },
+    { title: t('commCenter.RedeAgentes'), type: 'rule', show: true, icon: AgentImg.icon_ag02,activeicon:AgentImg.icon_ag02_active },
+    { title: t('commCenter.Performance'), type: 'kpi', show: isAuthRef.value, icon: AgentImg.icon_ag03,activeicon:AgentImg.icon_ag03_active },
     // { title: 'Comissão', type: 'comm', show: isAuthRef.value, icon: AgentImg.icon_ag04,activeicon:AgentImg.icon_ag04_active },
-    { title: 'Taxa de Bônus do Agente', type: 'taxa', show: isAuthRef.value, icon: AgentImg.icon_ag05,activeicon:AgentImg.icon_ag05_active}
+    { title: t('commCenter.AgentBonusRate'), type: 'taxa', show: isAuthRef.value, icon: AgentImg.icon_ag05,activeicon:AgentImg.icon_ag05_active}
 ])
 
 
@@ -222,7 +222,7 @@ const getTabClass = (itemType) => {
         <Panddingbottom></Panddingbottom>
     </template>
     <template v-else-if="currentTemplate == 'template_three'">
-        <pu-page title="Agente" class="z-[1]" hideService>
+        <pu-page :title="t('pageTitle.Agent')" class="z-[1]" hideService>
             <div class="w-wrap max-w-full h-screen overflow-y-auto relative m4Class">
                 <!-- 主内容区域 -->
                 <div class="w-full">
@@ -340,7 +340,7 @@ const getTabClass = (itemType) => {
                                         <a :to="item.path" href="javascript:;" @click="playBtnAudioFunc()"
                                             class="px-3 py-2 text-xs   font-bold flex items-center text-white relative bottom-[-2px]"
                                             :class="getTabClass(item.type)">
-                                            <img :src="nav_itype==item.type? item.activeicon : item.icon" alt="" class=" h-4 mr-1">
+                                            <img :src="nav_itype==item.type? item.activeicon : item.icon" alt="" class="h-4 mr-1">
                                             <span :class="nav_itype==item.type? 'text-themetext2' : ''">{{ item.title }}</span>
                                             <i v-if="item.type == 'commission' && activity_count > 0"
                                                 class="w-2 h-2 bg-texterror rounded-full absolute right-1.5 top-[0.375rem] border-[0.5px]"></i>

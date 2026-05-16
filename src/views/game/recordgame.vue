@@ -16,7 +16,7 @@ onMounted(()=> {
 </script>
 
 <template>
-    <pu-page title="Detalhes do Jogo" class="z-[999]"  :style="currentTemplate.value!='template_four'?{background: `url(${CommonBgImg.bg_body_1}) center` }:{background: `var(--color-theme)`}" style="background-size: cover;"> 
+    <pu-page :title="t('pageTitle.GameDetails')" class="z-[999]"  :style="currentTemplate.value!='template_four'?{background: `url(${CommonBgImg.bg_body_1}) center` }:{background: `var(--color-theme)`}" style="background-size: cover;"> 
         <pu-card theme="3" class="mt-4">
             <section class="w-full px-4 py-3 text-xs !leading-normal text-rgbawhite50 border border-rgbawhite10 rounded-xl bg-gradient-to-b from-rgbawhite10 to-transparent">
                 <div class="flex items-center">
@@ -27,7 +27,7 @@ onMounted(()=> {
                     <div class="flex-1 overflow-hidden">
                         <p class="ml-3 font-semibold text-sm opacity-45  mb-1">{{ gameClickRef.title }}</p>
                         <p class="ml-3 text-sm opacity-45">
-                            <span>Faturamento: {{ fn(Math.abs(Number(gameClickRef.bet_amount))) }}</span>
+                            <span>{{ t('activityCenter.Invoicing') }}: {{ fn(Math.abs(Number(gameClickRef.bet_amount))) }}</span>
                         </p>
                     </div>
                     <div class="pl-3 shrink-0 flex items-center justify-between">
@@ -36,7 +36,7 @@ onMounted(()=> {
                                 <span>{{ fn(Number(gameClickRef.win_amount)+Number(gameClickRef.bet_amount)) }}</span>
                             </p>
                             <p class="text-sm opacity-45">
-                                <span>{{ gameClickRef.times }} Vezes</span>
+                                <span>{{ gameClickRef.times }} {{ t('times') }}</span>
                             </p>
                         </div>    
                     </div>
@@ -53,7 +53,7 @@ onMounted(()=> {
                                 <div class="flex-1 overflow-hidden">
                                     <p class="ml-3 font-semibold text-sm opacity-45  mb-1">{{ resetTimeFunc(item.created_at) }}</p>
                                     <p class="ml-3 text-sm opacity-45">
-                                        <span>Faturamento: {{ fn(Math.abs(Number(item.bet_amount))) }}</span>
+                                        <span>{{ t('activityCenter.Invoicing') }}: {{ fn(Math.abs(Number(item.bet_amount))) }}</span>
                                     </p>
                                 </div>
                                 <div class="pl-3 shrink-0 flex items-center justify-between">
@@ -73,7 +73,7 @@ onMounted(()=> {
                     <!-- <pu-no-data></pu-no-data> -->
                     <img :src=CommonImg.img_nodata class="w-40 h-auto">
                     <div class="w-56 mx-auto mt-5 text-xs  text-center" :class="currentTemplate.value=='template_one'?'text-rgbawhite50':'text-theme'">
-                        <p>Por favor, entre em contato com o agente para recarregar as moedas e começar o jogo</p>
+                        <p>{{ t('activityCenter.activityDetail14') }}</p>
                     </div>
                     
                 </div>
