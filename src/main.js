@@ -11,7 +11,6 @@ import { i18n } from './i18n'
 import { Locale } from 'vant'
 import { Lazyload } from 'vant';
 import enUS from 'vant/es/locale/lang/en-US'
-import 'vant/lib/index.css'
 import { useTemplate } from '@/utils/template'
 
 // 初始化主题系统（必须在渲染前执行）

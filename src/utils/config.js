@@ -1,8 +1,4 @@
 import { ref } from 'vue'
-import { serviceModel } from '@/model/basic'
-
-const { getserviceListFunc } = serviceModel()
-
 export const bodyWidthRef = ref(375)
 export const bodyHeightRef = ref(0)
 
@@ -29,7 +25,9 @@ export const isPwaRef = ref(false)
 
 export const gameModeType = ref(0)
 
-export function openServiceFunc() {
+export async function openServiceFunc() {
+    const { serviceModel } = await import('@/model/basic')
+    const { getserviceListFunc } = serviceModel()
     getserviceListFunc().then(res => {
         if(res.code != 200) {
             showToast({

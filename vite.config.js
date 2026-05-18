@@ -94,6 +94,11 @@ export default defineConfig(({ mode }) => {
         resolvers: [VantResolver()],
       }),
     ],
+    define: {
+      __VUE_I18N_FULL_INSTALL__: false,
+      __VUE_I18N_LEGACY_API__: false,
+      __INTLIFY_PROD_DEVTOOLS__: false,
+    },
     server: {
       host: '0.0.0.0'
     },

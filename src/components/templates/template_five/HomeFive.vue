@@ -3,27 +3,29 @@
 
 import { defineAsyncComponent } from 'vue'
 import { fn } from '@/i18n'
-import PuAside from '@/components/public/PuAside.vue'
-import SignIn from '@/components/pages/SignIn.vue'
-import GameAllList from '@/components/pages/GameAllList.vue'
-import GameSearch from '@/components/pages/GameSearch.vue'
-import NoticeRegister from '@/components/pages/NoticeRegister.vue'
-import HomeDownload from '@/components/pages/HomeDownload.vue'
-import RedPakage from '@/components/pages/RedPakage.vue'
-import Notice from '@/components/pages/Notice.vue'
-import PwaGuide from '@/components/pages/PwaGuide.vue'
-import PddIndexPop from '@/components/pages/PddIndexPop.vue'
-import PddIndexPopNew from '@/components/pages/PddIndexPopNew.vue'
-import ReceivePop from '@/components/pages/ReceivePop.vue'
-import NoticePop from '@/components/pages/NoticePop.vue'
-import FirstChargePop from '@/components/pages/FirstChargePop.vue'
 import MarqueeNotice from '@/components/public/MarqueeNotice.vue'
-// 破产弹窗
-import Daypay from '@/components/pages/Daypay.vue'
-// 异步加载游戏列表组件
-const HomeGameList = defineAsyncComponent(() => 
-  import('@/components/pages/HomeGameList.vue')
-)
+import { gameAllShowRef } from '@/model/game'
+import { isPopNotice, isPopPdd, isPopReceive } from '@/model/common'
+import { pwaGuideShow, pwaReceiveShow } from '@/model/pwa'
+import { isRegisterSuccessShowRef } from '@/model/user'
+import { redPakageShowRef, showDayPayRef, showFirstChargeRef, signShowRef } from '@/model/other'
+
+const PuAside = defineAsyncComponent(() => import('@/components/public/PuAside.vue'))
+const SignIn = defineAsyncComponent(() => import('@/components/pages/SignIn.vue'))
+const GameAllList = defineAsyncComponent(() => import('@/components/pages/GameAllList.vue'))
+const GameSearch = defineAsyncComponent(() => import('@/components/pages/GameSearch.vue'))
+const NoticeRegister = defineAsyncComponent(() => import('@/components/pages/NoticeRegister.vue'))
+const HomeDownload = defineAsyncComponent(() => import('@/components/pages/HomeDownload.vue'))
+const RedPakage = defineAsyncComponent(() => import('@/components/pages/RedPakage.vue'))
+const Notice = defineAsyncComponent(() => import('@/components/pages/Notice.vue'))
+const PwaGuide = defineAsyncComponent(() => import('@/components/pages/PwaGuide.vue'))
+const PddIndexPop = defineAsyncComponent(() => import('@/components/pages/PddIndexPop.vue'))
+const PddIndexPopNew = defineAsyncComponent(() => import('@/components/pages/PddIndexPopNew.vue'))
+const ReceivePop = defineAsyncComponent(() => import('@/components/pages/ReceivePop.vue'))
+const NoticePop = defineAsyncComponent(() => import('@/components/pages/NoticePop.vue'))
+const FirstChargePop = defineAsyncComponent(() => import('@/components/pages/FirstChargePop.vue'))
+const Daypay = defineAsyncComponent(() => import('@/components/pages/Daypay.vue'))
+const HomeGameList = defineAsyncComponent(() => import('@/components/pages/HomeGameList.vue'))
 
 import { useThemeImages } from '@/utils/themeimg'
 // 主页图片信息
@@ -363,20 +365,20 @@ onUnmounted(() => {
                 </div>
                 <em class="w-full" style="padding-bottom: env(safe-area-inset-bottom);"></em>
             </van-floating-bubble>
-            <pu-aside v-model="aside_show" :navList="navListRef" :hashSign="signConfigRef.todayStatus"></pu-aside>
-            <sign-in></sign-in>
-            <game-all-list></game-all-list> 
-            <game-search v-model:show="showSearch" />
-            <notice></notice>
-            <notice-register></notice-register>
-            <red-pakage></red-pakage>
+            <pu-aside v-if="aside_show" v-model="aside_show" :navList="navListRef" :hashSign="signConfigRef.todayStatus"></pu-aside>
+            <sign-in v-if="signShowRef"></sign-in>
+            <game-all-list v-if="gameAllShowRef"></game-all-list> 
+            <game-search v-if="showSearch" v-model:show="showSearch" />
+            <notice v-if="NoticeShowRef"></notice>
+            <notice-register v-if="isRegisterSuccessShowRef"></notice-register>
+            <red-pakage v-if="redPakageShowRef"></red-pakage>
             <!-- <home-no-recharge v-if="noRechargeShowRef"></home-no-recharge> -->
-            <pwa-guide></pwa-guide>
+            <pwa-guide v-if="pwaGuideShow || pwaReceiveShow"></pwa-guide>
             <template >
                 <!-- 首充活动弹窗 -->
-                <first-charge-pop></first-charge-pop>
+                <first-charge-pop v-if="showFirstChargeRef"></first-charge-pop>
                 <!-- 破产活动弹窗 -->
-                <Daypay></Daypay>
+                <Daypay v-if="showDayPayRef"></Daypay>
 
             </template>
             
@@ -398,9 +400,9 @@ onUnmounted(() => {
                 />
             </template>
 
-            <pdd-index-pop-new/>
-            <notice-pop />
-            <receive-pop />
+            <pdd-index-pop-new v-if="isPopPdd"/>
+            <notice-pop v-if="isPopNotice" />
+            <receive-pop v-if="isPopReceive" />
             <teleport to="body">
                 <div v-if="indexLoadingShowRef"  class="w-full h-full bg-three absolute left-0 top-0 z-[999999999999] flex items-center justify-center">
                     <van-loading color="white" size="4rem" />

@@ -1,17 +1,22 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { useTitle, useWindowSize, useSessionStorage } from '@vueuse/core'
+import { defineAsyncComponent, onMounted, ref, watch } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
-import { bodyWidthRef, bodyHeightRef, originFullUrlsRef,footShowRef} from '@/utils/config'
-import { refreshTokenFunc } from '@/model/user'
-import { loadResourceFunc,isPwaFunc,isIOS} from '@/utils/core'
+import { bodyWidthRef, bodyHeightRef, originFullUrlsRef, footShowRef, loginShowRef, serviceShowRef } from '@/utils/config'
 import vhCheck from 'vh-check'
 import UiDialog from './components/ui/dialog/UiDialog.vue'
-import ContactService from './components/pages/ContactService.vue'
-import LoginRegister from './components/pages/LoginRegister.vue'
-import PuFooter from './components/public/PuFooter.vue'  // 添加导入
-import { $post } from './request'
-import {getStorage } from '@/utils/config'
+
+const ContactService = defineAsyncComponent(() => import('./components/pages/ContactService.vue'))
+const LoginRegister = defineAsyncComponent(() => import('./components/pages/LoginRegister.vue'))
+const PuFooter = defineAsyncComponent(() => import('./components/public/PuFooter.vue'))
+
+const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+const isPwaFunc = () => window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true
+const warmUpAudio = () => {
+    setTimeout(() => {
+        import('@/utils/core').then(({ loadResourceFunc }) => loadResourceFunc())
+    }, 1000)
+}
 
 const route = useRoute()
 const router = useRouter()
@@ -75,7 +80,7 @@ onMounted(()=> {
     //     refreshTokenFunc()
     // }
 
-    loadResourceFunc()
+    warmUpAudio()
     resetBaseSize()
 
     setTimeout(() => {
@@ -128,6 +133,7 @@ async function initFirebase() {
         // let isSaveFcmToken = localStorage.getItem('isSaveFcmToken') || false
         // if(info && info.access_token && !isSaveFcmToken){
         if(info && info.access_token){
+            const { $post } = await import('./request')
             const res = await $post({ url: '/activity/v1/pwa/save-user-token', data: data }, { loading: false, toast: false })
             if (res.code == 200) {
                 localStorage.setItem('isSaveFcmToken', true);
@@ -211,9 +217,9 @@ const getTransitionName = (route) => {
             </transition>
         </router-view>
         <UiDialog />
-        <ContactService />
-        <LoginRegister />
-        <pu-footer/>
+        <ContactService v-if="serviceShowRef" />
+        <LoginRegister v-if="loginShowRef" />
+        <pu-footer v-if="footShowRef" />
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="w-0 h-0">
             <defs>
                 <linearGradient id="svgTextLInear" x1="0%" y1="0%" x2="0" y2="100%">

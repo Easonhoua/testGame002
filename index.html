@@ -179,6 +179,22 @@
       // }
       console.log('url', url);
     </script>
+  </head>
+  <body style="-webkit-user-drag: none;">
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+      let queryIndex = location.href.indexOf('?')
+      let hashIndex = location.href.indexOf('#')
+      if(queryIndex < hashIndex){
+          location.href = location.origin + location.pathname + location.hash + location.search
+      }else if(hashIndex == -1) {
+        let hash = location.hash?location.hash:'#/'
+        location.href = location.origin + location.pathname + hash + location.search
+      }
+    </script>
+
+    <!-- Pixel SDKs are intentionally loaded after the app entry so they do not delay first paint. -->
     <script>
         console.log('kwaiqKey', window.kwaiqKey);
 
@@ -254,20 +270,6 @@
         fbq('track', 'PageView');
       }
       
-    </script>
-  </head>
-  <body style="-webkit-user-drag: none;">
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-    <script>
-      let queryIndex = location.href.indexOf('?')
-      let hashIndex = location.href.indexOf('#')
-      if(queryIndex < hashIndex){
-          location.href = location.origin + location.pathname + location.hash + location.search
-      }else if(hashIndex == -1) {
-        let hash = location.hash?location.hash:'#/'
-        location.href = location.origin + location.pathname + hash + location.search
-      }
     </script>
   </body>
 </html>
