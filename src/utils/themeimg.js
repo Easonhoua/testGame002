@@ -2,11 +2,55 @@
  * 主题图片配置文件
  * 集中管理所有需要使用主题的图片
  */
-import { getThemeImage } from '@/utils/theme'
+import { getThemeImage as resolveThemeImage } from '@/utils/theme'
+
+const isLazyImage = (value) => typeof value === 'function' && value.__lazyThemeImage === true
+
+const lazyGroupCache = new WeakMap()
+
+const getThemeImage = (...args) => {
+  const getter = () => resolveThemeImage(...args)
+  getter.__lazyThemeImage = true
+  return getter
+}
+
+const createLazyGroup = (group) => {
+  if (!group || typeof group !== 'object') return group
+  if (lazyGroupCache.has(group)) return lazyGroupCache.get(group)
+
+  const valueCache = new Map()
+  const proxy = new Proxy(group, {
+    get(target, key, receiver) {
+      const value = Reflect.get(target, key, receiver)
+      if (!isLazyImage(value)) return value
+      const cacheKey = `${window.themecolor?.name || ''}:${String(key)}`
+      if (!valueCache.has(cacheKey)) valueCache.set(cacheKey, value())
+      return valueCache.get(cacheKey)
+    },
+  })
+  lazyGroupCache.set(group, proxy)
+  return proxy
+}
+
+const createLazyThemeImages = (groups) => {
+  const groupCache = new Map()
+  return new Proxy(groups, {
+    get(target, key, receiver) {
+      const group = Reflect.get(target, key, receiver)
+      if (!group || typeof group !== 'object') return group
+      if (!groupCache.has(key)) groupCache.set(key, createLazyGroup(group))
+      return groupCache.get(key)
+    },
+  })
+}
+
+let themeImagesCache
 
 // 方式 1: 使用函数返回（推荐 - 支持热更新和主题切换）
 export const useThemeImages = () => {
-  return {
+  if (themeImagesCache) return themeImagesCache
+
+  themeImagesCache = createLazyThemeImages({
     // 公共图片模板通用
     public: {
       receive_bg1: "imgs/common/m1.png",
@@ -772,5 +816,7 @@ export const useThemeImages = () => {
       img_group0_2:getThemeImage('group_fase2.png','worldcup'),
     }
 
-  }
+  })
+
+  return themeImagesCache
 }

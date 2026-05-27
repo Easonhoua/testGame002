@@ -11,7 +11,6 @@ import { i18n } from './i18n'
 import { Locale } from 'vant'
 import { Lazyload } from 'vant';
 import enUS from 'vant/es/locale/lang/en-US'
-import 'vant/lib/index.css'
 import { useTemplate } from '@/utils/template'
 
 // 初始化主题系统（必须在渲染前执行）
@@ -38,6 +37,25 @@ Locale.use('en-US', enUS)
 
 const pinia = createPinia()
 const app = createApp(App)
+
+const fallbackImageType = (src = '') => {
+  if (typeof src !== 'string') return src
+  if (/\.webp($|\?)/i.test(src)) return src.replace(/\.webp($|\?)/i, '.png$1')
+  return src
+}
+
+window.addEventListener('error', (event) => {
+  const target = event?.target
+  if (!(target instanceof HTMLImageElement)) return
+  const src = target.currentSrc || target.src || ''
+  if (!/\.webp($|\?)/i.test(src) || target.dataset.webpFallbackApplied === '1') return
+  const fallbackSrc = fallbackImageType(src)
+  if (fallbackSrc !== src) {
+    target.dataset.webpFallbackApplied = '1'
+    target.src = fallbackSrc
+  }
+}, true)
+
 
 app.component('PuPage', PuPage)
 app.component('PuCard', PuCard)
