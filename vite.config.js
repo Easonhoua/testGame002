@@ -5,6 +5,7 @@ import Components from 'unplugin-vue-components/vite';
 import { VantResolver } from '@vant/auto-import-resolver';
 import path from 'path';
 import fs from 'fs';
+import sharp from 'sharp';
 import { TEMPLATE_COMPONENTS } from './templates.config.js'
 
 const resolve = (dir) => path.join(__dirname, dir)
@@ -43,11 +44,38 @@ const copyIfExists = (from, to) => {
   fs.cpSync(from, to, { recursive: true })
 }
 
+const scanImages = (dir, list = []) => {
+  if (!fs.existsSync(dir)) return list
+  const entries = fs.readdirSync(dir, { withFileTypes: true })
+  entries.forEach((entry) => {
+    const fullPath = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      scanImages(fullPath, list)
+      return
+    }
+    if (/\.(png|jpe?g)$/i.test(entry.name)) list.push(fullPath)
+  })
+  return list
+}
+
+const generateWebpVariants = async (dir) => {
+  const files = scanImages(dir)
+  await Promise.all(files.map(async (file) => {
+    const webpPath = file.replace(/\.(png|jpe?g)$/i, '.webp')
+    if (fs.existsSync(webpPath)) return
+    try {
+      await sharp(file).webp({ quality: 82, effort: 4 }).toFile(webpPath)
+    } catch (error) {
+      console.warn(`[webp] failed: ${path.relative(process.cwd(), file)} => ${error.message}`)
+    }
+  }))
+}
+
 const skinPublicAssetsPlugin = ({ templateName, themeName }) => {
   return {
     name: 'skin-public-assets',
     apply: 'build',
-    closeBundle() {
+    async closeBundle() {
       const publicRoot = resolve('public')
       const distRoot = resolve('dist')
       const imgsRoot = path.join(publicRoot, 'imgs')
@@ -72,6 +100,8 @@ const skinPublicAssetsPlugin = ({ templateName, themeName }) => {
         path.join(imgsRoot, templateName, themeName),
         path.join(distImgsRoot, templateName, themeName),
       )
+
+      await generateWebpVariants(distImgsRoot)
     },
   }
 }
@@ -98,6 +128,7 @@ export default defineConfig(({ mode }) => {
       __VUE_I18N_FULL_INSTALL__: false,
       __VUE_I18N_LEGACY_API__: false,
       __INTLIFY_PROD_DEVTOOLS__: false,
+      __ENABLE_VCONSOLE__: JSON.stringify(mode !== 'production'),
     },
     server: {
       host: '0.0.0.0'
@@ -108,11 +139,22 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
+      cssCodeSplit: true,
+      sourcemap: false,
       rollupOptions: {
         output: {
-          manualChunks: {
-            'firebase': ['firebase/app', 'firebase/messaging']
-          }
+          manualChunks(id) {
+            if (!id.includes('node_modules')) return
+            if (id.includes('firebase')) return 'firebase'
+            if (id.includes('/vant/') || id.includes('@vant')) return 'vant'
+            if (id.includes('/vue/') || id.includes('/vue-router/') || id.includes('/pinia/') || id.includes('/vue-i18n/')) return 'vue-core'
+
+            const modulePath = id.split('node_modules/')[1]
+            if (!modulePath) return 'vendor'
+            const parts = modulePath.split('/')
+            const pkgName = parts[0].startsWith('@') ? `${parts[0]}_${parts[1] || 'pkg'}` : parts[0]
+            return `npm.${pkgName.replace(/[^a-zA-Z0-9_\-]/g, '_')}`
+          },
         }
       }
     }

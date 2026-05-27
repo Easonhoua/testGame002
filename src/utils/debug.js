@@ -2,8 +2,11 @@ import { ref } from 'vue'
 
 const vConsoleInstance = ref(null)
 const isReady = ref(false)
+const enableVconsole = typeof __ENABLE_VCONSOLE__ !== 'undefined' ? __ENABLE_VCONSOLE__ : false
 
 export async function initVConsole() {
+    if (!enableVconsole) return false
+
     //检查 URL 参数
     const fullUrl = window.location.href
     const debugParam = fullUrl.includes('debug=true')
