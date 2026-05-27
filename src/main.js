@@ -38,6 +38,28 @@ Locale.use('en-US', enUS)
 const pinia = createPinia()
 const app = createApp(App)
 
+const fallbackImageType = (src = '') => {
+  if (typeof src !== 'string') return src
+  if (/\.webp($|\?)/i.test(src)) return src.replace(/\.webp($|\?)/i, '.png$1')
+  return src
+}
+
+window.addEventListener('error', (event) => {
+  const target = event?.target
+  if (!(target instanceof HTMLImageElement)) return
+  const src = target.currentSrc || target.src || ''
+  if (!/\.webp($|\?)/i.test(src) || target.dataset.webpFallbackApplied === '1') return
+  const fallbackSrc = fallbackImageType(src)
+  if (fallbackSrc !== src) {
+    target.dataset.webpFallbackApplied = '1'
+    target.src = fallbackSrc
+  }
+}, true)
+
+
+
+
+
 app.component('PuPage', PuPage)
 app.component('PuCard', PuCard)
 app.component('PuNoData', PuNoData)

@@ -5,6 +5,37 @@
 import { useTemplate } from '@/utils/template'
 import { applyThemeTokens } from '@/theme/tokens'
 const { currentTemplate } = useTemplate()
+
+const webpSupportCache = {
+  checked: false,
+  supported: false,
+}
+
+function supportsWebp() {
+  if (typeof window === 'undefined') return false
+  if (webpSupportCache.checked) return webpSupportCache.supported
+  try {
+    const canvas = document.createElement('canvas')
+    webpSupportCache.supported = canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
+  } catch (error) {
+    webpSupportCache.supported = false
+  }
+  webpSupportCache.checked = true
+  return webpSupportCache.supported
+}
+
+function toWebpPath(path) {
+  if (!supportsWebp()) return path
+  if (/\.(png|jpe?g)$/i.test(path)) {
+    return path.replace(/\.(png|jpe?g)$/i, '.webp')
+  }
+  return path
+}
+
+
+
+
+
 // 主题配置映射表
 const themeConfig = {
   // 模板一
@@ -2114,7 +2145,8 @@ export function getThemeImage(imageName, folder = '') {
   if (!window.imageCache) {
     window.imageCache = {};
   }
-  const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}`;
+  // const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}`;
+  const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}_${supportsWebp() ? 'webp' : 'raw'}`;
   if (window.imageCache[cacheKey]) {
     return window.imageCache[cacheKey];
   }
@@ -2125,9 +2157,10 @@ export function getThemeImage(imageName, folder = '') {
   } else {
     path = `/imgs/${currentTemplate.value}/${themeFolder}/${imageName}`;
   }
+  const optimizedPath = toWebpPath(path)
   // 缓存路径
-  window.imageCache[cacheKey] = path;
-  return path;
+  window.imageCache[cacheKey] = optimizedPath;
+  return optimizedPath;
 }
 
 /**
