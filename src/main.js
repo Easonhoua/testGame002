@@ -57,9 +57,6 @@ window.addEventListener('error', (event) => {
 }, true)
 
 
-
-
-
 app.component('PuPage', PuPage)
 app.component('PuCard', PuCard)
 app.component('PuNoData', PuNoData)

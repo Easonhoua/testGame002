@@ -108,11 +108,22 @@ export default defineConfig(({ mode }) => {
       }
     },
     build: {
+      cssCodeSplit: true,
+      sourcemap: false,
       rollupOptions: {
         output: {
-          manualChunks: {
-            'firebase': ['firebase/app', 'firebase/messaging']
-          }
+           manualChunks(id) {
+            if (!id.includes('node_modules')) return
+            if (id.includes('firebase')) return 'firebase'
+            if (id.includes('/vant/') || id.includes('@vant')) return 'vant'
+            if (id.includes('/vue/') || id.includes('/vue-router/') || id.includes('/pinia/') || id.includes('/vue-i18n/')) return 'vue-core'
+
+            const modulePath = id.split('node_modules/')[1]
+            if (!modulePath) return 'vendor'
+            const parts = modulePath.split('/')
+            const pkgName = parts[0].startsWith('@') ? `${parts[0]}_${parts[1] || 'pkg'}` : parts[0]
+            return `npm.${pkgName.replace(/[^a-zA-Z0-9_\-]/g, '_')}`
+          },
         }
       }
     }
