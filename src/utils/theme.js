@@ -24,8 +24,14 @@ function supportsWebp() {
   return webpSupportCache.supported
 }
 
+function shouldUseWebp() {
+  // 本地开发时 public 下通常只有原始 png/jpg，未执行打包/转换前直接改成
+  // webp 会导致 404；生产构建产物才启用 webp 优化。
+  return !import.meta.env.DEV && supportsWebp()
+}
+
 function toWebpPath(path) {
-  if (!supportsWebp()) return path
+  if (!shouldUseWebp()) return path
   if (/\.(png|jpe?g)$/i.test(path)) {
     return path.replace(/\.(png|jpe?g)$/i, '.webp')
   }
@@ -2146,7 +2152,7 @@ export function getThemeImage(imageName, folder = '') {
     window.imageCache = {};
   }
   // const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}`;
-  const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}_${supportsWebp() ? 'webp' : 'raw'}`;
+  const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}_${shouldUseWebp() ? 'webp' : 'raw'}`;
   if (window.imageCache[cacheKey]) {
     return window.imageCache[cacheKey];
   }
