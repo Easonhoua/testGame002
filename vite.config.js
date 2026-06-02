@@ -143,7 +143,7 @@ export default defineConfig(({ mode }) => {
       sourcemap: false,
       rollupOptions: {
         output: {
-          manualChunks(id) {
+           manualChunks(id) {
             if (!id.includes('node_modules')) return
             if (id.includes('firebase')) return 'firebase'
             if (id.includes('/vant/') || id.includes('@vant')) return 'vant'

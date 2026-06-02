@@ -38,7 +38,6 @@ Locale.use('en-US', enUS)
 const pinia = createPinia()
 const app = createApp(App)
 
-
 const fallbackImageType = (src = '') => {
   if (typeof src !== 'string') return src
   if (/\.webp($|\?)/i.test(src)) return src.replace(/\.webp($|\?)/i, '.png$1')
