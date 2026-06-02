@@ -31,7 +31,6 @@ function shouldUseWebp() {
 }
 
 function toWebpPath(path) {
-  if (!supportsWebp()) return path
   if (!shouldUseWebp()) return path
   if (/\.(png|jpe?g)$/i.test(path)) {
     return path.replace(/\.(png|jpe?g)$/i, '.webp')
@@ -2148,6 +2147,7 @@ export function getThemeImage(imageName, folder = '') {
   if (!window.imageCache) {
     window.imageCache = {};
   }
+  // const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}`;
   const cacheKey = `${currentTemplate.value}_${theme.images.folder}_${imageName}_${folder}_${shouldUseWebp() ? 'webp' : 'raw'}`;
   if (window.imageCache[cacheKey]) {
     return window.imageCache[cacheKey];
