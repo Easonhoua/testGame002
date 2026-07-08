@@ -9,6 +9,14 @@ import { getPwaPageConfigFunc, pwaPageConfig} from '@/model/pwa'
 import { useThemeImages } from '@/utils/themeimg'
 import { $get } from '@/request'
 
+const decodeHomeDownloadText = (value) => decodeURIComponent(
+    atob(value)
+        .split('')
+        .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`)
+        .join('')
+)
+const hdText = decodeHomeDownloadText
+
 const PwaImg = useThemeImages().pwa
 const LoginImg = useThemeImages().login
 
@@ -21,56 +29,56 @@ const router = useRouter()
 
 const comment_list = ref([
     {
-        name: 'Lara Liras', 
+        name: hdText('TGFyYSBMaXJhcw=='), 
         avatar: PwaImg.icon_avatar1, 
-        date: '28 de maio de 2025', 
+        date: hdText('MjggZGUgbWFpbyBkZSAyMDI1'), 
         team: 52, 
-        content: `O jogo é bom , mais precisa de um incentivo, no geral eu gostei bastante Dá pra pessoa distrair e jogar é muito saudável ! Amei os porquinhos kkk`
+        content: hdText('TyBqb2dvIMOpIGJvbSAsIG1haXMgcHJlY2lzYSBkZSB1bSBpbmNlbnRpdm8sIG5vIGdlcmFsIGV1IGdvc3RlaSBiYXN0YW50ZSBEw6EgcHJhIHBlc3NvYSBkaXN0cmFpciBlIGpvZ2FyIMOpIG11aXRvIHNhdWTDoXZlbCAhIEFtZWkgb3MgcG9ycXVpbmhvcyBra2s=')
     },
     {
-        name: 'Angelita Da Silva', 
+        name: hdText('QW5nZWxpdGEgRGEgU2lsdmE='), 
         avatar: PwaImg.icon_avatar2, 
-        date: '25 de maio de 2025', 
+        date: hdText('MjUgZGUgbWFpbyBkZSAyMDI1'), 
         team: 22, 
-        content: `Gosto muito, o jogo é super divertido e o jackpot explode todos os dias`
+        content: hdText('R29zdG8gbXVpdG8sIG8gam9nbyDDqSBzdXBlciBkaXZlcnRpZG8gZSBvIGphY2twb3QgZXhwbG9kZSB0b2RvcyBvcyBkaWFz')
     },
     {
-        name: 'Rubens Vieira dos Santos', 
+        name: hdText('UnViZW5zIFZpZWlyYSBkb3MgU2FudG9z'), 
         avatar: PwaImg.icon_avatar3, 
-        date: '20 de maio de 2025', 
+        date: hdText('MjAgZGUgbWFpbyBkZSAyMDI1'), 
         team: 20, 
-        content: `muito divertido e não fica trancando e cheio de anúncios muito bom mesmo`
+        content: hdText('bXVpdG8gZGl2ZXJ0aWRvIGUgbsOjbyBmaWNhIHRyYW5jYW5kbyBlIGNoZWlvIGRlIGFuw7puY2lvcyBtdWl0byBib20gbWVzbW8=')
     },
 ])
 
 const phcomment_list = ref([
     {
-        name: 'Jayson 8847', 
+        name: hdText('SmF5c29uIDg4NDc='), 
         avatar: PwaImg.icon_avatar1, 
-        date: 'May 18, 2026', 
+        date: hdText('TWF5IDE4LCAyMDI2'), 
         team: 52, 
-        content: `The game is good, but it needs some encouragement. Overall, I liked it a lot. It's a great way to distract yourself and play, it's very good! `
+        content: hdText('VGhlIGdhbWUgaXMgZ29vZCwgYnV0IGl0IG5lZWRzIHNvbWUgZW5jb3VyYWdlbWVudC4gT3ZlcmFsbCwgSSBsaWtlZCBpdCBhIGxvdC4gSXQncyBhIGdyZWF0IHdheSB0byBkaXN0cmFjdCB5b3Vyc2VsZiBhbmQgcGxheSwgaXQncyB2ZXJ5IGdvb2QhIA==')
     },
     {
-        name: 'Maria Kristine', 
+        name: hdText('TWFyaWEgS3Jpc3RpbmU='), 
         avatar: PwaImg.icon_avatar2, 
-        date: 'April 15, 2026', 
+        date: hdText('QXByaWwgMTUsIDIwMjY='), 
         team: 22, 
-        content: `I really like it, the game is super fun and the jackpot explodes every day.`
+        content: hdText('SSByZWFsbHkgbGlrZSBpdCwgdGhlIGdhbWUgaXMgc3VwZXIgZnVuIGFuZCB0aGUgamFja3BvdCBleHBsb2RlcyBldmVyeSBkYXku')
     },
     {
-        name: 'Princess Joy', 
+        name: hdText('UHJpbmNlc3MgSm95'), 
         avatar: PwaImg.icon_avatar3, 
-        date: 'July 30,2025', 
+        date: hdText('SnVseSAzMCwyMDI1'), 
         team: 20, 
-        content: `Very fun, doesn't freeze or get full of ads, really good.`
+        content: hdText('VmVyeSBmdW4sIGRvZXNuJ3QgZnJlZXplIG9yIGdldCBmdWxsIG9mIGFkcywgcmVhbGx5IGdvb2Qu')
     },
     {
-        name: 'John Carlo', 
+        name: hdText('Sm9obiBDYXJsbw=='), 
         avatar: PwaImg.icon_avatar3, 
-        date: 'July 20,2025', 
+        date: hdText('SnVseSAyMCwyMDI1'), 
         team: 20, 
-        content: `This game is exciting and fun, I really like it. There are many ways to play and lots of bonus.`
+        content: hdText('VGhpcyBnYW1lIGlzIGV4Y2l0aW5nIGFuZCBmdW4sIEkgcmVhbGx5IGxpa2UgaXQuIFRoZXJlIGFyZSBtYW55IHdheXMgdG8gcGxheSBhbmQgbG90cyBvZiBib251cy4=')
     },
 ])
 
@@ -99,22 +107,22 @@ const endValue = 80;
 
 
 const games = [
-  { id: 1, title: 'Cash Craze: Casino Slots Games', icon: 'https://play-lh.googleusercontent.com/yZ_nzWpg_cj6GYJv15YdsfWBKS6JzXGt69R8fCCj3AsapCSs5MGdr6haxPCk-Ae91g=s128-rw', rating: '4,5★' },
-  { id: 2, title: 'Charge Buffalo Slot-TaDa Jogos', icon: 'https://play-lh.googleusercontent.com/vHA867MF5a-0zJfHgxgKUKs4GJb8mWMLNjGpTpufUpw1IN_EuqWGY9d-qrY4keq4hw8=s128-rw', rating: '4,5★' },
-  { id: 3, title: 'Jackpot Magic Slots', icon: 'https://play-lh.googleusercontent.com/Bi-dBVeyh-XZZ8ypCuklaHct8ClSitAAEOy3rCS3KOE50GBVsZ4ucseDKrLZExrAkfY=s128-rw', rating: '2,6★' },
-  { id: 4, title: 'Diamond Slot', icon: 'https://play-lh.googleusercontent.com/3C9ipO88Z92NJuohq_u6Ce6sTKHAADCfrpyVaEWz3vDO4XBscTJwAiRM9WhzS__WOybZ=s128-rw', rating: '3,9★' },
-  { id: 5, title: 'Slots Era-TaDa', icon: 'https://play-lh.googleusercontent.com/ESO0hEf9irZ4_SDA9KruU4irxTkjSyRCeUhWEPOROs1x2TlMqOrqB4i34M-ZPIE5XQ7W=s128-rw', rating: '4,4★' },
-  { id: 6, title: 'Infinity Slots', icon: 'https://play-lh.googleusercontent.com/CSkRZuIZLOJZ8q0krA3qvnciiRTXZBU5Nx6nmTXM31ZUEilUf6Plz_va-IV_-pjWDgE=s128-rw', rating: '4,5★' },
+  { id: 1, title: hdText('Q2FzaCBDcmF6ZTogQ2FzaW5vIFNsb3RzIEdhbWVz'), icon: 'https://play-lh.googleusercontent.com/yZ_nzWpg_cj6GYJv15YdsfWBKS6JzXGt69R8fCCj3AsapCSs5MGdr6haxPCk-Ae91g=s128-rw', rating: '4,5★' },
+  { id: 2, title: hdText('Q2hhcmdlIEJ1ZmZhbG8gU2xvdC1UYURhIEpvZ29z'), icon: 'https://play-lh.googleusercontent.com/vHA867MF5a-0zJfHgxgKUKs4GJb8mWMLNjGpTpufUpw1IN_EuqWGY9d-qrY4keq4hw8=s128-rw', rating: '4,5★' },
+  { id: 3, title: hdText('SmFja3BvdCBNYWdpYyBTbG90cw=='), icon: 'https://play-lh.googleusercontent.com/Bi-dBVeyh-XZZ8ypCuklaHct8ClSitAAEOy3rCS3KOE50GBVsZ4ucseDKrLZExrAkfY=s128-rw', rating: '2,6★' },
+  { id: 4, title: hdText('RGlhbW9uZCBTbG90'), icon: 'https://play-lh.googleusercontent.com/3C9ipO88Z92NJuohq_u6Ce6sTKHAADCfrpyVaEWz3vDO4XBscTJwAiRM9WhzS__WOybZ=s128-rw', rating: '3,9★' },
+  { id: 5, title: hdText('U2xvdHMgRXJhLVRhRGE='), icon: 'https://play-lh.googleusercontent.com/ESO0hEf9irZ4_SDA9KruU4irxTkjSyRCeUhWEPOROs1x2TlMqOrqB4i34M-ZPIE5XQ7W=s128-rw', rating: '4,4★' },
+  { id: 6, title: hdText('SW5maW5pdHkgU2xvdHM='), icon: 'https://play-lh.googleusercontent.com/CSkRZuIZLOJZ8q0krA3qvnciiRTXZBU5Nx6nmTXM31ZUEilUf6Plz_va-IV_-pjWDgE=s128-rw', rating: '4,5★' },
 ];
 
 
 const phGames=[
-    { id: 1, title: 'Super Ace', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295924_tN3SH437.png', rating: '4,5★' },
-  { id: 2, title: 'Fortune Gems 2', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296155_hGGagpZr.png', rating: '4,5★' },
-  { id: 3, title: 'Golden Empire', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295985_LzlM2ilo.png', rating: '2,6★' },
-  { id: 4, title: 'Wild Bounty Showdown', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296079_paJm7ND6.png', rating: '3,9★' },
-  { id: 5, title: 'Wild Bandito', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296102_csg8jWJ7.png', rating: '4,4★' },
-  { id: 6, title: 'Lucky Neko', icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296038_tZYvK2Q5.png', rating: '4,5★' },
+    { id: 1, title: hdText('U3VwZXIgQWNl'), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295924_tN3SH437.png', rating: '4,5★' },
+  { id: 2, title: hdText('Rm9ydHVuZSBHZW1zIDI='), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296155_hGGagpZr.png', rating: '4,5★' },
+  { id: 3, title: hdText('R29sZGVuIEVtcGlyZQ=='), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778295985_LzlM2ilo.png', rating: '2,6★' },
+  { id: 4, title: hdText('V2lsZCBCb3VudHkgU2hvd2Rvd24='), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296079_paJm7ND6.png', rating: '3,9★' },
+  { id: 5, title: hdText('V2lsZCBCYW5kaXRv'), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296102_csg8jWJ7.png', rating: '4,4★' },
+  { id: 6, title: hdText('THVja3kgTmVrbw=='), icon: 'https://s02.gamebrkci128.com/images/2026/05/09/image_1778296038_tZYvK2Q5.png', rating: '4,5★' },
 ]
 
 
